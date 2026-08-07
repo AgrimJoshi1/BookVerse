@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BookVerse is a thoughtful, modern platform for managing every part of your library.">
+  <title>BookVerse | Modern Library Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header" id="home">
+    <nav class="navbar container" aria-label="Primary navigation">
+      <a class="brand" href="#home" aria-label="BookVerse home"><i class="fa-solid fa-book-open-reader"></i><span>BookVerse</span></a>
+      <div class="nav-links">
+        <a class="active" href="#home">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact Us</a>
+      </div>
+      <div class="nav-actions">
+        <a class="text-link" href="register.html">Register</a>
+        <a class="button button-small" href="login.html">Login</a>
+        <a class="logout-link" href="index.html" title="After backend integration, Logout redirects to Home and displays: You have been successfully logged out."><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section container" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><i class="fa-solid fa-sparkles"></i> A simpler way to run your library</p>
+        <h1 id="hero-title">Your library, thoughtfully <span>organized.</span></h1>
+        <p class="hero-description">BookVerse brings books, members, lending, and reporting into one calm workspace—so your community can spend more time reading.</p>
+        <div class="hero-actions">
+          <a class="button" href="register.html">Get started <i class="fa-solid fa-arrow-right"></i></a>
+          <a class="button button-secondary" href="#features">Explore features</a>
+        </div>
+        <div class="trust-line"><span class="avatar-stack"><b>AM</b><b>JS</b><b>RK</b></span><span>Trusted by librarians who value every reader.</span></div>
+      </div>
+      <div class="hero-visual" aria-label="Illustration of a digital library dashboard">
+        <div class="orb orb-one"></div><div class="orb orb-two"></div>
+        <div class="library-scene">
+          <div class="scene-top"><span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span><span class="scene-title">My library</span></div>
+          <div class="scene-content">
+            <div class="scene-sidebar"><i class="fa-solid fa-house"></i><i class="fa-solid fa-book"></i><i class="fa-solid fa-users"></i><i class="fa-solid fa-chart-pie"></i></div>
+            <div class="scene-main">
+              <div class="scene-greeting"><div><small>Good afternoon</small><strong>Welcome back, Maya</strong></div><span class="mini-avatar">M</span></div>
+              <div class="mini-stats"><div><i class="fa-solid fa-book-open"></i><small>Books</small><strong>12,480</strong></div><div><i class="fa-solid fa-user-group"></i><small>Members</small><strong>2,104</strong></div></div>
+              <p class="shelf-label">Recently added</p>
+              <div class="book-row"><span class="cover cover-blue"></span><div><strong>The Midnight Library</strong><small>Matt Haig</small></div><i class="fa-solid fa-ellipsis"></i></div>
+              <div class="book-row"><span class="cover cover-green"></span><div><strong>Atomic Habits</strong><small>James Clear</small></div><i class="fa-solid fa-ellipsis"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="floating-status"><span><i class="fa-solid fa-check"></i></span><div><strong>Book returned</strong><small>Just now</small></div></div>
+      </div>
+    </section>
+
+    <section class="features section-muted" id="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-heading"><p class="eyebrow">Everything in one place</p><h2 id="features-title">Built for a library that feels effortless.</h2><p>All the essentials, designed with clarity and care.</p></div>
+        <div class="feature-grid">
+          <article class="feature-card"><span class="feature-icon blue"><i class="fa-solid fa-book"></i></span><h3>Book Management</h3><p>Keep every title, copy, category, and shelf in perfect order.</p></article>
+          <article class="feature-card"><span class="feature-icon green"><i class="fa-solid fa-users"></i></span><h3>Member Management</h3><p>Maintain rich member profiles and build stronger reader relationships.</p></article>
+          <article class="feature-card"><span class="feature-icon amber"><i class="fa-solid fa-arrow-up-right-dots"></i></span><h3>Issue Books</h3><p>Make borrowing smooth with simple, reliable circulation workflows.</p></article>
+          <article class="feature-card"><span class="feature-icon rose"><i class="fa-solid fa-arrow-rotate-left"></i></span><h3>Return Books</h3><p>Process returns, renewals, and fines without the paperwork.</p></article>
+          <article class="feature-card"><span class="feature-icon violet"><i class="fa-solid fa-folder-open"></i></span><h3>Digital Records</h3><p>Access your complete collection history whenever you need it.</p></article>
+          <article class="feature-card"><span class="feature-icon teal"><i class="fa-solid fa-chart-line"></i></span><h3>Reports</h3><p>Turn daily activity into clear insights for better decisions.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="statistics section container" aria-label="BookVerse statistics">
+      <div class="stat-grid">
+        <div class="stat-item"><i class="fa-solid fa-book-open"></i><div><strong>12,480</strong><span>Total Books</span></div></div>
+        <div class="stat-item"><i class="fa-solid fa-users"></i><div><strong>2,104</strong><span>Members</span></div></div>
+        <div class="stat-item"><i class="fa-solid fa-bookmark"></i><div><strong>1,286</strong><span>Books Issued</span></div></div>
+        <div class="stat-item"><i class="fa-solid fa-circle-check"></i><div><strong>11,194</strong><span>Available Books</span></div></div>
+      </div>
+    </section>
+
+    <section class="about section" id="about" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div class="about-visual"><div class="quote-mark">“</div><div class="about-book book-a"></div><div class="about-book book-b"></div><div class="about-book book-c"></div><div class="about-note"><i class="fa-solid fa-heart"></i><span>Made for readers</span></div></div>
+        <div class="about-copy"><p class="eyebrow">About BookVerse</p><h2 id="about-title">A better home for every story.</h2><p>BookVerse is a modern library management system built to make daily work feel lighter. We help libraries create an organized, welcoming experience for staff and readers alike.</p>
+          <div class="about-points"><article><i class="fa-solid fa-bullseye"></i><div><h3>Our mission</h3><p>To make knowledge more accessible through beautifully simple library tools.</p></div></article><article><i class="fa-solid fa-eye"></i><div><h3>Our vision</h3><p>To help every library become a thriving hub for its community.</p></div></article><article><i class="fa-solid fa-hand-holding-heart"></i><div><h3>Library services</h3><p>From cataloging to reports, we support the work behind every great library.</p></div></article></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="why section-muted" aria-labelledby="why-title"><div class="container"><div class="section-heading centered"><p class="eyebrow">Why choose us</p><h2 id="why-title">Less administration. More inspiration.</h2></div><div class="why-grid"><article><i class="fa-solid fa-wand-magic-sparkles"></i><h3>Clear by design</h3><p>An intuitive workspace your team can learn in minutes.</p></article><article><i class="fa-solid fa-shield-halved"></i><h3>Reliable records</h3><p>Keep essential information structured, accurate, and secure.</p></article><article><i class="fa-solid fa-headset"></i><h3>People-first support</h3><p>Thoughtful help for the people doing meaningful work.</p></article></div></div></section>
+
+    <section class="testimonials section container" aria-labelledby="testimonials-title"><div class="section-heading"><p class="eyebrow">Loved by libraries</p><h2 id="testimonials-title">A quieter, smarter way to manage.</h2></div><div class="testimonial-grid"><figure><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“BookVerse gave our team time back. Everything we need is clear, organized, and genuinely pleasant to use.”</blockquote><figcaption><span class="person-avatar avatar-blue">AR</span><div><strong>Anita Roy</strong><small>Head Librarian, St. Mary’s School</small></div></figcaption></figure><figure><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“The reporting alone changed how we understand our collection. It’s precise without ever feeling complicated.”</blockquote><figcaption><span class="person-avatar avatar-green">DK</span><div><strong>David Kim</strong><small>Director, City Learning Centre</small></div></figcaption></figure></div></section>
+
+    <section class="contact section-muted" id="contact" aria-labelledby="contact-title"><div class="container contact-grid"><div class="contact-copy"><p class="eyebrow">Get in touch</p><h2 id="contact-title">Let’s make your library feel effortless.</h2><p>Have a question or want to learn more? Our team would be happy to hear from you.</p><div class="contact-details"><a href="mailto:hello@bookverse.example"><i class="fa-regular fa-envelope"></i> hello@bookverse.example</a><span><i class="fa-solid fa-location-dot"></i> Built for libraries everywhere</span></div></div><form class="contact-form" action="#contact" method="post"><div class="form-row"><label>Name<input type="text" name="name" placeholder="Your name" required></label><label>Email<input type="email" name="email" placeholder="you@example.com" required></label></div><label>Subject<input type="text" name="subject" placeholder="How can we help?" required></label><label>Message<textarea name="message" rows="4" placeholder="Tell us a little more..." required></textarea></label><button class="button" type="submit">Send message <i class="fa-solid fa-paper-plane"></i></button></form></div></section>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-grid"><div class="footer-brand"><a class="brand" href="#home"><i class="fa-solid fa-book-open-reader"></i><span>BookVerse</span></a><p>A modern, thoughtful home for your library.</p><div class="social-links"><a href="#home" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a><a href="#home" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#home" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a></div></div><div><h3>About Us</h3><a href="#about">Our story</a><a href="#about">Our mission</a><a href="#features">Features</a></div><div><h3>Contact Us</h3><a href="mailto:hello@bookverse.example">Email us</a><a href="#contact">Send a message</a><a href="#contact">Support</a></div><div><h3>Quick Links</h3><a href="register.html">Register</a><a href="login.html">Login</a><a href="#home">Home</a></div></div><div class="container footer-bottom"><p>© 2026 BookVerse. All rights reserved.</p><p class="logout-note"><i class="fa-solid fa-circle-info"></i> After backend integration, Logout returns home and confirms: “You have been successfully logged out.”</p></div></footer>
+</body>
+</html>
