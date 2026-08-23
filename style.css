@@ -494,7 +494,7 @@ background-position: center;
     border: 1px solid rgba(214, 194, 170, 0.12);
     border-radius: 16px;
 
-    background: #211812;
+    background: black;
 
     transition:
         transform 0.3s ease,
@@ -601,7 +601,7 @@ background-position: center;
     border: 1px solid rgba(214, 194, 170, 0.12);
     border-radius: 16px;
 
-    background: #17110d;
+    background: black;
 
     transition:
         transform 0.3s ease,
@@ -789,7 +789,7 @@ background-position: center;
     border: 1px solid rgba(214, 194, 170, 0.18);
     border-radius: 12px;
 
-    background: #211812;
+    background: black;
     color: #e6d5c3;
 }
 
@@ -918,7 +918,7 @@ background-position: center;
 
     border-top: 1px solid rgba(214, 194, 170, 0.12);
 
-    background: #100b08;
+    background: black;
 
     color: #a89b90;
 }
