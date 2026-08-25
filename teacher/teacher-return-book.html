@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Process a book return in BookVerse.">
+    <title>Return Book | BookVerse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/teacher-common.css">
+    <link rel="stylesheet" href="../styles/teacher-return-book.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="teacher-dashboard.html" class="">Dashboard</a>
+                <a href="teacher-students.html" class="">Students</a>
+                <a href="teacher-books.html" class="">Books</a>
+                <a href="teacher-issue-book.html" class="">Issue Book</a>
+                <a href="teacher-return-book.html" class="active">Return Book</a>
+                <a href="teacher-transactions.html" class="">Transactions</a>
+                <a href="teacher-profile.html" class="">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="teacher-profile.html" class="profile-mini">
+                    <span class="avatar">PN</span>
+                    <span class="profile-name">Priya</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">RETURN BOOK</p>
+
+                <h1>
+                    Process a
+                    <span>book return.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Search or scan the book, confirm the borrower, and
+                    complete the return in a few seconds.
+                </p>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container page-grid">
+
+                <div class="page-main">
+
+                    <!-- FIND -->
+                    <section class="page-block">
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">STEP 1</p>
+                                <h2>Search or scan the book</h2>
+                            </div>
+                        </div>
+
+                        <div class="search-box">
+                            <i class="fa-solid fa-barcode"></i>
+                            <input type="text" placeholder="Search by title, ISBN, or scan barcode" value="Introduction to Algorithms">
+                            <button type="button">Search</button>
+                        </div>
+
+                        <div class="select-list">
+
+                            <div class="select-row selected">
+                                <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                <div class="select-info">
+                                    <h3>Introduction to Algorithms</h3>
+                                    <p>Thomas H. Cormen &middot; Borrowed by Aditya Rao</p>
+                                </div>
+                                <button class="select-pick" type="button">Selected</button>
+                            </div>
+
+                        </div>
+                    </section>
+
+
+                    <!-- BORROW DETAILS -->
+                    <section class="page-block">
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">STEP 2</p>
+                                <h2>Loan details</h2>
+                            </div>
+
+                            <span class="badge badge-bad">Overdue</span>
+                        </div>
+
+                        <div class="data-table">
+
+                            <div class="table-head" style="grid-template-columns: 1fr 1fr 1fr;">
+                                <span>Borrowed</span>
+                                <span>Due date</span>
+                                <span>Days overdue</span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: 1fr 1fr 1fr; min-height:56px;">
+                                <strong>09 Aug 2026</strong>
+                                <strong>23 Aug 2026</strong>
+                                <strong style="color:#d29b78;">3 days</strong>
+                            </div>
+
+                        </div>
+
+                        <div class="notice notice-warning">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <p>This book is overdue by 3 days. A fine will be applied automatically based on library policy (₹10 / day).</p>
+                        </div>
+                    </section>
+
+
+                    <!-- RETURN DATE -->
+                    <section class="page-block">
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">STEP 3</p>
+                                <h2>Confirm return date</h2>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="return-date">Return date</label>
+                                <input type="date" id="return-date" value="2026-08-26">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fine-amount">Fine due</label>
+                                <input type="text" id="fine-amount" value="₹30" readonly>
+                                <span class="field-hint">Calculated automatically from days overdue.</span>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+
+                <!-- ================= SUMMARY SIDEBAR ================= -->
+                <aside class="page-sidebar">
+
+                    <section class="side-card summary-card">
+
+                        <p class="eyebrow">CONFIRM RETURN</p>
+                        <h2>Summary</h2>
+
+                        <div class="summary-line" style="border-top:none;">
+                            <span>Book</span>
+                            <strong>Introduction to Algorithms</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Student</span>
+                            <strong>Aditya Rao</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Due date</span>
+                            <strong>23 Aug 2026</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Return date</span>
+                            <strong>26 Aug 2026</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Fine due</span>
+                            <strong>₹30</strong>
+                        </div>
+
+                        <button class="light-button" type="button" style="width:100%; margin-top:18px;">
+                            Complete return
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+
+                        <div class="notice notice-info">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <p>Completing the return will mark the book available and add the fine to the student's account.</p>
+                        </div>
+
+                    </section>
+
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Manage your classroom's library activity.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+/* =========================================================
+   BOOKVERSE - TEACHER / RETURN BOOK
+   Page-specific styles. Base, navbar, footer, and shared
+   components live in teacher-common.css.
+========================================================= */
+
+.form-group input[type="date"] {
+    color-scheme: dark;
+}
+
+.table-row strong {
+    color: #c9b6a6;
+    font-size: 0.72rem;
+    font-weight: 500;
+}

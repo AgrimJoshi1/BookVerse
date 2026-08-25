@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse the BookVerse book inventory as a teacher.">
+    <title>Books | BookVerse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/teacher-common.css">
+    <link rel="stylesheet" href="../styles/teacher-books.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="teacher-dashboard.html" class="">Dashboard</a>
+                <a href="teacher-students.html" class="">Students</a>
+                <a href="teacher-books.html" class="active">Books</a>
+                <a href="teacher-issue-book.html" class="">Issue Book</a>
+                <a href="teacher-return-book.html" class="">Return Book</a>
+                <a href="teacher-transactions.html" class="">Transactions</a>
+                <a href="teacher-profile.html" class="">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="teacher-profile.html" class="profile-mini">
+                    <span class="avatar">PN</span>
+                    <span class="profile-name">Priya</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">BOOKS</p>
+
+                <h1>
+                    Manage the
+                    <span>book inventory.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Check what's available, what's borrowed, and how many
+                    copies remain for every title in the catalog.
+                </p>
+
+                <div class="search-box" style="max-width:560px; margin-top:24px;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search by title, author, or ISBN">
+                    <button type="button">Search</button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container">
+
+                <div class="filter-row">
+                    <span>Category</span>
+                    <button class="filter-button active-filter">All</button>
+                    <button class="filter-button">Programming</button>
+                    <button class="filter-button">AI & ML</button>
+                    <button class="filter-button">Databases</button>
+                    <button class="filter-button">Fiction</button>
+                    <button class="filter-button">Self Development</button>
+                </div>
+
+                <section class="page-block">
+
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">CATALOG</p>
+                            <h2>Book inventory</h2>
+                        </div>
+
+                        <span class="panel-count">248 books</span>
+                    </div>
+
+                    <div class="data-table">
+
+                        <div class="table-head" style="grid-template-columns: minmax(190px,1.8fr) 0.9fr 0.9fr 0.6fr 0.6fr 0.6fr 0.9fr auto;">
+                            <span>Title</span>
+                            <span>Category</span>
+                            <span>ISBN</span>
+                            <span>Available</span>
+                            <span>Borrowed</span>
+                            <span>Total</span>
+                            <span>Status</span>
+                            <span></span>
+                        </div>
+
+                        
+                            <div class="table-row" style="grid-template-columns: minmax(190px,1.8fr) 0.9fr 0.9fr 0.6fr 0.6fr 0.6fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div>
+                                        <strong>Clean Code</strong>
+                                        <small>Robert C. Martin</small>
+                                    </div>
+                                </div>
+                                <span>Programming</span>
+                                <span>978-0132350884</span>
+                                <span>2</span>
+                                <span>2</span>
+                                <span>4</span>
+                                <span class="badge badge-good">Available</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(190px,1.8fr) 0.9fr 0.9fr 0.6fr 0.6fr 0.6fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div>
+                                        <strong>Atomic Habits</strong>
+                                        <small>James Clear</small>
+                                    </div>
+                                </div>
+                                <span>Self Development</span>
+                                <span>978-0735211292</span>
+                                <span>2</span>
+                                <span>1</span>
+                                <span>3</span>
+                                <span class="badge badge-good">Available</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(190px,1.8fr) 0.9fr 0.9fr 0.6fr 0.6fr 0.6fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div>
+                                        <strong>Introduction to Algorithms</strong>
+                                        <small>Thomas H. Cormen</small>
+                                    </div>
+                                </div>
+                                <span>Computer Science</span>
+                                <span>978-0262046305</span>
+                                <span>0</span>
+                                <span>1</span>
+                                <span>1</span>
+                                <span class="badge badge-bad">Unavailable</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(190px,1.8fr) 0.9fr 0.9fr 0.6fr 0.6fr 0.6fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div>
+                                        <strong>Hands-On Machine Learning</strong>
+                                        <small>Aurélien Géron</small>
+                                    </div>
+                                </div>
+                                <span>AI & ML</span>
+                                <span>978-1492032649</span>
+                                <span>1</span>
+                                <span>1</span>
+                                <span>2</span>
+                                <span class="badge badge-warn">Limited</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(190px,1.8fr) 0.9fr 0.9fr 0.6fr 0.6fr 0.6fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div>
+                                        <strong>Database System Concepts</strong>
+                                        <small>Abraham Silberschatz</small>
+                                    </div>
+                                </div>
+                                <span>Databases</span>
+                                <span>978-0078022159</span>
+                                <span>0</span>
+                                <span>0</span>
+                                <span>0</span>
+                                <span class="badge badge-bad">Unavailable</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(190px,1.8fr) 0.9fr 0.9fr 0.6fr 0.6fr 0.6fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div>
+                                        <strong>The Midnight Library</strong>
+                                        <small>Matt Haig</small>
+                                    </div>
+                                </div>
+                                <span>Fiction</span>
+                                <span>978-0525559474</span>
+                                <span>5</span>
+                                <span>0</span>
+                                <span>5</span>
+                                <span class="badge badge-good">Available</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                    </div>
+
+                    <div class="pagination-row" style="display:flex; align-items:center; justify-content:center; gap:8px; margin-top:22px;">
+                        <button class="filter-button" disabled>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button class="filter-button active-filter">1</button>
+                        <button class="filter-button">2</button>
+                        <button class="filter-button">3</button>
+                        <span style="color:#6f645d; font-size:0.65rem;">...</span>
+                        <button class="filter-button">21</button>
+                        <button class="filter-button">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                </section>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Manage your classroom's library activity.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

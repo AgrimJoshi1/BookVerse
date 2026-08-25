@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage the BookVerse book inventory.">
+    <title>Books | BookVerse Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/admin-common.css">
+    <link rel="stylesheet" href="../styles/admin-books.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-books.html" class="active">Books</a>
+                <a href="admin-members.html">Members</a>
+                <a href="admin-staff.html">Staff</a>
+                <a href="admin-transactions.html">Transactions</a>
+                <a href="admin-fines.html">Fines</a>
+                <a href="admin-reports.html">Reports</a>
+                <a href="admin-settings.html">Settings</a>
+                <a href="admin-profile.html">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="admin-profile.html" class="profile-mini">
+                    <span class="avatar">SV</span>
+                    <span class="profile-name">Sunita</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">BOOKS</p>
+
+                <h1>
+                    Manage the
+                    <span>full inventory.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Search, filter, and manage every title in the BookVerse
+                    catalog — availability, copies, and categories.
+                </p>
+
+                <div style="display:flex; gap:16px; align-items:center; margin-top:24px; flex-wrap:wrap;">
+                    <div class="search-box" style="max-width:560px; flex:1;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search by title, author, or ISBN">
+                        <button type="button">Search</button>
+                    </div>
+
+                    <a href="admin-add-book.html" class="light-button">
+                        <i class="fa-solid fa-plus"></i>
+                        Add book
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container page-grid">
+
+                <div class="page-main">
+
+                    <div class="filter-row" style="margin-top:0;">
+                        <span>Category</span>
+                        <button class="filter-button active-filter">All</button>
+                        <button class="filter-button">Programming</button>
+                        <button class="filter-button">AI & ML</button>
+                        <button class="filter-button">Databases</button>
+                        <button class="filter-button">Mathematics</button>
+                        <button class="filter-button">Fiction</button>
+                        <button class="filter-button">Self Development</button>
+                    </div>
+
+                    <section class="page-block">
+
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">CATALOG</p>
+                                <h2>Book inventory</h2>
+                            </div>
+
+                            <span class="panel-count">2,480 books</span>
+                        </div>
+
+                        <div class="data-table">
+
+                            <div class="table-head" style="grid-template-columns: minmax(180px,1.7fr) 0.85fr 0.95fr 0.55fr 0.55fr 0.55fr 0.85fr auto;">
+                                <span>Title</span>
+                                <span>Category</span>
+                                <span>ISBN</span>
+                                <span>Avail.</span>
+                                <span>Borrowed</span>
+                                <span>Total</span>
+                                <span>Status</span>
+                                <span></span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(180px,1.7fr) 0.85fr 0.95fr 0.55fr 0.55fr 0.55fr 0.85fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>Clean Code</strong><small>Robert C. Martin</small></div>
+                                </div>
+                                <span>Programming</span>
+                                <span>978-0132350884</span>
+                                <span>2</span>
+                                <span>2</span>
+                                <span>4</span>
+                                <span class="badge badge-good">Available</span>
+                                <a href="admin-add-book.html?mode=edit&id=1" class="row-action">Edit <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(180px,1.7fr) 0.85fr 0.95fr 0.55fr 0.55fr 0.55fr 0.85fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>Atomic Habits</strong><small>James Clear</small></div>
+                                </div>
+                                <span>Self Development</span>
+                                <span>978-0735211292</span>
+                                <span>2</span>
+                                <span>1</span>
+                                <span>3</span>
+                                <span class="badge badge-good">Available</span>
+                                <a href="admin-add-book.html?mode=edit&id=2" class="row-action">Edit <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(180px,1.7fr) 0.85fr 0.95fr 0.55fr 0.55fr 0.55fr 0.85fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>Introduction to Algorithms</strong><small>Thomas H. Cormen</small></div>
+                                </div>
+                                <span>Computer Science</span>
+                                <span>978-0262046305</span>
+                                <span>0</span>
+                                <span>1</span>
+                                <span>1</span>
+                                <span class="badge badge-bad">Unavailable</span>
+                                <a href="admin-add-book.html?mode=edit&id=3" class="row-action">Edit <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(180px,1.7fr) 0.85fr 0.95fr 0.55fr 0.55fr 0.55fr 0.85fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>Hands-On Machine Learning</strong><small>Aurélien Géron</small></div>
+                                </div>
+                                <span>AI & ML</span>
+                                <span>978-1492032649</span>
+                                <span>1</span>
+                                <span>1</span>
+                                <span>2</span>
+                                <span class="badge badge-warn">Limited</span>
+                                <a href="admin-add-book.html?mode=edit&id=4" class="row-action">Edit <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(180px,1.7fr) 0.85fr 0.95fr 0.55fr 0.55fr 0.55fr 0.85fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>Database System Concepts</strong><small>Abraham Silberschatz</small></div>
+                                </div>
+                                <span>Databases</span>
+                                <span>978-0078022159</span>
+                                <span>0</span>
+                                <span>0</span>
+                                <span>0</span>
+                                <span class="badge badge-bad">Unavailable</span>
+                                <a href="admin-add-book.html?mode=edit&id=5" class="row-action">Edit <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(180px,1.7fr) 0.85fr 0.95fr 0.55fr 0.55fr 0.55fr 0.85fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>The Midnight Library</strong><small>Matt Haig</small></div>
+                                </div>
+                                <span>Fiction</span>
+                                <span>978-0525559474</span>
+                                <span>5</span>
+                                <span>0</span>
+                                <span>5</span>
+                                <span class="badge badge-good">Available</span>
+                                <a href="admin-add-book.html?mode=edit&id=6" class="row-action">Edit <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                        </div>
+
+                        <div class="pagination-row" style="display:flex; align-items:center; justify-content:center; gap:8px; margin-top:22px;">
+                            <button class="filter-button" disabled><i class="fa-solid fa-arrow-left"></i></button>
+                            <button class="filter-button active-filter">1</button>
+                            <button class="filter-button">2</button>
+                            <button class="filter-button">3</button>
+                            <span style="color:#6f645d; font-size:0.65rem;">...</span>
+                            <button class="filter-button">207</button>
+                            <button class="filter-button"><i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <!-- ================= SIDEBAR: CATEGORIES ================= -->
+                <aside class="page-sidebar">
+
+                    <section class="side-card">
+                        <div class="block-heading" style="margin-bottom:16px;">
+                            <div>
+                                <p class="eyebrow">CATEGORIES</p>
+                                <h2 style="font-size:1.05rem;">Manage categories</h2>
+                            </div>
+                        </div>
+
+                        <div class="category-manage-list">
+
+                            <div class="category-manage-row">
+                                <span><i class="fa-solid fa-code"></i> Programming</span>
+                                <strong>412</strong>
+                                <button class="row-action danger" type="button"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+
+                            <div class="category-manage-row">
+                                <span><i class="fa-solid fa-brain"></i> AI & ML</span>
+                                <strong>286</strong>
+                                <button class="row-action danger" type="button"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+
+                            <div class="category-manage-row">
+                                <span><i class="fa-solid fa-database"></i> Databases</span>
+                                <strong>198</strong>
+                                <button class="row-action danger" type="button"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+
+                            <div class="category-manage-row">
+                                <span><i class="fa-solid fa-calculator"></i> Mathematics</span>
+                                <strong>224</strong>
+                                <button class="row-action danger" type="button"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+
+                            <div class="category-manage-row">
+                                <span><i class="fa-solid fa-feather"></i> Fiction</span>
+                                <strong>510</strong>
+                                <button class="row-action danger" type="button"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+
+                            <div class="category-manage-row">
+                                <span><i class="fa-solid fa-lightbulb"></i> Self Development</span>
+                                <strong>305</strong>
+                                <button class="row-action danger" type="button"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group" style="margin-top:18px;">
+                            <label for="new-category">Add a category</label>
+                            <input type="text" id="new-category" placeholder="e.g. Biography">
+                        </div>
+
+                        <button class="outline-button" type="button" style="width:100%; margin-top:12px;">
+                            <i class="fa-solid fa-plus"></i>
+                            Add category
+                        </button>
+                    </section>
+
+                    <section class="side-card">
+                        <p class="eyebrow">INVENTORY SNAPSHOT</p>
+                        <h2 style="font-size:1.05rem;">At a glance</h2>
+
+                        <div class="summary-line" style="border-top:none;">
+                            <span>Total titles</span>
+                            <strong>2,480</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Total copies</span>
+                            <strong>4,120</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Currently borrowed</span>
+                            <strong>318</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Out of stock titles</span>
+                            <strong>46</strong>
+                        </div>
+                    </section>
+
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Administer your library, library-wide.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

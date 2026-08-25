@@ -1,0 +1,14 @@
+/* =========================================================
+   BOOKVERSE - TEACHER / ISSUE BOOK
+   Page-specific styles. Base, navbar, footer, and shared
+   components live in teacher-common.css.
+========================================================= */
+
+.form-group input[type="date"] {
+    color-scheme: dark;
+}
+
+.field-hint i {
+    margin-right: 4px;
+    color: #8e7e71;
+}

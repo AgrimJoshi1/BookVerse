@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BookVerse teacher dashboard.">
+    <title>Teacher Dashboard | BookVerse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/teacher-common.css">
+    <link rel="stylesheet" href="../styles/teacher-dashboard.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="teacher-dashboard.html" class="active">Dashboard</a>
+                <a href="teacher-students.html" class="">Students</a>
+                <a href="teacher-books.html" class="">Books</a>
+                <a href="teacher-issue-book.html" class="">Issue Book</a>
+                <a href="teacher-return-book.html" class="">Return Book</a>
+                <a href="teacher-transactions.html" class="">Transactions</a>
+                <a href="teacher-profile.html" class="">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="teacher-profile.html" class="profile-mini">
+                    <span class="avatar">PN</span>
+                    <span class="profile-name">Priya</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <div class="hero-heading-row">
+                    <div>
+                        <p class="eyebrow">TEACHER DASHBOARD</p>
+                        <h1>Welcome back, <span>Priya.</span></h1>
+                        <p class="hero-description">
+                            Here's what's happening with your students' books,
+                            due dates, and library activity today.
+                        </p>
+                    </div>
+
+                    <div class="hero-side-card">
+                        <span>TEACHER ID</span>
+                        <strong>BV2026TCH014</strong>
+                    </div>
+                </div>
+
+                <!-- ================= QUICK STATS ================= -->
+                <div class="stats-grid">
+
+                    <article class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <div>
+                            <span>Total students</span>
+                            <strong>48</strong>
+                        </div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <div>
+                            <span>Books borrowed</span>
+                            <strong>27</strong>
+                        </div>
+                    </article>
+
+                    <article class="stat-card stat-card-warning">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <span>Overdue books</span>
+                            <strong>05</strong>
+                        </div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            <span>Returned this week</span>
+                            <strong>11</strong>
+                        </div>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= DASHBOARD CONTENT ================= -->
+        <section class="page-section">
+            <div class="container page-grid">
+
+                <!-- ================= LEFT COLUMN ================= -->
+                <div class="page-main">
+
+                    <!-- QUICK ACTIONS -->
+                    <section class="page-block">
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">QUICK ACTIONS</p>
+                                <h2>What would you like to do?</h2>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+
+                            <a href="teacher-issue-book.html" class="select-row" style="border:1px solid rgba(214,194,170,0.13); border-radius:11px;">
+                                <span class="stat-icon" style="flex:0 0 40px; width:40px; height:40px;">
+                                    <i class="fa-solid fa-right-to-bracket"></i>
+                                </span>
+                                <div class="select-info">
+                                    <h3>Issue a book</h3>
+                                    <p>Assign a book to a student</p>
+                                </div>
+                            </a>
+
+                            <a href="teacher-return-book.html" class="select-row" style="border:1px solid rgba(214,194,170,0.13); border-radius:11px;">
+                                <span class="stat-icon" style="flex:0 0 40px; width:40px; height:40px;">
+                                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                                </span>
+                                <div class="select-info">
+                                    <h3>Return a book</h3>
+                                    <p>Process a student's return</p>
+                                </div>
+                            </a>
+
+                            <a href="teacher-students.html" class="select-row" style="border:1px solid rgba(214,194,170,0.13); border-radius:11px;">
+                                <span class="stat-icon" style="flex:0 0 40px; width:40px; height:40px;">
+                                    <i class="fa-solid fa-user-graduate"></i>
+                                </span>
+                                <div class="select-info">
+                                    <h3>View students</h3>
+                                    <p>See borrowing status by student</p>
+                                </div>
+                            </a>
+
+                            <a href="teacher-transactions.html" class="select-row" style="border:1px solid rgba(214,194,170,0.13); border-radius:11px;">
+                                <span class="stat-icon" style="flex:0 0 40px; width:40px; height:40px;">
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                </span>
+                                <div class="select-info">
+                                    <h3>View transactions</h3>
+                                    <p>Full borrowing & return history</p>
+                                </div>
+                            </a>
+
+                        </div>
+                    </section>
+
+
+                    <!-- RECENT ACTIVITY -->
+                    <section class="page-block">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">RECENT ACTIVITY</p>
+                                <h2>Latest borrowing & returns</h2>
+                            </div>
+
+                            <a href="teacher-transactions.html" class="text-arrow">
+                                View all
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+
+                        <div class="data-table">
+
+                            <div class="table-head" style="grid-template-columns: minmax(170px,1.6fr) 1fr 0.8fr 0.7fr;">
+                                <span>Student & Book</span>
+                                <span>Type</span>
+                                <span>Date</span>
+                                <span>Status</span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(170px,1.6fr) 1fr 0.8fr 0.7fr;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div>
+                                        <strong>Rohan Mehta</strong>
+                                        <small>Clean Code</small>
+                                    </div>
+                                </div>
+                                <span>Issued</span>
+                                <span>24 Aug 2026</span>
+                                <span class="badge badge-good">On time</span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(170px,1.6fr) 1fr 0.8fr 0.7fr;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div>
+                                        <strong>Sara Khan</strong>
+                                        <small>Atomic Habits</small>
+                                    </div>
+                                </div>
+                                <span>Returned</span>
+                                <span>25 Aug 2026</span>
+                                <span class="badge badge-good">Completed</span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(170px,1.6fr) 1fr 0.8fr 0.7fr;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div>
+                                        <strong>Aditya Rao</strong>
+                                        <small>Introduction to Algorithms</small>
+                                    </div>
+                                </div>
+                                <span>Issued</span>
+                                <span>09 Aug 2026</span>
+                                <span class="badge badge-bad">Overdue</span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(170px,1.6fr) 1fr 0.8fr 0.7fr;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div>
+                                        <strong>Meera Iyer</strong>
+                                        <small>Deep Work</small>
+                                    </div>
+                                </div>
+                                <span>Returned</span>
+                                <span>22 Aug 2026</span>
+                                <span class="badge badge-good">Completed</span>
+                            </div>
+
+                        </div>
+                    </section>
+
+                </div>
+
+
+                <!-- ================= RIGHT COLUMN ================= -->
+                <aside class="dashboard-sidebar">
+
+                    <section class="side-card overdue-card">
+                        <div class="side-card-heading">
+                            <div class="notice-icon">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <span class="notice-label">ACTION NEEDED</span>
+                        </div>
+
+                        <h2>5 books are overdue.</h2>
+                        <p>
+                            5 students have books that are past their due date.
+                            Review them and send a reminder if needed.
+                        </p>
+
+                        <a href="teacher-transactions.html" class="light-button" style="width:100%;">
+                            View overdue list
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </section>
+
+                    <section class="side-card quick-links-card">
+                        <h2>Shortcuts</h2>
+
+                        <a href="teacher-issue-book.html" class="quick-link">
+                            <span><i class="fa-solid fa-right-to-bracket"></i></span>
+                            <div>
+                                <strong>Issue Book</strong>
+                                <small>Assign a book to a student</small>
+                            </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <a href="teacher-return-book.html" class="quick-link">
+                            <span><i class="fa-solid fa-arrow-rotate-left"></i></span>
+                            <div>
+                                <strong>Return Book</strong>
+                                <small>Process a returned book</small>
+                            </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <a href="teacher-books.html" class="quick-link">
+                            <span><i class="fa-solid fa-layer-group"></i></span>
+                            <div>
+                                <strong>Book Inventory</strong>
+                                <small>Check availability</small>
+                            </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <a href="teacher-profile.html" class="quick-link">
+                            <span><i class="fa-solid fa-id-card"></i></span>
+                            <div>
+                                <strong>My Profile</strong>
+                                <small>Account & settings</small>
+                            </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </section>
+
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Manage your classroom's library activity.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

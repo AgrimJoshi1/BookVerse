@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage BookVerse library members.">
+    <title>Members | BookVerse Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/admin-common.css">
+    <link rel="stylesheet" href="../styles/admin-members.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-books.html">Books</a>
+                <a href="admin-members.html" class="active">Members</a>
+                <a href="admin-staff.html">Staff</a>
+                <a href="admin-transactions.html">Transactions</a>
+                <a href="admin-fines.html">Fines</a>
+                <a href="admin-reports.html">Reports</a>
+                <a href="admin-settings.html">Settings</a>
+                <a href="admin-profile.html">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="admin-profile.html" class="profile-mini">
+                    <span class="avatar">SV</span>
+                    <span class="profile-name">Sunita</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">MEMBERS</p>
+
+                <h1>
+                    Every member,
+                    <span>one directory.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Search members, review loan activity, and manage
+                    accounts across the whole library.
+                </p>
+
+                <div style="display:flex; gap:16px; align-items:center; margin-top:24px; flex-wrap:wrap;">
+                    <div class="search-box" style="max-width:560px; flex:1;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search by name, member ID, or email">
+                        <button type="button">Search</button>
+                    </div>
+
+                    <button class="light-button" type="button" onclick="document.getElementById('add-member-panel').scrollIntoView({behavior:'smooth'})">
+                        <i class="fa-solid fa-user-plus"></i>
+                        Add member
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container page-grid">
+
+                <div class="page-main">
+
+                    <div class="filter-row" style="margin-top:0;">
+                        <span>Filter</span>
+                        <button class="filter-button active-filter">All members</button>
+                        <button class="filter-button">Active</button>
+                        <button class="filter-button">Suspended</button>
+                        <button class="filter-button">With overdue books</button>
+                    </div>
+
+                    <section class="page-block">
+
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">MEMBER LIST</p>
+                                <h2>All members</h2>
+                            </div>
+
+                            <span class="panel-count">612 members</span>
+                        </div>
+
+                        <div class="data-table">
+
+                            <div class="table-head" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <span>Member</span>
+                                <span>Member ID</span>
+                                <span>Email</span>
+                                <span>Joined</span>
+                                <span>Loans</span>
+                                <span>Status</span>
+                                <span></span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">AS</div>
+                                    <div><strong>Alex Sharma</strong><small>Student</small></div>
+                                </div>
+                                <span>BV2026CS041</span>
+                                <span>alex.sharma@student.edu</span>
+                                <span>Aug 2024</span>
+                                <span>3</span>
+                                <span class="badge badge-bad">Overdue</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">RM</div>
+                                    <div><strong>Rohan Mehta</strong><small>Student</small></div>
+                                </div>
+                                <span>BV2026CS017</span>
+                                <span>rohan.m@student.edu</span>
+                                <span>Jul 2024</span>
+                                <span>2</span>
+                                <span class="badge badge-good">Active</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">SK</div>
+                                    <div><strong>Sara Khan</strong><small>Student</small></div>
+                                </div>
+                                <span>BV2026CS022</span>
+                                <span>sara.k@student.edu</span>
+                                <span>Jul 2024</span>
+                                <span>1</span>
+                                <span class="badge badge-good">Active</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">AR</div>
+                                    <div><strong>Aditya Rao</strong><small>Student</small></div>
+                                </div>
+                                <span>BV2026CS009</span>
+                                <span>aditya.r@student.edu</span>
+                                <span>Jun 2024</span>
+                                <span>2</span>
+                                <span class="badge badge-bad">Overdue</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">MI</div>
+                                    <div><strong>Meera Iyer</strong><small>Student</small></div>
+                                </div>
+                                <span>BV2026CS031</span>
+                                <span>meera.i@student.edu</span>
+                                <span>Sep 2024</span>
+                                <span>0</span>
+                                <span class="badge badge-neutral">Active</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">VG</div>
+                                    <div><strong>Varun Gupta</strong><small>Student</small></div>
+                                </div>
+                                <span>BV2025CS063</span>
+                                <span>varun.g@student.edu</span>
+                                <span>Jan 2025</span>
+                                <span>0</span>
+                                <span class="badge badge-warn">Suspended</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                        </div>
+
+                        <div class="pagination-row" style="display:flex; align-items:center; justify-content:center; gap:8px; margin-top:22px;">
+                            <button class="filter-button" disabled><i class="fa-solid fa-arrow-left"></i></button>
+                            <button class="filter-button active-filter">1</button>
+                            <button class="filter-button">2</button>
+                            <button class="filter-button">3</button>
+                            <span style="color:#6f645d; font-size:0.65rem;">...</span>
+                            <button class="filter-button">52</button>
+                            <button class="filter-button"><i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <!-- ================= SIDEBAR: ADD MEMBER ================= -->
+                <aside class="page-sidebar">
+
+                    <section class="side-card" id="add-member-panel">
+                        <p class="eyebrow">ADD MEMBER</p>
+                        <h2 style="font-size:1.05rem;">Register a member</h2>
+
+                        <div class="form-grid" style="grid-template-columns:1fr; margin-top:16px;">
+                            <div class="form-group">
+                                <label for="member-name">Full name</label>
+                                <input type="text" id="member-name" placeholder="e.g. Neha Verma">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="member-email">Email address</label>
+                                <input type="email" id="member-email" placeholder="name@student.edu">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="member-type">Membership type</label>
+                                <select id="member-type">
+                                    <option>Student</option>
+                                    <option>Teacher</option>
+                                    <option>Staff</option>
+                                    <option>Guest</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="light-button" type="button" style="width:100%; margin-top:16px;">
+                            Add member
+                            <i class="fa-solid fa-user-plus"></i>
+                        </button>
+                    </section>
+
+                    <section class="side-card">
+                        <p class="eyebrow">MEMBER SNAPSHOT</p>
+                        <h2 style="font-size:1.05rem;">At a glance</h2>
+
+                        <div class="summary-line" style="border-top:none;">
+                            <span>Total members</span>
+                            <strong>612</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Active accounts</span>
+                            <strong>594</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Suspended</span>
+                            <strong>18</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>With overdue books</span>
+                            <strong>29</strong>
+                        </div>
+                    </section>
+
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Administer your library, library-wide.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+/* =========================================================
+   BOOKVERSE - TEACHER / PROFILE
+   Page-specific styles. Base, navbar, footer, and shared
+   components live in teacher-common.css.
+========================================================= */
+
+.page-block .form-grid {
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 980px) {
+    .page-block .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

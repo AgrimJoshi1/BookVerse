@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete borrowing and return transaction history in BookVerse.">
+    <title>Transactions | BookVerse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/teacher-common.css">
+    <link rel="stylesheet" href="../styles/teacher-transactions.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="teacher-dashboard.html" class="">Dashboard</a>
+                <a href="teacher-students.html" class="">Students</a>
+                <a href="teacher-books.html" class="">Books</a>
+                <a href="teacher-issue-book.html" class="">Issue Book</a>
+                <a href="teacher-return-book.html" class="">Return Book</a>
+                <a href="teacher-transactions.html" class="active">Transactions</a>
+                <a href="teacher-profile.html" class="">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="teacher-profile.html" class="profile-mini">
+                    <span class="avatar">PN</span>
+                    <span class="profile-name">Priya</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">TRANSACTIONS</p>
+
+                <h1>
+                    Full borrowing
+                    <span>& return history.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Every issue and return across your class, with fines
+                    and current status at a glance.
+                </p>
+
+                <div class="search-box" style="max-width:560px; margin-top:24px;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search by student or book">
+                    <button type="button">Search</button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container">
+
+                <div class="filter-row">
+                    <span>Filter</span>
+                    <button class="filter-button active-filter">All transactions</button>
+                    <button class="filter-button">Issued</button>
+                    <button class="filter-button">Returned</button>
+                    <button class="filter-button">Overdue</button>
+                </div>
+
+                <section class="page-block">
+
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">HISTORY</p>
+                            <h2>All transactions</h2>
+                        </div>
+
+                        <span class="panel-count">312 records</span>
+                    </div>
+
+                    <div class="data-table">
+
+                        <div class="table-head" style="grid-template-columns: minmax(150px,1.3fr) minmax(160px,1.4fr) 0.7fr 0.8fr 0.8fr 0.8fr 0.6fr 0.8fr auto;">
+                            <span>Student</span>
+                            <span>Book</span>
+                            <span>Type</span>
+                            <span>Issue date</span>
+                            <span>Due date</span>
+                            <span>Return date</span>
+                            <span>Fine</span>
+                            <span>Status</span>
+                            <span></span>
+                        </div>
+
+                        
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(160px,1.4fr) 0.7fr 0.8fr 0.8fr 0.8fr 0.6fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">RM</div>
+                                    <div>
+                                        <strong>Rohan Mehta</strong>
+                                    </div>
+                                </div>
+                                <span>Clean Code</span>
+                                <span>Issue</span>
+                                <span>14 Aug 2026</span>
+                                <span>28 Aug 2026</span>
+                                <span>-</span>
+                                <span>₹0</span>
+                                <span class="badge badge-good">On time</span>
+                                <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(160px,1.4fr) 0.7fr 0.8fr 0.8fr 0.8fr 0.6fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">SK</div>
+                                    <div>
+                                        <strong>Sara Khan</strong>
+                                    </div>
+                                </div>
+                                <span>Atomic Habits</span>
+                                <span>Return</span>
+                                <span>16 Aug 2026</span>
+                                <span>30 Aug 2026</span>
+                                <span>25 Aug 2026</span>
+                                <span>₹0</span>
+                                <span class="badge badge-good">Completed</span>
+                                <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(160px,1.4fr) 0.7fr 0.8fr 0.8fr 0.8fr 0.6fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">AR</div>
+                                    <div>
+                                        <strong>Aditya Rao</strong>
+                                    </div>
+                                </div>
+                                <span>Introduction to Algorithms</span>
+                                <span>Issue</span>
+                                <span>09 Aug 2026</span>
+                                <span>23 Aug 2026</span>
+                                <span>-</span>
+                                <span>₹30</span>
+                                <span class="badge badge-bad">Overdue</span>
+                                <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(160px,1.4fr) 0.7fr 0.8fr 0.8fr 0.8fr 0.6fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">MI</div>
+                                    <div>
+                                        <strong>Meera Iyer</strong>
+                                    </div>
+                                </div>
+                                <span>Deep Work</span>
+                                <span>Return</span>
+                                <span>05 Aug 2026</span>
+                                <span>19 Aug 2026</span>
+                                <span>22 Aug 2026</span>
+                                <span>₹30</span>
+                                <span class="badge badge-good">Completed</span>
+                                <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(160px,1.4fr) 0.7fr 0.8fr 0.8fr 0.8fr 0.6fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">KS</div>
+                                    <div>
+                                        <strong>Kabir Singh</strong>
+                                    </div>
+                                </div>
+                                <span>Design Patterns</span>
+                                <span>Issue</span>
+                                <span>20 Aug 2026</span>
+                                <span>03 Sep 2026</span>
+                                <span>-</span>
+                                <span>₹0</span>
+                                <span class="badge badge-good">On time</span>
+                                <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(160px,1.4fr) 0.7fr 0.8fr 0.8fr 0.8fr 0.6fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">AD</div>
+                                    <div>
+                                        <strong>Ananya Das</strong>
+                                    </div>
+                                </div>
+                                <span>The Pragmatic Programmer</span>
+                                <span>Issue</span>
+                                <span>01 Aug 2026</span>
+                                <span>15 Aug 2026</span>
+                                <span>-</span>
+                                <span>₹110</span>
+                                <span class="badge badge-bad">Overdue</span>
+                                <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(160px,1.4fr) 0.7fr 0.8fr 0.8fr 0.8fr 0.6fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">RS</div>
+                                    <div>
+                                        <strong>Riya Sinha</strong>
+                                    </div>
+                                </div>
+                                <span>Python Crash Course</span>
+                                <span>Return</span>
+                                <span>02 Aug 2026</span>
+                                <span>16 Aug 2026</span>
+                                <span>15 Aug 2026</span>
+                                <span>₹0</span>
+                                <span class="badge badge-good">Completed</span>
+                                <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                    </div>
+
+                    <div class="pagination-row" style="display:flex; align-items:center; justify-content:center; gap:8px; margin-top:22px;">
+                        <button class="filter-button" disabled>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button class="filter-button active-filter">1</button>
+                        <button class="filter-button">2</button>
+                        <button class="filter-button">3</button>
+                        <span style="color:#6f645d; font-size:0.65rem;">...</span>
+                        <button class="filter-button">32</button>
+                        <button class="filter-button">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                </section>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Manage your classroom's library activity.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

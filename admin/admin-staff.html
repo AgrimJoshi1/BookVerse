@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage BookVerse staff accounts.">
+    <title>Staff | BookVerse Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/admin-common.css">
+    <link rel="stylesheet" href="../styles/admin-staff.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-books.html">Books</a>
+                <a href="admin-members.html">Members</a>
+                <a href="admin-staff.html" class="active">Staff</a>
+                <a href="admin-transactions.html">Transactions</a>
+                <a href="admin-fines.html">Fines</a>
+                <a href="admin-reports.html">Reports</a>
+                <a href="admin-settings.html">Settings</a>
+                <a href="admin-profile.html">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="admin-profile.html" class="profile-mini">
+                    <span class="avatar">SV</span>
+                    <span class="profile-name">Sunita</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">STAFF</p>
+
+                <h1>
+                    Your team
+                    <span>behind the desk.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Manage teacher and librarian accounts, roles, and
+                    permissions across BookVerse.
+                </p>
+
+                <div style="display:flex; gap:16px; align-items:center; margin-top:24px; flex-wrap:wrap;">
+                    <div class="search-box" style="max-width:560px; flex:1;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search by name, staff ID, or email">
+                        <button type="button">Search</button>
+                    </div>
+
+                    <button class="light-button" type="button" onclick="document.getElementById('add-staff-panel').scrollIntoView({behavior:'smooth'})">
+                        <i class="fa-solid fa-user-tie"></i>
+                        Add staff
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container page-grid">
+
+                <div class="page-main">
+
+                    <div class="filter-row" style="margin-top:0;">
+                        <span>Role</span>
+                        <button class="filter-button active-filter">All staff</button>
+                        <button class="filter-button">Teachers</button>
+                        <button class="filter-button">Librarians</button>
+                        <button class="filter-button">Admins</button>
+                    </div>
+
+                    <section class="page-block">
+
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">STAFF LIST</p>
+                                <h2>All staff</h2>
+                            </div>
+
+                            <span class="panel-count">24 staff</span>
+                        </div>
+
+                        <div class="data-table">
+
+                            <div class="table-head" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <span>Staff</span>
+                                <span>Staff ID</span>
+                                <span>Email</span>
+                                <span>Role</span>
+                                <span>Added</span>
+                                <span>Status</span>
+                                <span></span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">PN</div>
+                                    <div><strong>Priya Nair</strong><small>Computer Science</small></div>
+                                </div>
+                                <span>BV2026TCH014</span>
+                                <span>priya.nair@bookverse.edu</span>
+                                <span>Teacher</span>
+                                <span>Jul 2021</span>
+                                <span class="badge badge-good">Active</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">KJ</div>
+                                    <div><strong>Karan Joshi</strong><small>Central Library</small></div>
+                                </div>
+                                <span>BV2026LIB003</span>
+                                <span>karan.j@bookverse.edu</span>
+                                <span>Librarian</span>
+                                <span>Feb 2020</span>
+                                <span class="badge badge-good">Active</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">SV</div>
+                                    <div><strong>Sunita Verma</strong><small>Administration</small></div>
+                                </div>
+                                <span>BV2026ADM002</span>
+                                <span>sunita.v@bookverse.edu</span>
+                                <span>Admin</span>
+                                <span>Apr 2019</span>
+                                <span class="badge badge-good">Active</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">RD</div>
+                                    <div><strong>Rakesh Dutta</strong><small>Mathematics</small></div>
+                                </div>
+                                <span>BV2026TCH021</span>
+                                <span>rakesh.d@bookverse.edu</span>
+                                <span>Teacher</span>
+                                <span>Aug 2022</span>
+                                <span class="badge badge-good">Active</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.85fr minmax(150px,1.2fr) 0.8fr 0.7fr 0.8fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">TL</div>
+                                    <div><strong>Tara Lobo</strong><small>Central Library</small></div>
+                                </div>
+                                <span>BV2026LIB007</span>
+                                <span>tara.l@bookverse.edu</span>
+                                <span>Librarian</span>
+                                <span>Mar 2023</span>
+                                <span class="badge badge-neutral">Deactivated</span>
+                                <a href="#" class="row-action">Manage <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <!-- ================= SIDEBAR: ADD STAFF ================= -->
+                <aside class="page-sidebar">
+
+                    <section class="side-card" id="add-staff-panel">
+                        <p class="eyebrow">ADD STAFF</p>
+                        <h2 style="font-size:1.05rem;">Onboard a staff account</h2>
+
+                        <div class="form-grid" style="grid-template-columns:1fr; margin-top:16px;">
+                            <div class="form-group">
+                                <label for="staff-name">Full name</label>
+                                <input type="text" id="staff-name" placeholder="e.g. Neha Verma">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="staff-email">Email address</label>
+                                <input type="email" id="staff-email" placeholder="name@bookverse.edu">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="staff-role">Role</label>
+                                <select id="staff-role">
+                                    <option>Teacher</option>
+                                    <option>Librarian</option>
+                                    <option>Admin</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="staff-dept">Department</label>
+                                <input type="text" id="staff-dept" placeholder="e.g. Computer Science">
+                            </div>
+                        </div>
+
+                        <button class="light-button" type="button" style="width:100%; margin-top:16px;">
+                            Add staff account
+                            <i class="fa-solid fa-user-tie"></i>
+                        </button>
+                    </section>
+
+                    <section class="side-card">
+                        <p class="eyebrow">STAFF SNAPSHOT</p>
+                        <h2 style="font-size:1.05rem;">At a glance</h2>
+
+                        <div class="summary-line" style="border-top:none;">
+                            <span>Total staff</span>
+                            <strong>24</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Teachers</span>
+                            <strong>17</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Librarians</span>
+                            <strong>5</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Admins</span>
+                            <strong>2</strong>
+                        </div>
+                    </section>
+
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Administer your library, library-wide.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

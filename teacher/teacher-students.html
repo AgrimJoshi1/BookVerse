@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage and view student borrowing activity in BookVerse.">
+    <title>Students | BookVerse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/teacher-common.css">
+    <link rel="stylesheet" href="../styles/teacher-students.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="teacher-dashboard.html" class="">Dashboard</a>
+                <a href="teacher-students.html" class="active">Students</a>
+                <a href="teacher-books.html" class="">Books</a>
+                <a href="teacher-issue-book.html" class="">Issue Book</a>
+                <a href="teacher-return-book.html" class="">Return Book</a>
+                <a href="teacher-transactions.html" class="">Transactions</a>
+                <a href="teacher-profile.html" class="">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="teacher-profile.html" class="profile-mini">
+                    <span class="avatar">PN</span>
+                    <span class="profile-name">Priya</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">STUDENTS</p>
+
+                <h1>
+                    Your class,
+                    <span>at a glance.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Search and review every student's borrowing activity,
+                    overdue status, and contact details.
+                </p>
+
+                <div class="search-box" style="max-width:560px; margin-top:24px;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search by name or student ID">
+                    <button type="button">Search</button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container">
+
+                <div class="filter-row">
+                    <span>Filter</span>
+                    <button class="filter-button active-filter">All students</button>
+                    <button class="filter-button">With overdue books</button>
+                    <button class="filter-button">Currently borrowing</button>
+                    <button class="filter-button">No active loans</button>
+                </div>
+
+                <section class="page-block">
+
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">STUDENT LIST</p>
+                            <h2>All students</h2>
+                        </div>
+
+                        <span class="panel-count">48 students</span>
+                    </div>
+
+                    <div class="data-table">
+
+                        <div class="table-head" style="grid-template-columns: minmax(160px,1.5fr) 0.8fr 0.7fr minmax(140px,1fr) 0.7fr 0.9fr auto;">
+                            <span>Student</span>
+                            <span>Student ID</span>
+                            <span>Class</span>
+                            <span>Contact</span>
+                            <span>Borrowed</span>
+                            <span>Status</span>
+                            <span></span>
+                        </div>
+
+                        
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.8fr 0.7fr minmax(140px,1fr) 0.7fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">RM</div>
+                                    <div>
+                                        <strong>Rohan Mehta</strong>
+                                        <small>BV2026CS017</small>
+                                    </div>
+                                </div>
+                                <span>BV2026CS017</span>
+                                <span>Grade 10 - A</span>
+                                <span>rohan.m@student.edu</span>
+                                <span>2</span>
+                                <span class="badge badge-good">On time</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.8fr 0.7fr minmax(140px,1fr) 0.7fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">SK</div>
+                                    <div>
+                                        <strong>Sara Khan</strong>
+                                        <small>BV2026CS022</small>
+                                    </div>
+                                </div>
+                                <span>BV2026CS022</span>
+                                <span>Grade 10 - A</span>
+                                <span>sara.k@student.edu</span>
+                                <span>1</span>
+                                <span class="badge badge-good">On time</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.8fr 0.7fr minmax(140px,1fr) 0.7fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">AR</div>
+                                    <div>
+                                        <strong>Aditya Rao</strong>
+                                        <small>BV2026CS009</small>
+                                    </div>
+                                </div>
+                                <span>BV2026CS009</span>
+                                <span>Grade 10 - B</span>
+                                <span>aditya.r@student.edu</span>
+                                <span>2</span>
+                                <span class="badge badge-bad">Overdue</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.8fr 0.7fr minmax(140px,1fr) 0.7fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">MI</div>
+                                    <div>
+                                        <strong>Meera Iyer</strong>
+                                        <small>BV2026CS031</small>
+                                    </div>
+                                </div>
+                                <span>BV2026CS031</span>
+                                <span>Grade 10 - B</span>
+                                <span>meera.i@student.edu</span>
+                                <span>0</span>
+                                <span class="badge badge-neutral">None</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.8fr 0.7fr minmax(140px,1fr) 0.7fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">KS</div>
+                                    <div>
+                                        <strong>Kabir Singh</strong>
+                                        <small>BV2026CS044</small>
+                                    </div>
+                                </div>
+                                <span>BV2026CS044</span>
+                                <span>Grade 10 - A</span>
+                                <span>kabir.s@student.edu</span>
+                                <span>1</span>
+                                <span class="badge badge-good">On time</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(160px,1.5fr) 0.8fr 0.7fr minmax(140px,1fr) 0.7fr 0.9fr auto;">
+                                <div class="table-entity">
+                                    <div class="mini-person">AD</div>
+                                    <div>
+                                        <strong>Ananya Das</strong>
+                                        <small>BV2026CS038</small>
+                                    </div>
+                                </div>
+                                <span>BV2026CS038</span>
+                                <span>Grade 10 - B</span>
+                                <span>ananya.d@student.edu</span>
+                                <span>3</span>
+                                <span class="badge badge-bad">Overdue</span>
+                                <a href="#" class="row-action">View <i class="fa-solid fa-arrow-right"></i></a>
+                            </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Manage your classroom's library activity.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

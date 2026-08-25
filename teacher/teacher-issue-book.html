@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Issue a library book to a student in BookVerse.">
+    <title>Issue Book | BookVerse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/teacher-common.css">
+    <link rel="stylesheet" href="../styles/teacher-issue-book.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="teacher-dashboard.html" class="">Dashboard</a>
+                <a href="teacher-students.html" class="">Students</a>
+                <a href="teacher-books.html" class="">Books</a>
+                <a href="teacher-issue-book.html" class="active">Issue Book</a>
+                <a href="teacher-return-book.html" class="">Return Book</a>
+                <a href="teacher-transactions.html" class="">Transactions</a>
+                <a href="teacher-profile.html" class="">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="teacher-profile.html" class="profile-mini">
+                    <span class="avatar">PN</span>
+                    <span class="profile-name">Priya</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">ISSUE BOOK</p>
+
+                <h1>
+                    Issue a book
+                    <span>to a student.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Find the student and the book, confirm the details,
+                    and the due date will be calculated for you.
+                </p>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container page-grid">
+
+                <div class="page-main">
+
+                    <!-- STEP 1: STUDENT -->
+                    <section class="page-block">
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">STEP 1</p>
+                                <h2>Find the student</h2>
+                            </div>
+                        </div>
+
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" placeholder="Search by name or student ID" value="Rohan">
+                            <button type="button">Search</button>
+                        </div>
+
+                        <div class="select-list">
+
+                            <div class="select-row selected">
+                                <div class="mini-person">RM</div>
+                                <div class="select-info">
+                                    <h3>Rohan Mehta</h3>
+                                    <p>BV2026CS017 &middot; Grade 10 - A</p>
+                                </div>
+                                <button class="select-pick" type="button">Selected</button>
+                            </div>
+
+                            <div class="select-row">
+                                <div class="mini-person">RS</div>
+                                <div class="select-info">
+                                    <h3>Riya Sinha</h3>
+                                    <p>BV2026CS028 &middot; Grade 10 - B</p>
+                                </div>
+                                <button class="select-pick" type="button">Select</button>
+                            </div>
+
+                        </div>
+                    </section>
+
+
+                    <!-- STEP 2: BOOK -->
+                    <section class="page-block">
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">STEP 2</p>
+                                <h2>Find the book</h2>
+                            </div>
+                        </div>
+
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" placeholder="Search by title, author, or ISBN" value="Atomic Habits">
+                            <button type="button">Search</button>
+                        </div>
+
+                        <div class="select-list">
+
+                            <div class="select-row selected">
+                                <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                <div class="select-info">
+                                    <h3>Atomic Habits</h3>
+                                    <p>James Clear &middot; 2 of 3 copies available</p>
+                                </div>
+                                <button class="select-pick" type="button">Selected</button>
+                            </div>
+
+                        </div>
+
+                        <p class="field-hint" style="margin-top:12px;">
+                            <i class="fa-solid fa-circle-info"></i>
+                            2 copies of this title are currently available to issue.
+                        </p>
+                    </section>
+
+
+                    <!-- STEP 3: DATES -->
+                    <section class="page-block">
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">STEP 3</p>
+                                <h2>Loan period</h2>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+                                <label for="issue-date">Issue date</label>
+                                <input type="date" id="issue-date" value="2026-08-26">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="due-date">Due date (auto-calculated)</label>
+                                <input type="text" id="due-date" value="09 Sep 2026" readonly>
+                                <span class="field-hint">Standard loan period is 14 days from the issue date.</span>
+                            </div>
+
+                        </div>
+                    </section>
+
+                </div>
+
+
+                <!-- ================= SUMMARY SIDEBAR ================= -->
+                <aside class="page-sidebar">
+
+                    <section class="side-card summary-card">
+
+                        <p class="eyebrow">CONFIRM ISSUE</p>
+                        <h2>Summary</h2>
+
+                        <div class="summary-line" style="border-top:none;">
+                            <span>Student</span>
+                            <strong>Rohan Mehta</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Student ID</span>
+                            <strong>BV2026CS017</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Book</span>
+                            <strong>Atomic Habits</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Issue date</span>
+                            <strong>26 Aug 2026</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Due date</span>
+                            <strong>09 Sep 2026</strong>
+                        </div>
+
+                        <button class="light-button" type="button" style="width:100%; margin-top:18px;">
+                            Confirm & issue book
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+                        <div class="notice notice-success">
+                            <i class="fa-regular fa-circle-check"></i>
+                            <p>Student and book selected. Review the summary above, then confirm to issue.</p>
+                        </div>
+
+                    </section>
+
+                    <section class="side-card">
+                        <p class="eyebrow">NEEDS ATTENTION</p>
+                        <h2>Before you confirm</h2>
+
+                        <div class="notice notice-warning" style="margin-top:0;">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <p>Make sure the student doesn't already have an overdue book before issuing a new one.</p>
+                        </div>
+                    </section>
+
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="teacher-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Manage your classroom's library activity.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

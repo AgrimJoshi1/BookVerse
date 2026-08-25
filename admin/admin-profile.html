@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Administrator profile and account settings in BookVerse.">
+    <title>Admin Profile | BookVerse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/admin-common.css">
+    <link rel="stylesheet" href="../styles/admin-profile.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-books.html">Books</a>
+                <a href="admin-members.html">Members</a>
+                <a href="admin-staff.html">Staff</a>
+                <a href="admin-transactions.html">Transactions</a>
+                <a href="admin-fines.html">Fines</a>
+                <a href="admin-reports.html">Reports</a>
+                <a href="admin-settings.html">Settings</a>
+                <a href="admin-profile.html" class="active">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="admin-profile.html" class="profile-mini">
+                    <span class="avatar">SV</span>
+                    <span class="profile-name">Sunita</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <main>
+
+        <section class="page-hero" style="padding-bottom:62px;">
+            <div class="container">
+
+                <p class="eyebrow">ADMINISTRATOR PROFILE</p>
+
+                <div style="display:flex; align-items:center; gap:18px;">
+                    <div class="large-avatar">SV</div>
+
+                    <div>
+                        <h1 style="margin-bottom:5px; font-size:clamp(2rem,4vw,3.1rem);">Sunita Verma</h1>
+                        <p style="color:#95887e; font-size:0.72rem;">Administrator &middot; Library Administration</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section class="page-section" style="padding-top:28px;">
+            <div class="container page-grid">
+
+                <div class="page-main">
+
+                    <section class="page-block">
+
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">PERSONAL INFORMATION</p>
+                                <h2>Your details</h2>
+                            </div>
+
+                            <button class="edit-button" type="button">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                                Edit profile
+                            </button>
+                        </div>
+
+                        <div class="details-grid">
+
+                            <div class="detail-item">
+                                <span>Full name</span>
+                                <strong>Sunita Verma</strong>
+                            </div>
+
+                            <div class="detail-item">
+                                <span>Admin ID</span>
+                                <strong>BV2026ADM002</strong>
+                            </div>
+
+                            <div class="detail-item">
+                                <span>Email address</span>
+                                <strong>sunita.v@bookverse.edu</strong>
+                            </div>
+
+                            <div class="detail-item">
+                                <span>Department</span>
+                                <strong>Library Administration</strong>
+                            </div>
+
+                            <div class="detail-item">
+                                <span>Phone</span>
+                                <strong>+91 98110 22345</strong>
+                            </div>
+
+                            <div class="detail-item">
+                                <span>Joined</span>
+                                <strong>April 2019</strong>
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <section class="page-block">
+
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">LIBRARY ACTIVITY</p>
+                                <h2>Your admin snapshot</h2>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid" style="margin-top:0;">
+
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-book-medical"></i></div>
+                                <div>
+                                    <span>Books added</span>
+                                    <strong>186</strong>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-user-plus"></i></div>
+                                <div>
+                                    <span>Members added</span>
+                                    <strong>94</strong>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-user-tie"></i></div>
+                                <div>
+                                    <span>Staff onboarded</span>
+                                    <strong>11</strong>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fa-solid fa-gear"></i></div>
+                                <div>
+                                    <span>Settings updates</span>
+                                    <strong>7</strong>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <section class="page-block">
+
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">SECURITY</p>
+                                <h2>Password & login</h2>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+                                <label for="current-password">Current password</label>
+                                <input type="password" id="current-password" placeholder="Enter current password">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="new-password">New password</label>
+                                <input type="password" id="new-password" placeholder="Enter new password">
+                            </div>
+
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="outline-button" type="button">Cancel</button>
+                            <button class="light-button" type="button">
+                                Update password
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <aside class="page-sidebar">
+
+                    <section class="side-card summary-card">
+
+                        <div class="stat-icon" style="margin-bottom:17px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                        <p class="eyebrow">ROLE & PERMISSIONS</p>
+
+                        <h2>Full administrator</h2>
+
+                        <p style="margin:9px 0 18px; color:#81756d; font-size:0.65rem; line-height:1.65;">
+                            Your account has full read & write access across
+                            books, members, staff, transactions, fines, and
+                            library settings.
+                        </p>
+
+                        <div class="summary-line" style="border-top:none;">
+                            <span>Admin ID</span>
+                            <strong>BV2026ADM002</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Role</span>
+                            <strong>Administrator</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Access level</span>
+                            <strong>Full access</strong>
+                        </div>
+
+                        <div class="summary-line">
+                            <span>Status</span>
+                            <span class="badge badge-good">Active</span>
+                        </div>
+
+                    </section>
+
+
+                    <section class="side-card quick-links-card">
+
+                        <p class="eyebrow">ACCOUNT</p>
+
+                        <a href="admin-settings.html" class="quick-link">
+                            <span><i class="fa-solid fa-gear"></i></span>
+                            <div>
+                                <strong>Library settings</strong>
+                                <small>Loan rules & fine rates</small>
+                            </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <a href="admin-transactions.html" class="quick-link">
+                            <span><i class="fa-solid fa-clock-rotate-left"></i></span>
+                            <div>
+                                <strong>Transaction history</strong>
+                                <small>Full issue & return log</small>
+                            </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <a href="../auth/login.html" class="quick-link">
+                            <span><i class="fa-solid fa-right-from-bracket"></i></span>
+                            <div>
+                                <strong>Sign out</strong>
+                                <small>End your session</small>
+                            </div>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    </section>
+
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Administer your library, library-wide.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

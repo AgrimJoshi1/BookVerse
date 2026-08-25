@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BookVerse library reports and statistics.">
+    <title>Reports | BookVerse Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/admin-common.css">
+    <link rel="stylesheet" href="../styles/admin-reports.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-books.html">Books</a>
+                <a href="admin-members.html">Members</a>
+                <a href="admin-staff.html">Staff</a>
+                <a href="admin-transactions.html">Transactions</a>
+                <a href="admin-fines.html">Fines</a>
+                <a href="admin-reports.html" class="active">Reports</a>
+                <a href="admin-settings.html">Settings</a>
+                <a href="admin-profile.html">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="admin-profile.html" class="profile-mini">
+                    <span class="avatar">SV</span>
+                    <span class="profile-name">Sunita</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">REPORTS</p>
+
+                <h1>
+                    See how the
+                    <span>library is used.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Circulation trends, popular titles, and overdue and
+                    membership statistics for the current period.
+                </p>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container">
+
+                <div class="reports-grid">
+
+                    <!-- MOST BORROWED -->
+                    <section class="page-block">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">MOST BORROWED</p>
+                                <h2>Top titles this month</h2>
+                            </div>
+                            <span class="panel-count">Top 5</span>
+                        </div>
+
+                        <div class="data-table">
+                            <div class="table-head" style="grid-template-columns: minmax(150px,1.6fr) 0.8fr 0.8fr;">
+                                <span>Title</span>
+                                <span>Category</span>
+                                <span>Times borrowed</span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.6fr) 0.8fr 0.8fr;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>Atomic Habits</strong></div>
+                                </div>
+                                <span>Self Development</span>
+                                <strong>68</strong>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.6fr) 0.8fr 0.8fr;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>Clean Code</strong></div>
+                                </div>
+                                <span>Programming</span>
+                                <strong>54</strong>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.6fr) 0.8fr 0.8fr;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>The Midnight Library</strong></div>
+                                </div>
+                                <span>Fiction</span>
+                                <strong>49</strong>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.6fr) 0.8fr 0.8fr;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>Hands-On Machine Learning</strong></div>
+                                </div>
+                                <span>AI & ML</span>
+                                <strong>41</strong>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.6fr) 0.8fr 0.8fr;">
+                                <div class="table-entity">
+                                    <div class="mini-book"><i class="fa-solid fa-book"></i></div>
+                                    <div><strong>Deep Work</strong></div>
+                                </div>
+                                <span>Self Development</span>
+                                <strong>37</strong>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- OVERDUE BOOKS -->
+                    <section class="page-block">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">OVERDUE BOOKS</p>
+                                <h2>Currently past due</h2>
+                            </div>
+                            <span class="panel-count">37 total</span>
+                        </div>
+
+                        <div class="data-table">
+                            <div class="table-head" style="grid-template-columns: minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr;">
+                                <span>Book</span>
+                                <span>Borrower</span>
+                                <span>Days overdue</span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr;">
+                                <span>Introduction to Algorithms</span>
+                                <span>Alex Sharma</span>
+                                <span class="badge badge-bad">2 days</span>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr;">
+                                <span>Introduction to Algorithms</span>
+                                <span>Aditya Rao</span>
+                                <span class="badge badge-bad">3 days</span>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr;">
+                                <span>The Pragmatic Programmer</span>
+                                <span>Ananya Das</span>
+                                <span class="badge badge-bad">11 days</span>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr;">
+                                <span>Design Patterns</span>
+                                <span>Kabir Singh</span>
+                                <span class="badge badge-bad">6 days</span>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr;">
+                                <span>Database System Concepts</span>
+                                <span>Varun Gupta</span>
+                                <span class="badge badge-bad">14 days</span>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- ACTIVE MEMBERS -->
+                    <section class="page-block">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">ACTIVE MEMBERS</p>
+                                <h2>Most active this month</h2>
+                            </div>
+                            <span class="panel-count">Top 5</span>
+                        </div>
+
+                        <div class="data-table">
+                            <div class="table-head" style="grid-template-columns: minmax(150px,1.5fr) 0.9fr 0.7fr;">
+                                <span>Member</span>
+                                <span>Type</span>
+                                <span>Books borrowed</span>
+                            </div>
+
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.5fr) 0.9fr 0.7fr;">
+                                <div class="table-entity">
+                                    <div class="mini-person">PN</div>
+                                    <div><strong>Priya Nair</strong></div>
+                                </div>
+                                <span>Teacher</span>
+                                <strong>14</strong>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.5fr) 0.9fr 0.7fr;">
+                                <div class="table-entity">
+                                    <div class="mini-person">KS</div>
+                                    <div><strong>Kabir Singh</strong></div>
+                                </div>
+                                <span>Student</span>
+                                <strong>9</strong>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.5fr) 0.9fr 0.7fr;">
+                                <div class="table-entity">
+                                    <div class="mini-person">AS</div>
+                                    <div><strong>Alex Sharma</strong></div>
+                                </div>
+                                <span>Student</span>
+                                <strong>8</strong>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.5fr) 0.9fr 0.7fr;">
+                                <div class="table-entity">
+                                    <div class="mini-person">RD</div>
+                                    <div><strong>Rakesh Dutta</strong></div>
+                                </div>
+                                <span>Teacher</span>
+                                <strong>7</strong>
+                            </div>
+                            <div class="table-row" style="grid-template-columns: minmax(150px,1.5fr) 0.9fr 0.7fr;">
+                                <div class="table-entity">
+                                    <div class="mini-person">MI</div>
+                                    <div><strong>Meera Iyer</strong></div>
+                                </div>
+                                <span>Student</span>
+                                <strong>6</strong>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- CIRCULATION STATS -->
+                    <section class="page-block">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">CIRCULATION</p>
+                                <h2>Loans per month</h2>
+                            </div>
+                            <span class="panel-count">Last 6 months</span>
+                        </div>
+
+                        <div class="bar-chart">
+
+                            <div class="bar-row">
+                                <span class="bar-label">Mar</span>
+                                <div class="bar-track"><div class="bar-fill" style="width:62%;"></div></div>
+                                <strong class="bar-value">642</strong>
+                            </div>
+                            <div class="bar-row">
+                                <span class="bar-label">Apr</span>
+                                <div class="bar-track"><div class="bar-fill" style="width:71%;"></div></div>
+                                <strong class="bar-value">734</strong>
+                            </div>
+                            <div class="bar-row">
+                                <span class="bar-label">May</span>
+                                <div class="bar-track"><div class="bar-fill" style="width:58%;"></div></div>
+                                <strong class="bar-value">598</strong>
+                            </div>
+                            <div class="bar-row">
+                                <span class="bar-label">Jun</span>
+                                <div class="bar-track"><div class="bar-fill" style="width:44%;"></div></div>
+                                <strong class="bar-value">451</strong>
+                            </div>
+                            <div class="bar-row">
+                                <span class="bar-label">Jul</span>
+                                <div class="bar-track"><div class="bar-fill" style="width:69%;"></div></div>
+                                <strong class="bar-value">712</strong>
+                            </div>
+                            <div class="bar-row">
+                                <span class="bar-label">Aug</span>
+                                <div class="bar-track"><div class="bar-fill" style="width:100%;"></div></div>
+                                <strong class="bar-value">1,042</strong>
+                            </div>
+
+                        </div>
+
+                        <div class="panel-heading" style="margin-top:26px; margin-bottom:14px;">
+                            <div>
+                                <p class="eyebrow">BY CATEGORY</p>
+                                <h2 style="font-size:1.1rem;">Loans by category</h2>
+                            </div>
+                        </div>
+
+                        <div class="bar-chart">
+                            <div class="bar-row">
+                                <span class="bar-label">Fiction</span>
+                                <div class="bar-track"><div class="bar-fill" style="width:100%;"></div></div>
+                                <strong class="bar-value">312</strong>
+                            </div>
+                            <div class="bar-row">
+                                <span class="bar-label">Programming</span>
+                                <div class="bar-track"><div class="bar-fill" style="width:84%;"></div></div>
+                                <strong class="bar-value">261</strong>
+                            </div>
+                            <div class="bar-row">
+                                <span class="bar-label">Self Dev.</span>
+                                <div class="bar-track"><div class="bar-fill" style="width:76%;"></div></div>
+                                <strong class="bar-value">238</strong>
+                            </div>
+                            <div class="bar-row">
+                                <span class="bar-label">AI & ML</span>
+                                <div class="bar-track"><div class="bar-fill" style="width:52%;"></div></div>
+                                <strong class="bar-value">163</strong>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Administer your library, library-wide.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+/* =========================================================
+   BOOKVERSE - TEACHER / STUDENTS
+   Page-specific styles. Base, navbar, footer, and shared
+   components live in teacher-common.css.
+========================================================= */
+
+.table-row > span:nth-child(6) {
+    justify-self: start;
+}

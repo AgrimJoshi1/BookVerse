@@ -1,0 +1,13 @@
+/* =========================================================
+   BOOKVERSE - TEACHER / DASHBOARD
+   Page-specific styles. Base, navbar, footer, and shared
+   components live in teacher-common.css.
+========================================================= */
+
+.select-row {
+    text-decoration: none;
+}
+
+.select-row .stat-icon {
+    color: #c8a985;
+}

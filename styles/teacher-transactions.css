@@ -1,0 +1,10 @@
+/* =========================================================
+   BOOKVERSE - TEACHER / TRANSACTIONS
+   Page-specific styles. Base, navbar, footer, and shared
+   components live in teacher-common.css.
+========================================================= */
+
+.pagination-row button.filter-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}

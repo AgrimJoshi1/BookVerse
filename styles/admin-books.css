@@ -1,0 +1,15 @@
+/* Admin Books — page-specific */
+.category-manage-list{ display:flex; flex-direction:column; gap:4px; }
+.category-manage-row{
+    display:grid;
+    grid-template-columns: 1fr auto auto;
+    align-items:center;
+    gap:12px;
+    padding: 10px 4px;
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+}
+.category-manage-row span{ display:flex; align-items:center; gap:10px; color: var(--text); }
+.category-manage-row span i{ color: var(--accent); width:16px; text-align:center; }
+.category-manage-row strong{ color: var(--text-faint); font-weight:500; font-size:0.68rem; }
+.category-manage-row .row-action{ color: var(--bad); font-size:0.7rem; padding:4px 8px; }

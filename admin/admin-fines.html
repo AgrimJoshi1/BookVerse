@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage fines across BookVerse.">
+    <title>Fines | BookVerse Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/admin-common.css">
+    <link rel="stylesheet" href="../styles/admin-fines.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-books.html">Books</a>
+                <a href="admin-members.html">Members</a>
+                <a href="admin-staff.html">Staff</a>
+                <a href="admin-transactions.html">Transactions</a>
+                <a href="admin-fines.html" class="active">Fines</a>
+                <a href="admin-reports.html">Reports</a>
+                <a href="admin-settings.html">Settings</a>
+                <a href="admin-profile.html">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="admin-profile.html" class="profile-mini">
+                    <span class="avatar">SV</span>
+                    <span class="profile-name">Sunita</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">FINES</p>
+
+                <h1>
+                    Fines,
+                    <span>across every account.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Track outstanding and paid fines for every member and
+                    staff account in the library.
+                </p>
+
+                <div class="search-box" style="max-width:560px; margin-top:24px;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search by member or book">
+                    <button type="button">Search</button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container">
+
+                <div class="stats-grid" style="margin-top:0; margin-bottom:26px; grid-template-columns:repeat(4,1fr);">
+
+                    <article class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        <div>
+                            <span>Total fines issued</span>
+                            <strong>₹23,180</strong>
+                        </div>
+                    </article>
+
+                    <article class="stat-card stat-card-good">
+                        <div class="stat-icon"><i class="fa-regular fa-circle-check"></i></div>
+                        <div>
+                            <span>Total collected</span>
+                            <strong>₹18,420</strong>
+                        </div>
+                    </article>
+
+                    <article class="stat-card stat-card-warning">
+                        <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+                        <div>
+                            <span>Total outstanding</span>
+                            <strong>₹4,760</strong>
+                        </div>
+                    </article>
+
+                    <article class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-receipt"></i></div>
+                        <div>
+                            <span>Fine records</span>
+                            <strong>486</strong>
+                        </div>
+                    </article>
+
+                </div>
+
+                <div class="filter-row" style="margin-top:0;">
+                    <span>Status</span>
+                    <button class="filter-button active-filter">All fines</button>
+                    <button class="filter-button">Unpaid</button>
+                    <button class="filter-button">Paid</button>
+                </div>
+
+                <section class="page-block">
+
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">FINE RECORDS</p>
+                            <h2>All fines</h2>
+                        </div>
+
+                        <span class="panel-count">486 records</span>
+                    </div>
+
+                    <div class="data-table">
+
+                        <div class="table-head" style="grid-template-columns: minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto;">
+                            <span>Member</span>
+                            <span>Book</span>
+                            <span>Amount</span>
+                            <span>Reason</span>
+                            <span>Date</span>
+                            <span>Status</span>
+                            <span></span>
+                        </div>
+
+                        <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto;">
+                            <div class="table-entity">
+                                <div class="mini-person">AS</div>
+                                <div><strong>Alex Sharma</strong></div>
+                            </div>
+                            <span>Introduction to Algorithms</span>
+                            <strong>₹20</strong>
+                            <span>Overdue</span>
+                            <span>23 Aug 2026</span>
+                            <span class="badge badge-bad">Unpaid</span>
+                            <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+
+                        <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto;">
+                            <div class="table-entity">
+                                <div class="mini-person">AR</div>
+                                <div><strong>Aditya Rao</strong></div>
+                            </div>
+                            <span>Introduction to Algorithms</span>
+                            <strong>₹30</strong>
+                            <span>Overdue</span>
+                            <span>23 Aug 2026</span>
+                            <span class="badge badge-bad">Unpaid</span>
+                            <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+
+                        <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto;">
+                            <div class="table-entity">
+                                <div class="mini-person">AD</div>
+                                <div><strong>Ananya Das</strong></div>
+                            </div>
+                            <span>The Pragmatic Programmer</span>
+                            <strong>₹110</strong>
+                            <span>Overdue</span>
+                            <span>15 Aug 2026</span>
+                            <span class="badge badge-bad">Unpaid</span>
+                            <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+
+                        <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto;">
+                            <div class="table-entity">
+                                <div class="mini-person">MI</div>
+                                <div><strong>Meera Iyer</strong></div>
+                            </div>
+                            <span>Deep Work</span>
+                            <strong>₹30</strong>
+                            <span>Overdue</span>
+                            <span>19 Aug 2026</span>
+                            <span class="badge badge-good">Paid</span>
+                            <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+
+                        <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto;">
+                            <div class="table-entity">
+                                <div class="mini-person">KS</div>
+                                <div><strong>Kabir Singh</strong></div>
+                            </div>
+                            <span>Design Patterns</span>
+                            <strong>₹15</strong>
+                            <span>Damaged copy</span>
+                            <span>10 Aug 2026</span>
+                            <span class="badge badge-good">Paid</span>
+                            <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+
+                        <div class="table-row" style="grid-template-columns: minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto;">
+                            <div class="table-entity">
+                                <div class="mini-person">RS</div>
+                                <div><strong>Riya Sinha</strong></div>
+                            </div>
+                            <span>Python Crash Course</span>
+                            <strong>₹0</strong>
+                            <span>—</span>
+                            <span>15 Aug 2026</span>
+                            <span class="badge badge-neutral">Waived</span>
+                            <a href="#" class="row-action">Details <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Administer your library, library-wide.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

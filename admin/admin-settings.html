@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BookVerse library settings.">
+    <title>Library Settings | BookVerse Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/admin-common.css">
+    <link rel="stylesheet" href="../styles/admin-settings.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="admin-books.html">Books</a>
+                <a href="admin-members.html">Members</a>
+                <a href="admin-staff.html">Staff</a>
+                <a href="admin-transactions.html">Transactions</a>
+                <a href="admin-fines.html">Fines</a>
+                <a href="admin-reports.html">Reports</a>
+                <a href="admin-settings.html" class="active">Settings</a>
+                <a href="admin-profile.html">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="admin-profile.html" class="profile-mini">
+                    <span class="avatar">SV</span>
+                    <span class="profile-name">Sunita</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+
+                <a href="../auth/login.html" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="page-hero">
+            <div class="container">
+
+                <p class="eyebrow">LIBRARY SETTINGS</p>
+
+                <h1>
+                    Configure how
+                    <span>BookVerse runs.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Loan rules, fine rates, and library contact information
+                    used across the whole system.
+                </p>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="page-section">
+            <div class="container page-grid">
+
+                <div class="page-main">
+
+                    <section class="page-block">
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">LOAN POLICY</p>
+                                <h2>Borrowing rules</h2>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="loan-duration">Standard loan duration (days)</label>
+                                <input type="number" id="loan-duration" value="14" min="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="max-books">Max books per member</label>
+                                <input type="number" id="max-books" value="3" min="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fine-rate">Fine rate (₹ per day overdue)</label>
+                                <input type="number" id="fine-rate" value="10" min="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="grace-period">Grace period (days)</label>
+                                <input type="number" id="grace-period" value="0" min="0">
+                                <span class="field-hint">Days after the due date before fines start accruing.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="max-renewals">Max renewals per loan</label>
+                                <input type="number" id="max-renewals" value="1" min="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reservation-hold">Reservation hold period (days)</label>
+                                <input type="number" id="reservation-hold" value="3" min="1">
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <section class="page-block">
+                        <div class="block-heading">
+                            <div>
+                                <p class="eyebrow">LIBRARY INFORMATION</p>
+                                <h2>Contact & identity</h2>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label for="library-name">Library name</label>
+                                <input type="text" id="library-name" value="BookVerse Central Library">
+                            </div>
+
+                            <div class="form-group full">
+                                <label for="library-address">Address</label>
+                                <input type="text" id="library-address" value="Block C, BookVerse Academy Campus, Mohali, Punjab">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="library-email">Contact email</label>
+                                <input type="email" id="library-email" value="library@bookverse.edu">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="library-phone">Contact phone</label>
+                                <input type="text" id="library-phone" value="+91 172 456 7890">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="library-hours">Operating hours</label>
+                                <input type="text" id="library-hours" value="Mon–Sat, 8:00 AM – 6:00 PM">
+                            </div>
+                        </div>
+
+                        <div class="notice notice-success">
+                            <i class="fa-regular fa-circle-check"></i>
+                            <p>All settings are valid. Save to apply these changes library-wide.</p>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="outline-button" type="button">Cancel</button>
+                            <button class="light-button" type="button">
+                                Save settings
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                        </div>
+                    </section>
+
+                </div>
+
+
+                <!-- ================= SIDEBAR ================= -->
+                <aside class="page-sidebar">
+
+                    <section class="side-card summary-card">
+                        <p class="eyebrow">CURRENT POLICY</p>
+                        <h2 style="font-size:1.05rem;">At a glance</h2>
+
+                        <div class="summary-line" style="border-top:none;">
+                            <span>Loan duration</span>
+                            <strong>14 days</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Fine rate</span>
+                            <strong>₹10 / day</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Grace period</span>
+                            <strong>0 days</strong>
+                        </div>
+                        <div class="summary-line">
+                            <span>Max books/member</span>
+                            <strong>3</strong>
+                        </div>
+                    </section>
+
+                    <section class="side-card">
+                        <p class="eyebrow">HEADS UP</p>
+                        <h2 style="font-size:1.05rem;">Changing loan rules</h2>
+
+                        <div class="notice notice-warning" style="margin-top:0;">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <p>Updating the fine rate or loan duration only applies to new loans issued after saving — active loans keep their original terms.</p>
+                        </div>
+                    </section>
+
+                </aside>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="admin-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Administer your library, library-wide.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>
