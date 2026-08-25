@@ -1,79 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Login | BookVerse</title>
 
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Font Awesome -->
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        referrerpolicy="no-referrer">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="login.css">
-
+    <link rel="stylesheet" href="../styles/login.css">
 </head>
-
 
 <body>
 
-    <!-- Background Video -->
+    <!-- ================= BACKGROUND ================= -->
     <video class="background-video" autoplay muted loop playsinline>
-        <source src="images/vid.mp4" type="video/mp4">
+        <source src="../assets/vid.mp4" type="video/mp4">
     </video>
 
-    <!-- Dark Overlay -->
     <div class="video-overlay"></div>
 
 
-    <!-- Main Login Section -->
+    <!-- ================= LOGIN PAGE ================= -->
     <main class="login-page">
 
         <section class="login-card">
 
-            <!-- Logo -->
-            <a href="index.html" class="brand">
+            <!-- Hidden radio inputs power the role switch (pure CSS, no JS) -->
+            <input type="radio" name="role" id="role-student" class="role-radio" checked>
+            <input type="radio" name="role" id="role-teacher" class="role-radio">
+            <input type="radio" name="role" id="role-admin"   class="role-radio">
 
-                <i class="fa-solid fa-book-open-reader"></i>
+            <!-- ================= TOP ================= -->
+            <div class="login-top">
 
-                <span>BookVerse</span>
+                <a href="index.html" class="brand">
+                    <span class="brand-icon">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </span>
 
-            </a>
+                    <span>BookVerse</span>
+                </a>
+
+                <div class="secure-label">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Secure Library Access
+                </div>
+
+            </div>
 
 
-            <!-- Heading -->
+            <!-- ================= HEADING ================= -->
             <div class="form-heading">
 
-                <h1>Welcome back</h1>
+                <p class="small-title">
+                    <i class="fa-solid fa-sparkles"></i>
+                    WELCOME BACK
+                </p>
+
+                <h1>Sign in to your library.</h1>
 
                 <p>
-                    Enter your details to continue to your library.
+                    Choose your account type and enter your details
+                    to continue to BookVerse.
                 </p>
 
             </div>
 
 
-            <!-- Login Form -->
+            <!-- ================= ROLE SELECTOR ================= -->
+            <div class="role-section">
+
+                <label class="section-label">
+                    SELECT ROLE TO LOGIN
+                </label>
+
+                <div class="role-grid">
+
+                    <!-- STUDENT -->
+                    <label for="role-student" class="role-card">
+
+                        <span class="role-icon">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </span>
+
+                        <span class="role-name">Student</span>
+
+                        <span class="role-description">
+                            Borrow & read
+                        </span>
+
+                    </label>
+
+
+                    <!-- TEACHER -->
+                    <label for="role-teacher" class="role-card">
+
+                        <span class="role-icon">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </span>
+
+                        <span class="role-name">Teacher</span>
+
+                        <span class="role-description">
+                            Faculty access
+                        </span>
+
+                    </label>
+
+
+                    <!-- ADMIN -->
+                    <label for="role-admin" class="role-card">
+
+                        <span class="role-icon">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </span>
+
+                        <span class="role-name">Admin</span>
+
+                        <span class="role-description">
+                            Manage library
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= SELECTED ROLE INFO ================= -->
+            <!-- One block per role; CSS shows only the one matching the checked radio -->
+
+            <div class="role-info role-info-student">
+
+                <div class="role-info-icon">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+
+                <div class="role-info-copy">
+                    <span>Student Portal</span>
+
+                    <p>
+                        Access your borrowed books, reservations,
+                        fines, and library profile.
+                    </p>
+                </div>
+
+                <span class="platform-name">
+                    BookVerse Library
+                </span>
+
+            </div>
+
+            <div class="role-info role-info-teacher">
+
+                <div class="role-info-icon">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+
+                <div class="role-info-copy">
+                    <span>Teacher Portal</span>
+
+                    <p>
+                        Manage your classes, assign reading lists,
+                        and track student borrowing.
+                    </p>
+                </div>
+
+                <span class="platform-name">
+                    BookVerse Library
+                </span>
+
+            </div>
+
+            <div class="role-info role-info-admin">
+
+                <div class="role-info-icon">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+
+                <div class="role-info-copy">
+                    <span>Admin Portal</span>
+
+                    <p>
+                        Manage the catalog, users, fines, and
+                        overall library operations.
+                    </p>
+                </div>
+
+                <span class="platform-name">
+                    BookVerse Library
+                </span>
+
+            </div>
+
+
+            <!-- ================= FORM ================= -->
             <form>
 
-                <!-- Email -->
                 <label>
 
-                    Email address
+                    <span class="field-label">
+                        EMAIL / USER ID
+                    </span>
 
                     <div class="input-box">
 
@@ -89,10 +229,19 @@
                 </label>
 
 
-                <!-- Password -->
                 <label>
 
-                    Password
+                    <span class="field-label-row">
+
+                        <span class="field-label">
+                            PASSWORD
+                        </span>
+
+                        <a href="#" class="forgot-link">
+                            Forgot password?
+                        </a>
+
+                    </span>
 
                     <div class="input-box">
 
@@ -103,12 +252,20 @@
                             placeholder="Enter your password"
                             required>
 
+                        <button
+                            type="button"
+                            class="password-icon"
+                            aria-label="Show password">
+
+                            <i class="fa-regular fa-eye"></i>
+
+                        </button>
+
                     </div>
 
                 </label>
 
 
-                <!-- Remember + Forgot -->
                 <div class="form-options">
 
                     <label class="remember">
@@ -119,18 +276,16 @@
 
                     </label>
 
-
-                    <a href="#">
-                        Forgot password?
-                    </a>
+                    <span class="login-note">
+                        Use your registered account
+                    </span>
 
                 </div>
 
 
-                <!-- Login Button -->
                 <button type="submit" class="login-button">
 
-                    Login
+                    <span>Login & Access Portal</span>
 
                     <i class="fa-solid fa-arrow-right"></i>
 
@@ -139,21 +294,21 @@
             </form>
 
 
-            <!-- Register -->
-            <p class="signup-text">
+            <!-- ================= FOOTER INFO ================= -->
+            <div class="security-note">
 
-                Don't have an account?
+                <i class="fa-solid fa-lock"></i>
 
-                <a href="register.html">
-                    Create one
-                </a>
+                <span>
+                    Your library account information is protected
+                    by secure access controls.
+                </span>
 
-            </p>
+            </div>
 
         </section>
 
     </main>
 
 </body>
-
 </html>
