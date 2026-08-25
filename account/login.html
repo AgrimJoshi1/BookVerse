@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | BookVerse</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="login.css">
+
+</head>
+
+
+<body>
+
+    <!-- Background Video -->
+    <video class="background-video" autoplay muted loop playsinline>
+        <source src="images/vid.mp4" type="video/mp4">
+    </video>
+
+    <!-- Dark Overlay -->
+    <div class="video-overlay"></div>
+
+
+    <!-- Main Login Section -->
+    <main class="login-page">
+
+        <section class="login-card">
+
+            <!-- Logo -->
+            <a href="index.html" class="brand">
+
+                <i class="fa-solid fa-book-open-reader"></i>
+
+                <span>BookVerse</span>
+
+            </a>
+
+
+            <!-- Heading -->
+            <div class="form-heading">
+
+                <h1>Welcome back</h1>
+
+                <p>
+                    Enter your details to continue to your library.
+                </p>
+
+            </div>
+
+
+            <!-- Login Form -->
+            <form>
+
+                <!-- Email -->
+                <label>
+
+                    Email address
+
+                    <div class="input-box">
+
+                        <i class="fa-regular fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            placeholder="you@example.com"
+                            required>
+
+                    </div>
+
+                </label>
+
+
+                <!-- Password -->
+                <label>
+
+                    Password
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            placeholder="Enter your password"
+                            required>
+
+                    </div>
+
+                </label>
+
+
+                <!-- Remember + Forgot -->
+                <div class="form-options">
+
+                    <label class="remember">
+
+                        <input type="checkbox">
+
+                        <span>Remember me</span>
+
+                    </label>
+
+
+                    <a href="#">
+                        Forgot password?
+                    </a>
+
+                </div>
+
+
+                <!-- Login Button -->
+                <button type="submit" class="login-button">
+
+                    Login
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </form>
+
+
+            <!-- Register -->
+            <p class="signup-text">
+
+                Don't have an account?
+
+                <a href="register.html">
+                    Create one
+                </a>
+
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
