@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="My Books - BookVerse student library.">
+    <title>My Books | BookVerse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/my-books.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="student-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="student-dashboard.html">Dashboard</a>
+                <a href="browse-books.html">Browse Books</a>
+                <a href="my-books.html" class="active">My Books</a>
+                <a href="#">Reservations</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="#" class="notification-link" aria-label="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </a>
+
+                <a href="#" class="profile-mini">
+                    <span class="avatar">AS</span>
+                    <span>Alex</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="my-books-hero">
+            <div class="container">
+
+                <p class="eyebrow">MY BOOKS</p>
+
+                <div class="hero-heading-row">
+                    <div>
+                        <h1>
+                            Your reading,
+                            <span>all in one place.</span>
+                        </h1>
+
+                        <p class="hero-description">
+                            Keep track of what you're borrowing, what you've returned,
+                            and when your books are due.
+                        </p>
+                    </div>
+
+                    <div class="book-count">
+                        <span>BOOKS WITH YOU</span>
+                        <strong>03</strong>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= BOOKS CONTENT ================= -->
+        <section class="my-books-section">
+            <div class="container">
+
+                <!-- ================= TABS ================= -->
+                <div class="book-tabs">
+                    <a href="#" class="tab active-tab">
+                        Currently borrowed
+                        <span>03</span>
+                    </a>
+
+                    <a href="#" class="tab">
+                        Previously returned
+                        <span>12</span>
+                    </a>
+
+                    <a href="#" class="tab">
+                        Due dates
+                        <span>02</span>
+                    </a>
+                </div>
+
+
+                <!-- ================= CURRENTLY BORROWED ================= -->
+                <section class="books-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">CURRENTLY BORROWED</p>
+                            <h2>Books you're reading</h2>
+                        </div>
+
+                        <span class="panel-count">3 active loans</span>
+                    </div>
+
+
+                    <div class="borrowed-books">
+
+                        <!-- BOOK 1 -->
+                        <article class="borrowed-card">
+
+                            <div class="book-cover cover-one">
+                                <span class="cover-number">01</span>
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+
+                            <div class="book-main">
+                                <span class="category">PROGRAMMING</span>
+                                <h3>Clean Code</h3>
+                                <p class="author">Robert C. Martin</p>
+
+                                <div class="loan-details">
+                                    <div>
+                                        <span>Borrowed</span>
+                                        <strong>14 Aug 2026</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>Due date</span>
+                                        <strong>28 Aug 2026</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="book-status">
+                                <span class="status on-time">On time</span>
+                                <p>3 days left</p>
+                            </div>
+
+                            <a href="#" class="book-action">
+                                View details
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </article>
+
+
+                        <!-- BOOK 2 -->
+                        <article class="borrowed-card">
+
+                            <div class="book-cover cover-two">
+                                <span class="cover-number">02</span>
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+
+                            <div class="book-main">
+                                <span class="category">SELF DEVELOPMENT</span>
+                                <h3>Atomic Habits</h3>
+                                <p class="author">James Clear</p>
+
+                                <div class="loan-details">
+                                    <div>
+                                        <span>Borrowed</span>
+                                        <strong>16 Aug 2026</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>Due date</span>
+                                        <strong>30 Aug 2026</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="book-status">
+                                <span class="status on-time">On time</span>
+                                <p>5 days left</p>
+                            </div>
+
+                            <a href="#" class="book-action">
+                                View details
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </article>
+
+
+                        <!-- BOOK 3 -->
+                        <article class="borrowed-card overdue-book">
+
+                            <div class="book-cover cover-three">
+                                <span class="cover-number">03</span>
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+
+                            <div class="book-main">
+                                <span class="category">COMPUTER SCIENCE</span>
+                                <h3>Introduction to Algorithms</h3>
+                                <p class="author">Thomas H. Cormen</p>
+
+                                <div class="loan-details">
+                                    <div>
+                                        <span>Borrowed</span>
+                                        <strong>09 Aug 2026</strong>
+                                    </div>
+
+                                    <div>
+                                        <span>Due date</span>
+                                        <strong>23 Aug 2026</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="book-status">
+                                <span class="status overdue">Overdue</span>
+                                <p>2 days overdue</p>
+                            </div>
+
+                            <a href="#" class="book-action">
+                                View details
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================= PREVIOUSLY RETURNED ================= -->
+                <section class="books-panel returned-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">PREVIOUSLY RETURNED</p>
+                            <h2>Your reading history</h2>
+                        </div>
+
+                        <a href="#" class="text-arrow">
+                            Full history
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+
+                    <div class="history-list">
+
+                        <article class="history-row">
+                            <div class="history-book-icon">
+                                <i class="fa-solid fa-book"></i>
+                            </div>
+
+                            <div class="history-book">
+                                <h3>Python Crash Course</h3>
+                                <p>Eric Matthes</p>
+                            </div>
+
+                            <div class="history-date">
+                                <span>Borrowed</span>
+                                <strong>02 Aug 2026</strong>
+                            </div>
+
+                            <div class="history-date">
+                                <span>Returned</span>
+                                <strong>15 Aug 2026</strong>
+                            </div>
+
+                            <span class="returned-status">
+                                Returned
+                            </span>
+                        </article>
+
+
+                        <article class="history-row">
+                            <div class="history-book-icon icon-two">
+                                <i class="fa-solid fa-book"></i>
+                            </div>
+
+                            <div class="history-book">
+                                <h3>The Pragmatic Programmer</h3>
+                                <p>David Thomas & Andrew Hunt</p>
+                            </div>
+
+                            <div class="history-date">
+                                <span>Borrowed</span>
+                                <strong>17 Jul 2026</strong>
+                            </div>
+
+                            <div class="history-date">
+                                <span>Returned</span>
+                                <strong>31 Jul 2026</strong>
+                            </div>
+
+                            <span class="returned-status">
+                                Returned
+                            </span>
+                        </article>
+
+
+                        <article class="history-row">
+                            <div class="history-book-icon icon-three">
+                                <i class="fa-solid fa-book"></i>
+                            </div>
+
+                            <div class="history-book">
+                                <h3>Deep Work</h3>
+                                <p>Cal Newport</p>
+                            </div>
+
+                            <div class="history-date">
+                                <span>Borrowed</span>
+                                <strong>05 Jul 2026</strong>
+                            </div>
+
+                            <div class="history-date">
+                                <span>Returned</span>
+                                <strong>19 Jul 2026</strong>
+                            </div>
+
+                            <span class="returned-status">
+                                Returned
+                            </span>
+                        </article>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================= DUE DATES ================= -->
+                <section class="due-panel">
+
+                    <div class="due-panel-copy">
+                        <p class="eyebrow">DUE DATES</p>
+                        <h2>Stay ahead of your returns.</h2>
+                        <p>
+                            You have two books due soon. Returning them on time
+                            helps keep your account clear.
+                        </p>
+                    </div>
+
+                    <div class="due-summary">
+
+                        <div class="due-item">
+                            <div class="date-box">
+                                <span>AUG</span>
+                                <strong>28</strong>
+                            </div>
+
+                            <div>
+                                <h3>Clean Code</h3>
+                                <p>3 days left</p>
+                            </div>
+                        </div>
+
+                        <div class="due-item">
+                            <div class="date-box">
+                                <span>AUG</span>
+                                <strong>30</strong>
+                            </div>
+
+                            <div>
+                                <h3>Atomic Habits</h3>
+                                <p>5 days left</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="student-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Keep your reading organized.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

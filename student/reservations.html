@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservations | BookVerse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/reservations.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="student-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="student-dashboard.html">Dashboard</a>
+                <a href="browse-books.html">Browse Books</a>
+                <a href="my-books.html">My Books</a>
+                <a href="reservations.html" class="active">Reservations</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="#" class="notification-link" aria-label="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </a>
+
+                <a href="#" class="profile-mini">
+                    <span class="avatar">AS</span>
+                    <span>Alex</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="reservation-hero">
+            <div class="container">
+
+                <p class="eyebrow">RESERVATIONS / HOLDS</p>
+
+                <h1>
+                    Keep your place
+                    <span>in the queue.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Track the books you've requested and see when
+                    they're ready for you.
+                </p>
+
+            </div>
+        </section>
+
+
+        <!-- ================= RESERVATIONS ================= -->
+        <section class="reservation-section">
+            <div class="container">
+
+                <div class="reservation-layout">
+
+                    <!-- ================= MAIN ================= -->
+                    <div class="reservation-main">
+
+                        <section class="reservation-panel">
+
+                            <div class="panel-heading">
+                                <div>
+                                    <p class="eyebrow">YOUR REQUESTS</p>
+                                    <h2>Books you've requested</h2>
+                                </div>
+
+                                <span class="request-count">02 active holds</span>
+                            </div>
+
+
+                            <div class="reservation-list">
+
+                                <!-- READY -->
+                                <article class="reservation-card ready-card">
+
+                                    <div class="book-cover cover-one">
+                                        <i class="fa-solid fa-book-open"></i>
+                                        <span>01</span>
+                                    </div>
+
+                                    <div class="reservation-info">
+                                        <span class="category">COMPUTER SCIENCE</span>
+                                        <h3>Design Patterns</h3>
+                                        <p>Erich Gamma, Richard Helm & others</p>
+
+                                        <div class="reservation-meta">
+                                            <div>
+                                                <span>Requested</span>
+                                                <strong>18 Aug 2026</strong>
+                                            </div>
+
+                                            <div>
+                                                <span>Queue position</span>
+                                                <strong>1st</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="reservation-status">
+                                        <span class="status ready">
+                                            Ready for pickup
+                                        </span>
+                                        <p>Available now</p>
+                                    </div>
+
+                                    <a href="#" class="action-link">
+                                        View details
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+
+                                </article>
+
+
+                                <!-- WAITING -->
+                                <article class="reservation-card">
+
+                                    <div class="book-cover cover-two">
+                                        <i class="fa-solid fa-book-open"></i>
+                                        <span>02</span>
+                                    </div>
+
+                                    <div class="reservation-info">
+                                        <span class="category">SELF DEVELOPMENT</span>
+                                        <h3>Deep Work</h3>
+                                        <p>Cal Newport</p>
+
+                                        <div class="reservation-meta">
+                                            <div>
+                                                <span>Requested</span>
+                                                <strong>21 Aug 2026</strong>
+                                            </div>
+
+                                            <div>
+                                                <span>Queue position</span>
+                                                <strong>3rd</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="reservation-status">
+                                        <span class="status waiting">
+                                            Waiting
+                                        </span>
+                                        <p>1 person ahead</p>
+                                    </div>
+
+                                    <a href="#" class="action-link">
+                                        View details
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+
+                                </article>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- ================= HOW IT WORKS ================= -->
+                        <section class="how-panel">
+
+                            <div class="how-copy">
+                                <p class="eyebrow">HOW IT WORKS</p>
+                                <h2>From hold to your hands.</h2>
+                                <p>
+                                    When a requested book is returned, it moves
+                                    to the next student in the queue.
+                                </p>
+                            </div>
+
+                            <div class="steps">
+
+                                <div class="step">
+                                    <div class="step-number">01</div>
+                                    <div>
+                                        <h3>Place a hold</h3>
+                                        <p>Request a book that isn't currently available.</p>
+                                    </div>
+                                </div>
+
+                                <div class="step-line"></div>
+
+                                <div class="step">
+                                    <div class="step-number">02</div>
+                                    <div>
+                                        <h3>Wait your turn</h3>
+                                        <p>Your position is tracked automatically.</p>
+                                    </div>
+                                </div>
+
+                                <div class="step-line"></div>
+
+                                <div class="step">
+                                    <div class="step-number">03</div>
+                                    <div>
+                                        <h3>Pick it up</h3>
+                                        <p>Once available, the book is ready for you.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+
+                    <!-- ================= SIDEBAR ================= -->
+                    <aside class="reservation-sidebar">
+
+                        <section class="side-card summary-card">
+
+                            <p class="eyebrow">RESERVATION SUMMARY</p>
+                            <h2>Your holds</h2>
+
+                            <div class="summary-stat">
+                                <span>Active requests</span>
+                                <strong>02</strong>
+                            </div>
+
+                            <div class="summary-stat">
+                                <span>Ready for pickup</span>
+                                <strong>01</strong>
+                            </div>
+
+                            <div class="summary-stat">
+                                <span>Currently waiting</span>
+                                <strong>01</strong>
+                            </div>
+
+                        </section>
+
+
+                        <section class="side-card pickup-card">
+
+                            <div class="pickup-icon">
+                                <i class="fa-solid fa-bookmark"></i>
+                            </div>
+
+                            <p class="eyebrow">READY FOR PICKUP</p>
+
+                            <h2>Design Patterns</h2>
+
+                            <p>
+                                Your reserved copy is available.
+                                Pick it up before the hold expires.
+                            </p>
+
+                            <div class="pickup-deadline">
+                                <span>Hold expires</span>
+                                <strong>28 Aug 2026</strong>
+                            </div>
+
+                            <a href="#" class="light-button">
+                                View pickup details
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </section>
+
+                    </aside>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="student-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Keep your reading organized.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>

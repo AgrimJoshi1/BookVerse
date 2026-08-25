@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fines | BookVerse</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../styles/fines.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header class="site-header">
+        <nav class="navbar container">
+
+            <a href="student-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="student-dashboard.html">Dashboard</a>
+                <a href="browse-books.html">Browse Books</a>
+                <a href="my-books.html">My Books</a>
+                <a href="reservations.html">Reservations</a>
+                <a href="fines.html" class="active">Fines</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="#" class="notification-link" aria-label="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </a>
+
+                <a href="#" class="profile-mini">
+                    <span class="avatar">AS</span>
+                    <span>Alex</span>
+                </a>
+            </div>
+
+            <button class="menu-toggle" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </nav>
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+    <main>
+
+        <!-- ================= HERO ================= -->
+        <section class="fines-hero">
+            <div class="container">
+
+                <p class="eyebrow">FINES & PAYMENTS</p>
+
+                <div class="hero-heading-row">
+
+                    <div>
+                        <h1>
+                            Keep your account
+                            <span>clear and simple.</span>
+                        </h1>
+
+                        <p class="hero-description">
+                            View overdue charges, payment status, and your
+                            complete fine history.
+                        </p>
+                    </div>
+
+                    <div class="balance-card">
+                        <span>CURRENT BALANCE</span>
+                        <strong>₹20</strong>
+                        <small>1 unpaid fine</small>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= CONTENT ================= -->
+        <section class="fines-section">
+            <div class="container">
+
+                <!-- ================= SUMMARY ================= -->
+                <div class="summary-grid">
+
+                    <article class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </div>
+
+                        <div>
+                            <span>Total fines</span>
+                            <strong>₹20</strong>
+                        </div>
+                    </article>
+
+                    <article class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fa-regular fa-circle-check"></i>
+                        </div>
+
+                        <div>
+                            <span>Paid</span>
+                            <strong>₹0</strong>
+                        </div>
+                    </article>
+
+                    <article class="summary-card warning-card">
+                        <div class="summary-icon">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+
+                        <div>
+                            <span>Unpaid</span>
+                            <strong>₹20</strong>
+                        </div>
+                    </article>
+
+                    <article class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+
+                        <div>
+                            <span>Fine records</span>
+                            <strong>01</strong>
+                        </div>
+                    </article>
+
+                </div>
+
+
+                <div class="fines-layout">
+
+                    <!-- ================= MAIN PANEL ================= -->
+                    <div class="fines-main">
+
+                        <section class="fines-panel">
+
+                            <div class="panel-heading">
+                                <div>
+                                    <p class="eyebrow">CURRENT FINES</p>
+                                    <h2>Outstanding charges</h2>
+                                </div>
+
+                                <span class="panel-count">1 unpaid fine</span>
+                            </div>
+
+
+                            <article class="fine-card">
+
+                                <div class="fine-book">
+                                    <div class="book-cover">
+                                        <i class="fa-solid fa-book-open"></i>
+                                        <span>01</span>
+                                    </div>
+                                </div>
+
+                                <div class="fine-info">
+
+                                    <span class="category">COMPUTER SCIENCE</span>
+
+                                    <h3>Introduction to Algorithms</h3>
+
+                                    <p class="author">
+                                        Thomas H. Cormen
+                                    </p>
+
+                                    <div class="fine-details">
+
+                                        <div>
+                                            <span>Due date</span>
+                                            <strong>23 Aug 2026</strong>
+                                        </div>
+
+                                        <div>
+                                            <span>Days overdue</span>
+                                            <strong>2 days</strong>
+                                        </div>
+
+                                        <div>
+                                            <span>Fine rate</span>
+                                            <strong>₹10 / day</strong>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="fine-amount">
+                                    <span>AMOUNT DUE</span>
+                                    <strong>₹20</strong>
+                                    <small>Unpaid</small>
+                                </div>
+
+                            </article>
+
+
+                            <div class="fine-notice">
+                                <i class="fa-solid fa-circle-info"></i>
+
+                                <p>
+                                    Return the overdue book as soon as possible.
+                                    Additional charges may apply for each extra
+                                    overdue day.
+                                </p>
+                            </div>
+
+                        </section>
+
+
+                        <!-- ================= HISTORY ================= -->
+                        <section class="history-panel">
+
+                            <div class="panel-heading">
+                                <div>
+                                    <p class="eyebrow">FINE HISTORY</p>
+                                    <h2>Previous charges</h2>
+                                </div>
+
+                                <span class="panel-count">All records</span>
+                            </div>
+
+
+                            <div class="history-table">
+
+                                <div class="history-header">
+                                    <span>Book</span>
+                                    <span>Reason</span>
+                                    <span>Date</span>
+                                    <span>Amount</span>
+                                    <span>Status</span>
+                                </div>
+
+
+                                <div class="history-row">
+
+                                    <div class="history-book">
+                                        <div class="mini-book">
+                                            <i class="fa-solid fa-book"></i>
+                                        </div>
+
+                                        <div>
+                                            <strong>Introduction to Algorithms</strong>
+                                            <small>Thomas H. Cormen</small>
+                                        </div>
+                                    </div>
+
+                                    <span>Overdue</span>
+                                    <span>23 Aug 2026</span>
+                                    <strong>₹20</strong>
+
+                                    <span class="history-status unpaid">
+                                        Unpaid
+                                    </span>
+
+                                </div>
+
+
+                                <div class="history-empty">
+                                    <i class="fa-regular fa-circle-check"></i>
+                                    <span>No other fine records.</span>
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+
+                    <!-- ================= SIDEBAR ================= -->
+                    <aside class="fines-sidebar">
+
+                        <section class="side-card payment-card">
+
+                            <div class="payment-icon">
+                                <i class="fa-solid fa-receipt"></i>
+                            </div>
+
+                            <p class="eyebrow">CURRENT BALANCE</p>
+
+                            <h2>₹20</h2>
+
+                            <p>
+                                You currently have one unpaid fine
+                                on your account.
+                            </p>
+
+                            <div class="payment-line">
+                                <span>Outstanding</span>
+                                <strong>₹20</strong>
+                            </div>
+
+                            <button class="payment-button" type="button">
+                                Pay fine
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+
+                            <small class="payment-note">
+                                Payment UI only. No transaction is processed.
+                            </small>
+
+                        </section>
+
+
+                        <section class="side-card policy-card">
+
+                            <p class="eyebrow">FINE POLICY</p>
+
+                            <h2>How fines work</h2>
+
+                            <div class="policy-item">
+                                <span>01</span>
+                                <p>₹10 is charged for each overdue day.</p>
+                            </div>
+
+                            <div class="policy-item">
+                                <span>02</span>
+                                <p>Charges continue until the book is returned.</p>
+                            </div>
+
+                            <div class="policy-item">
+                                <span>03</span>
+                                <p>Returning books on time keeps your balance clear.</p>
+                            </div>
+
+                        </section>
+
+                    </aside>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+
+            <a href="student-dashboard.html" class="brand">
+                <i class="fa-solid fa-book-open"></i>
+                <span>BookVerse</span>
+            </a>
+
+            <p>Keep your reading organized.</p>
+
+            <span class="footer-copy">© 2026 BookVerse</span>
+
+        </div>
+    </footer>
+
+</body>
+</html>
