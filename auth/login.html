@@ -207,7 +207,7 @@
 
 
             <!-- ================= FORM ================= -->
-            <form>
+            <form id="loginForm">
 
                 <label>
 
@@ -220,7 +220,8 @@
                         <i class="fa-regular fa-envelope"></i>
 
                         <input
-                            type="email"
+                            type="text"
+                            id="emailInput"
                             placeholder="you@example.com"
                             required>
 
@@ -249,6 +250,7 @@
 
                         <input
                             type="password"
+                            id="passwordInput"
                             placeholder="Enter your password"
                             required>
 
@@ -309,6 +311,66 @@
         </section>
 
     </main>
+
+    <!-- ================= ROLE LOGIN BEHAVIOR ================= -->
+    <script>
+        (function () {
+            const roleStudent  = document.getElementById("role-student");
+            const roleTeacher  = document.getElementById("role-teacher");
+            const roleAdmin    = document.getElementById("role-admin");
+            const emailInput   = document.getElementById("emailInput");
+            const passwordInput = document.getElementById("passwordInput");
+            const loginForm    = document.getElementById("loginForm");
+
+            // Demo credentials per role. Only student is wired up for now.
+            const DEMO_CREDENTIALS = {
+                student: { email: "student@demo", password: "student123", redirect: "../student/student-dashboard.html" }
+            };
+
+            function applyPrefill() {
+                if (roleStudent.checked) {
+                    emailInput.value = DEMO_CREDENTIALS.student.email;
+                    passwordInput.value = DEMO_CREDENTIALS.student.password;
+                } else {
+                    // Teacher / Admin have no demo creds yet, so leave fields blank.
+                    emailInput.value = "";
+                    passwordInput.value = "";
+                }
+            }
+
+            // Prefill on initial load (Student is checked by default) and whenever the role changes.
+            [roleStudent, roleTeacher, roleAdmin].forEach(function (radio) {
+                radio.addEventListener("change", applyPrefill);
+            });
+            applyPrefill();
+
+            // Handle login submit
+            loginForm.addEventListener("submit", function (event) {
+                if (roleStudent.checked) {
+                    event.preventDefault();
+                    window.location.href = DEMO_CREDENTIALS.student.redirect;
+                }
+                // Teacher / Admin: no routing defined yet, so the form behaves normally.
+            });
+        })();
+
+        const passwordIcon = document.querySelector(".password-icon");
+
+        passwordIcon.addEventListener("click", function () {
+        const isPassword = passwordInput.type === "password";
+
+        passwordInput.type = isPassword ? "text" : "password";
+
+        this.innerHTML = isPassword
+            ? '<i class="fa-regular fa-eye-slash"></i>'
+            : '<i class="fa-regular fa-eye"></i>';
+
+        this.setAttribute(
+            "aria-label",
+            isPassword ? "Hide password" : "Show password"
+        );
+    });
+    </script>
 
 </body>
 </html>

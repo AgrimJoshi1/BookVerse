@@ -110,15 +110,16 @@ h3 {
     color: #f5f1eb;
 }
 
+/* FIXED TO MATCH BROWSE BOOKS */
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 23px;
+    gap: 26px;
 }
 
 .nav-links a {
     color: rgba(255, 255, 255, 0.68);
-    font-size: 0.74rem;
+    font-size: 0.78rem;
     font-weight: 500;
     transition: color 0.2s ease;
 }
@@ -160,6 +161,44 @@ h3 {
     gap: 8px;
     color: #e8ddd4;
     font-size: 0.72rem;
+}
+
+.profile-name {
+    color: #e8ddd4;
+    font-size: 0.72rem;
+    font-weight: 500;
+}
+
+.profile-mini > i {
+    margin-left: 2px;
+    color: #8f8177;
+    font-size: 0.58rem;
+}
+
+.logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 35px;
+    padding: 0 14px;
+    border: 1px solid rgba(214, 194, 170, 0.16);
+    border-radius: 9px;
+    background: rgba(184, 155, 122, 0.08);
+    color: #d7c5b4;
+    font-size: 0.68rem;
+    font-weight: 500;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.logout-btn:hover {
+    border-color: rgba(214, 194, 170, 0.3);
+    background: rgba(184, 155, 122, 0.16);
+    color: #f6efe6;
+}
+
+.logout-btn i {
+    color: #c9ae91;
+    font-size: 0.62rem;
 }
 
 .avatar {
@@ -795,7 +834,7 @@ h3 {
 @media (max-width: 1050px) {
 
     .nav-links {
-        gap: 15px;
+        gap: 16px;
     }
 
     .summary-grid {
