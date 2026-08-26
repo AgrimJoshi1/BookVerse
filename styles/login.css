@@ -133,7 +133,7 @@ input {
     position: absolute;
     inset: -10px;
 
-    background-image: url("../images/img1.jpg");
+    background-image: url("../assets/img1.jpg");
     background-size: cover;
     background-position: center;
 
