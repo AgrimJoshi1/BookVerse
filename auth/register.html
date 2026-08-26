@@ -3,102 +3,377 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Create Account | BookVerse</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Register | BookVerse</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        referrerpolicy="no-referrer">
 
-    <link rel="stylesheet" href="/styles/register.css">
+    <!-- CSS -->
+    <link rel="stylesheet"
+        href="/styles/register.css">
+
 </head>
+
 
 <body>
 
-    <!-- Background Video -->
-    <video class="background-video" autoplay muted loop playsinline>
-        <source src="images/vid.mp4" type="video/mp4">
+    <!-- ================= BACKGROUND ================= -->
+
+    <video class="background-video"
+        autoplay
+        muted
+        loop
+        playsinline>
+
+        <source
+            src="../assets/vid.mp4"
+            type="video/mp4">
+
     </video>
 
     <div class="video-overlay"></div>
 
 
+    <!-- ================= REGISTER PAGE ================= -->
+
     <main class="register-page">
 
         <section class="register-card">
 
-            <!-- Brand -->
-            <a href="index.html" class="brand">
-                <i class="fa-solid fa-book-open-reader"></i>
-                <span>BookVerse</span>
-            </a>
+
+            <!-- ================= ROLE RADIOS ================= -->
+
+            <input
+                type="radio"
+                name="role"
+                id="role-student"
+                class="role-radio"
+                checked>
+
+            <input
+                type="radio"
+                name="role"
+                id="role-teacher"
+                class="role-radio">
+
+            <input
+                type="radio"
+                name="role"
+                id="role-admin"
+                class="role-radio">
 
 
-            <!-- Heading -->
+            <!-- ================= TOP ================= -->
+
+            <div class="register-top">
+
+                <a href="index.html"
+                    class="brand">
+
+                    <span class="brand-icon">
+
+                        <i class="fa-solid fa-book-open-reader"></i>
+
+                    </span>
+
+                    <span>BookVerse</span>
+
+                </a>
+
+
+                <div class="secure-label">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    Create Your Library Account
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= HEADING ================= -->
+
             <div class="form-heading">
 
                 <p class="small-title">
+
                     <i class="fa-solid fa-sparkles"></i>
-                    JOIN THE LIBRARY
+
+                    JOIN BOOKVERSE
+
                 </p>
 
-                <h1>Create your account</h1>
+
+                <h1>Create your library account.</h1>
+
 
                 <p>
-                    Start organizing your library with a simpler,
-                    calmer way to manage everything.
+
+                    Choose your account type and enter your details
+                    to start your journey with BookVerse.
+
                 </p>
 
             </div>
 
 
-            <!-- Form -->
-            <form>
+            <!-- ================= ROLE SELECTOR ================= -->
 
-                <!-- First + Last Name -->
-                <div class="input-row">
+            <div class="role-section">
 
-                    <label>
-                        First name
+                <label class="section-label">
 
-                        <div class="input-box">
-                            <i class="fa-regular fa-user"></i>
+                    SELECT YOUR ROLE
 
-                            <input
-                                type="text"
-                                placeholder="First name"
-                                required>
-                        </div>
+                </label>
+
+
+                <div class="role-grid">
+
+
+                    <!-- STUDENT -->
+
+                    <label
+                        for="role-student"
+                        class="role-card">
+
+                        <span class="role-icon">
+
+                            <i class="fa-solid fa-user-graduate"></i>
+
+                        </span>
+
+                        <span class="role-name">
+
+                            Student
+
+                        </span>
+
+                        <span class="role-description">
+
+                            Borrow & read
+
+                        </span>
+
                     </label>
 
 
-                    <label>
-                        Last name
+                    <!-- TEACHER -->
 
-                        <div class="input-box">
-                            <i class="fa-regular fa-user"></i>
+                    <label
+                        for="role-teacher"
+                        class="role-card">
 
-                            <input
-                                type="text"
-                                placeholder="Last name"
-                                required>
-                        </div>
+                        <span class="role-icon">
+
+                            <i class="fa-solid fa-chalkboard-user"></i>
+
+                        </span>
+
+                        <span class="role-name">
+
+                            Teacher
+
+                        </span>
+
+                        <span class="role-description">
+
+                            Faculty access
+
+                        </span>
+
+                    </label>
+
+
+                    <!-- ADMIN -->
+
+                    <label
+                        for="role-admin"
+                        class="role-card">
+
+                        <span class="role-icon">
+
+                            <i class="fa-solid fa-user-shield"></i>
+
+                        </span>
+
+                        <span class="role-name">
+
+                            Admin
+
+                        </span>
+
+                        <span class="role-description">
+
+                            Manage library
+
+                        </span>
+
                     </label>
 
                 </div>
 
+            </div>
 
-                <!-- Email -->
+
+            <!-- ================= ROLE INFO ================= -->
+
+            <div class="role-info role-info-student">
+
+                <div class="role-info-icon">
+
+                    <i class="fa-solid fa-user-graduate"></i>
+
+                </div>
+
+
+                <div class="role-info-copy">
+
+                    <span>Student Account</span>
+
+                    <p>
+
+                        Create your account to borrow books,
+                        manage reservations, and explore BookVerse.
+
+                    </p>
+
+                </div>
+
+
+                <span class="platform-name">
+
+                    BookVerse Library
+
+                </span>
+
+            </div>
+
+
+            <div class="role-info role-info-teacher">
+
+                <div class="role-info-icon">
+
+                    <i class="fa-solid fa-chalkboard-user"></i>
+
+                </div>
+
+
+                <div class="role-info-copy">
+
+                    <span>Teacher Account</span>
+
+                    <p>
+
+                        Create your faculty account and manage
+                        reading lists and library resources.
+
+                    </p>
+
+                </div>
+
+
+                <span class="platform-name">
+
+                    BookVerse Library
+
+                </span>
+
+            </div>
+
+
+            <div class="role-info role-info-admin">
+
+                <div class="role-info-icon">
+
+                    <i class="fa-solid fa-user-shield"></i>
+
+                </div>
+
+
+                <div class="role-info-copy">
+
+                    <span>Admin Account</span>
+
+                    <p>
+
+                        Create an administrator account to manage
+                        users, books, and library operations.
+
+                    </p>
+
+                </div>
+
+
+                <span class="platform-name">
+
+                    BookVerse Library
+
+                </span>
+
+            </div>
+
+
+            <!-- ================= REGISTER FORM ================= -->
+
+            <form action="/submit" method="post">
+
+
+                <!-- FULL NAME -->
+
                 <label>
-                    Email address
+
+                    <span class="field-label">
+
+                        FULL NAME
+
+                    </span>
+
+
+                    <div class="input-box">
+
+                        <i class="fa-regular fa-user"></i>
+
+                        <input
+                            type="text"
+                            placeholder="Enter your full name"
+                            required>
+
+                    </div>
+
+                </label>
+
+
+                <!-- EMAIL -->
+
+                <label>
+
+                    <span class="field-label">
+
+                        EMAIL ADDRESS
+
+                    </span>
+
 
                     <div class="input-box">
 
@@ -110,80 +385,162 @@
                             required>
 
                     </div>
+
                 </label>
 
 
-                <!-- Password -->
+                <!-- USER ID -->
+
                 <label>
-                    Create password
 
-                    <div class="input-box">
+                    <span class="field-label">
 
-                        <i class="fa-solid fa-lock"></i>
+                        USER ID
 
-                        <input
-                            type="password"
-                            placeholder="Create a strong password"
-                            required>
-
-                    </div>
-                </label>
-
-
-                <!-- Confirm Password -->
-                <label>
-                    Confirm password
-
-                    <div class="input-box">
-
-                        <i class="fa-solid fa-shield-halved"></i>
-
-                        <input
-                            type="password"
-                            placeholder="Enter your password again"
-                            required>
-
-                    </div>
-                </label>
-
-
-                <!-- Terms -->
-                <label class="terms">
-
-                    <input type="checkbox" required>
-
-                    <span>
-                        I agree to the
-                        <a href="#">Terms of Service</a>
-                        and
-                        <a href="#">Privacy Policy</a>.
                     </span>
 
+
+                    <div class="input-box">
+
+                        <i class="fa-regular fa-id-card"></i>
+
+                        <input
+                            type="text"
+                            placeholder="Choose your user ID"
+                            required>
+
+                    </div>
+
                 </label>
 
 
-                <!-- Create Account Button -->
-                <button type="submit" class="register-button">
+                <!-- PASSWORD ROW -->
 
-                    Create account
+                <div class="password-row">
+
+
+                    <!-- PASSWORD -->
+
+                    <label>
+
+                        <span class="field-label">
+
+                            PASSWORD
+
+                        </span>
+
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                placeholder="Create password"
+                                required>
+
+                        </div>
+
+                    </label>
+
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <label>
+
+                        <span class="field-label">
+
+                            CONFIRM PASSWORD
+
+                        </span>
+
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+                                type="password"
+                                placeholder="Confirm password"
+                                required>
+
+                        </div>
+
+                    </label>
+
+                </div>
+
+
+                <!-- TERMS -->
+
+                <div class="form-options">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            required>
+
+                        <span>
+
+                            I agree to the Terms & Conditions
+
+                        </span>
+
+                    </label>
+
+
+                    <span class="login-note">
+
+                        Secure account registration
+
+                    </span>
+
+                </div>
+
+
+                <!-- REGISTER BUTTON -->
+
+                <a href="/index.html" class="register-button">
+
+                    <span>Create My Account</span>
 
                     <i class="fa-solid fa-arrow-right"></i>
 
-                </button>
+                </a>
+
+
+                <!-- LOGIN LINK -->
+
+                <p class="signin-text">
+
+                    Already have an account?
+
+                    <a href="login.html">
+
+                        Sign in
+
+                    </a>
+
+                </p>
 
             </form>
 
 
-            <!-- Login -->
-            <p class="login-text">
+            <!-- ================= SECURITY NOTE ================= -->
 
-                Already have an account?
+            <div class="security-note">
 
-                <a href="login.html">
-                    Login here
-                </a>
+                <i class="fa-solid fa-lock"></i>
 
-            </p>
+                <span>
+
+                    Your information is protected by secure
+                    BookVerse access controls.
+
+                </span>
+
+            </div>
 
         </section>
 
