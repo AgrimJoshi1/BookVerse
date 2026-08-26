@@ -179,7 +179,7 @@ button {
         rgba(25, 15, 10, 0.65),
         rgba(25, 15, 10, 0.75)
     ),
-    url("images/nav.png");
+    url("../assets/nav.png");
 
 background-size: cover;
 background-position: center;
@@ -341,7 +341,7 @@ background-position: center;
             rgba(10, 6, 4, 0.65),
             rgba(10, 6, 4, 0.85)
         ),
-        url("images/hero.png");
+        url("../assets/hero.png");
 
     background-size: cover;
     background-position: center;
@@ -699,7 +699,7 @@ background-position: center;
             rgba(10, 6, 4, 0.15),
             rgba(10, 6, 4, 0.6)
         ),
-        url("images/lib2.jpg");
+        url("../assets/lib2.jpg");
 
     background-size: cover;
     background-position: center;
@@ -827,7 +827,7 @@ background-position: center;
             rgba(10, 6, 4, 0.78),
             rgba(10, 6, 4, 0.88)
         ),
-        url("images/cat.jpg");
+        url("../assets/cat.jpg");
 
     background-size: cover;
     background-position: center;
