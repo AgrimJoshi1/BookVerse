@@ -3,7 +3,7 @@ import MenuToggle from '../components/MenuToggle';
 import PageStyles from '../components/PageStyles';
 import useMobileMenu from '../components/useMobileMenu';
 
-// Shared shell for the student, teacher and admin areas: top navbar, the page
+// Shared shell for the student, librarian and admin areas: top navbar, the page
 // (via <Outlet />), and a footer. `css` is stylesheet shared by every page of
 // the role, if the role has one.
 export default function RoleLayout({ css, home, brandSuffix, links, profile, footerText }) {

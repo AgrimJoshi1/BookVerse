@@ -1,228 +1,192 @@
-import PageStyles from '../../components/PageStyles';
-import css from '../../styles/admin-transactions.css?inline';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import LedgerTable from '../../components/admin/LedgerTable';
+import Notice from '../../components/admin/Notice';
+import PageHeader from '../../components/admin/PageHeader';
+import Pager from '../../components/admin/Pager';
+import ReturnDialog from '../../components/admin/ReturnDialog';
+import StatusDot from '../../components/admin/StatusDot';
+import usePaging from '../../components/admin/usePaging';
+import { buildTransactions, formatDate, rupees, useLibrary } from '../../context/LibraryContext';
+import { downloadCsv } from '../../utils/csv';
+
+const PAGE_SIZE = 12;
+const FILTERS = [
+  ['all', 'All'],
+  ['issued', 'Issued'],
+  ['overdue', 'Overdue'],
+  ['returned', 'Returned'],
+];
+const STATUS = {
+  issued: { tone: 'good', label: 'Issued' },
+  overdue: { tone: 'bad', label: 'Overdue' },
+  returned: { tone: 'neutral', label: 'Returned' },
+};
 
 export default function Transactions() {
+  const { state, getBook, getStudent, sendReminder } = useLibrary();
+  const [params, setParams] = useSearchParams();
+
+  const [query, setQuery] = useState('');
+  const [returning, setReturning] = useState(null);
+  const [notice, setNotice] = useState('');
+
+  const rows = buildTransactions(state);
+  const filter = FILTERS.some(([value]) => value === params.get('status')) ? params.get('status') : 'all';
+  const count = (value) => (value === 'all' ? rows.length : rows.filter((r) => r.status === value).length);
+
+  const needle = query.trim().toLowerCase();
+  const filtered = rows.filter(
+    (r) =>
+      (filter === 'all' || r.status === filter) &&
+      (!needle ||
+        [getStudent(r.studentId).name, r.studentId, getBook(r.bookId).title].some((t) =>
+          t.toLowerCase().includes(needle),
+        )),
+  );
+  const paging = usePaging(filtered, PAGE_SIZE, `${needle}|${filter}`);
+
+  const columns = [
+    {
+      key: 'member',
+      label: 'Member',
+      title: true,
+      render: (r) => (
+        <>
+          <strong>{getStudent(r.studentId).name}</strong>
+          <small className="mono">{r.studentId}</small>
+        </>
+      ),
+    },
+    { key: 'book', label: 'Book', render: (r) => getBook(r.bookId).title },
+    { key: 'issued', label: 'Issued', render: (r) => formatDate(r.issuedOn) },
+    { key: 'due', label: 'Due', render: (r) => formatDate(r.dueOn) },
+    { key: 'returned', label: 'Returned', render: (r) => (r.returnedOn ? formatDate(r.returnedOn) : '—') },
+    { key: 'fine', label: 'Fine', num: true, render: (r) => (r.fine ? rupees(r.fine) : '—') },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (r) => <StatusDot tone={STATUS[r.status].tone}>{STATUS[r.status].label}</StatusDot>,
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      actions: true,
+      render: (r) =>
+        r.loanId && (
+          <>
+            {r.status === 'overdue' && (
+              <button
+                type="button"
+                className="btn btn-sm"
+                disabled={Boolean(r.remindedOn)}
+                onClick={() => sendReminder(r.loanId)}
+              >
+                {r.remindedOn ? 'Reminded' : 'Remind'}
+              </button>
+            )}
+            <button
+              type="button"
+              className="btn btn-sm"
+              aria-label={`Return ${getBook(r.bookId).title} from ${getStudent(r.studentId).name}`}
+              onClick={() => setReturning(state.loans.find((l) => l.id === r.loanId))}
+            >
+              Return
+            </button>
+          </>
+        ),
+    },
+  ];
+
+  function exportCsv() {
+    downloadCsv(
+      `transactions-${filter}.csv`,
+      [
+        { label: 'Member ID', value: (r) => r.studentId },
+        { label: 'Member', value: (r) => getStudent(r.studentId).name },
+        { label: 'Book', value: (r) => getBook(r.bookId).title },
+        { label: 'Issued', value: (r) => r.issuedOn },
+        { label: 'Due', value: (r) => r.dueOn },
+        { label: 'Returned', value: (r) => r.returnedOn ?? '' },
+        { label: 'Fine', value: (r) => r.fine },
+        { label: 'Status', value: (r) => STATUS[r.status].label },
+      ],
+      filtered,
+    );
+  }
+
   return (
     <>
       <title>Transactions | BookVerse Admin</title>
-      <meta name="description" content="Library-wide transaction history in BookVerse." />
-      <PageStyles css={css} />
-      <main>
-        {/* HERO */}
-        <section className="page-hero">
-          <div className="container">
-            <p className="eyebrow">TRANSACTIONS</p>
-            <h1>
-              Every issue <span>&amp; return, library-wide.</span>
-            </h1>
-            <p className="hero-description">
-              The complete borrowing history across every class, member, and staff account — not
-              just one teacher's roster.
-            </p>
-            <div className="search-box" style={{ maxWidth: '560px', marginTop: '24px' }}>
-              <i className="fa-solid fa-magnifying-glass" />{' '}
-              <input type="text" placeholder="Search by member, staff, or book" />{' '}
-              <button type="button">Search</button>
-            </div>
-          </div>
-        </section>
-        {/* CONTENT */}
-        <section className="page-section">
-          <div className="container">
-            <div className="filter-row">
-              <span>Filter</span>{' '}
-              <button className="filter-button active-filter">All transactions</button>{' '}
-              <button className="filter-button">Issued</button>{' '}
-              <button className="filter-button">Returned</button>{' '}
-              <button className="filter-button">Overdue</button>
-            </div>
-            <section className="page-block">
-              <div className="panel-heading">
-                <div>
-                  <p className="eyebrow">HISTORY</p>
-                  <h2>All transactions</h2>
-                </div>
-                <span className="panel-count">8,246 records</span>
-              </div>
-              <div className="data-table">
-                <div
-                  className="table-head"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(140px,1.2fr) minmax(150px,1.3fr) 0.6fr 0.8fr 0.8fr 0.8fr 0.55fr 0.8fr auto',
-                  }}
-                >
-                  <span>Member / Staff</span> <span>Book</span> <span>Type</span>{' '}
-                  <span>Issue date</span> <span>Due date</span> <span>Return date</span>{' '}
-                  <span>Fine</span> <span>Status</span> <span />
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(140px,1.2fr) minmax(150px,1.3fr) 0.6fr 0.8fr 0.8fr 0.8fr 0.55fr 0.8fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">RM</div>
-                    <div>
-                      <strong>Rohan Mehta</strong>
-                    </div>
-                  </div>
-                  <span>Clean Code</span> <span>Issue</span> <span>14 Aug 2026</span>{' '}
-                  <span>28 Aug 2026</span> <span>-</span> <span>₹0</span>{' '}
-                  <span className="badge badge-good">On time</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(140px,1.2fr) minmax(150px,1.3fr) 0.6fr 0.8fr 0.8fr 0.8fr 0.55fr 0.8fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">PN</div>
-                    <div>
-                      <strong>Priya Nair</strong>
-                    </div>
-                  </div>
-                  <span>Design Patterns</span> <span>Issue</span> <span>20 Aug 2026</span>{' '}
-                  <span>03 Sep 2026</span> <span>-</span> <span>₹0</span>{' '}
-                  <span className="badge badge-good">On time</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(140px,1.2fr) minmax(150px,1.3fr) 0.6fr 0.8fr 0.8fr 0.8fr 0.55fr 0.8fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">AR</div>
-                    <div>
-                      <strong>Aditya Rao</strong>
-                    </div>
-                  </div>
-                  <span>Introduction to Algorithms</span> <span>Issue</span>{' '}
-                  <span>09 Aug 2026</span> <span>23 Aug 2026</span> <span>-</span> <span>₹30</span>{' '}
-                  <span className="badge badge-bad">Overdue</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(140px,1.2fr) minmax(150px,1.3fr) 0.6fr 0.8fr 0.8fr 0.8fr 0.55fr 0.8fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">MI</div>
-                    <div>
-                      <strong>Meera Iyer</strong>
-                    </div>
-                  </div>
-                  <span>Deep Work</span> <span>Return</span> <span>05 Aug 2026</span>{' '}
-                  <span>19 Aug 2026</span> <span>22 Aug 2026</span> <span>₹30</span>{' '}
-                  <span className="badge badge-good">Completed</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(140px,1.2fr) minmax(150px,1.3fr) 0.6fr 0.8fr 0.8fr 0.8fr 0.55fr 0.8fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">KJ</div>
-                    <div>
-                      <strong>Karan Joshi</strong>
-                    </div>
-                  </div>
-                  <span>The Midnight Library</span> <span>Issue</span> <span>02 Aug 2026</span>{' '}
-                  <span>16 Aug 2026</span> <span>-</span> <span>₹0</span>{' '}
-                  <span className="badge badge-good">On time</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(140px,1.2fr) minmax(150px,1.3fr) 0.6fr 0.8fr 0.8fr 0.8fr 0.55fr 0.8fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">AD</div>
-                    <div>
-                      <strong>Ananya Das</strong>
-                    </div>
-                  </div>
-                  <span>The Pragmatic Programmer</span> <span>Issue</span> <span>01 Aug 2026</span>{' '}
-                  <span>15 Aug 2026</span> <span>-</span> <span>₹110</span>{' '}
-                  <span className="badge badge-bad">Overdue</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(140px,1.2fr) minmax(150px,1.3fr) 0.6fr 0.8fr 0.8fr 0.8fr 0.55fr 0.8fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">RS</div>
-                    <div>
-                      <strong>Riya Sinha</strong>
-                    </div>
-                  </div>
-                  <span>Python Crash Course</span> <span>Return</span> <span>02 Aug 2026</span>{' '}
-                  <span>16 Aug 2026</span> <span>15 Aug 2026</span> <span>₹0</span>{' '}
-                  <span className="badge badge-good">Completed</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-              </div>
-              <div
-                className="pagination-row"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  marginTop: '22px',
-                }}
+      <meta name="description" content="Every issue and return across the library." />
+      <main className="ad-main">
+        <PageHeader
+          title="Transactions"
+          meta={
+            <>
+              <span className="mono">{count('issued') + count('overdue')}</span> on loan ·{' '}
+              <span className="mono">{count('returned')}</span> returned
+            </>
+          }
+        >
+          <button type="button" className="btn" onClick={exportCsv}>
+            Export CSV
+          </button>
+        </PageHeader>
+
+        {notice && <Notice onClose={() => setNotice('')}>{notice}</Notice>}
+
+        <div className="ad-toolbar">
+          <input
+            type="search"
+            className="ad-input"
+            placeholder="Search member, ID or book"
+            aria-label="Search transactions"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+          <div className="ad-tabs">
+            {FILTERS.map(([value, label]) => (
+              <button
+                type="button"
+                key={value}
+                className={`ad-tab${filter === value ? ' on' : ''}`}
+                onClick={() => setParams(value === 'all' ? {} : { status: value })}
               >
-                <button className="filter-button" disabled>
-                  <i className="fa-solid fa-arrow-left" />
-                </button>{' '}
-                <button className="filter-button active-filter">1</button>{' '}
-                <button className="filter-button">2</button>{' '}
-                <button className="filter-button">3</button>{' '}
-                <span style={{ color: '#6f645d', fontSize: '0.65rem' }}>...</span>{' '}
-                <button className="filter-button">824</button>{' '}
-                <button className="filter-button">
-                  <i className="fa-solid fa-arrow-right" />
-                </button>
-              </div>
-            </section>
+                {label}
+                <span className="mono">{count(value)}</span>
+              </button>
+            ))}
           </div>
-        </section>
+        </div>
+
+        <LedgerTable
+          columns={columns}
+          rows={paging.rows}
+          rowKey={(r) => r.key}
+          empty={
+            <>
+              <strong>No transactions match.</strong>
+              Try a different search or filter.
+            </>
+          }
+        />
+        <Pager {...paging} onPage={paging.setPage} />
       </main>
+
+      {returning && (
+        <ReturnDialog
+          loan={returning}
+          onClose={(done) => {
+            setReturning(null);
+            if (done) {
+              setNotice(
+                `Returned “${done.book}” from ${done.member}${done.fine ? ` with a fine of ${rupees(done.fine)}` : ''}.`,
+              );
+            }
+          }}
+        />
+      )}
     </>
   );
 }

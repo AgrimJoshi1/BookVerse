@@ -1,340 +1,244 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import PageStyles from '../../components/PageStyles';
-import css from '../../styles/admin-dashboard.css?inline';
+import PageHeader from '../../components/admin/PageHeader';
+import {
+  accruingTotal,
+  daysUntil,
+  formatDate,
+  loanStatus,
+  monthDay,
+  pad,
+  plural,
+  rupees,
+  useLibrary,
+} from '../../context/LibraryContext';
+import { today } from '../../api/engine';
+
+const SHOWN = 12;
 
 export default function Dashboard() {
+  const { state, books, students, staff, activity, getBook, getStudent, sendReminder, approveMember, settings, unreadMessages } =
+    useLibrary();
+  const [showAll, setShowAll] = useState(false);
+
+  const copies = books.reduce((sum, book) => sum + book.copies, 0);
+  const overdue = state.loans.filter((loan) => daysUntil(loan.dueOn) < 0);
+  const total = (status) =>
+    state.fines.filter((f) => f.status === status).reduce((sum, f) => sum + f.amount, 0);
+  const pendingMembers = students.filter((s) => s.status === 'pending');
+  const unpaid = state.fines.filter((f) => f.status === 'due');
+  const expiring = state.reservations.filter(
+    (r) => r.status === 'ready' && daysUntil(r.expiresOn) <= 2,
+  );
+
+  const figures = [
+    { label: 'Titles', value: pad(books.length) },
+    { label: 'Copies owned', value: copies },
+    { label: 'Members', value: students.length },
+    { label: 'Active staff', value: staff.filter((m) => m.status === 'active').length },
+    { label: 'On loan now', value: pad(state.loans.length) },
+    { label: 'Overdue', value: pad(overdue.length), bad: overdue.length > 0 },
+    { label: 'Fines collected', value: rupees(total('paid')) },
+    {
+      label: 'Fines outstanding',
+      value: rupees(total('due')),
+      bad: total('due') > 0,
+      note: accruingTotal(state) > 0 ? `+ ${rupees(accruingTotal(state))} accruing` : '',
+    },
+  ];
+
+  const entries = showAll ? activity : activity.slice(0, SHOWN);
+
   return (
     <>
-      <title>Admin Dashboard | BookVerse</title>
-      <meta name="description" content="BookVerse administrator dashboard." />
-      <PageStyles css={css} />
-      <main>
-        {/* HERO */}
-        <section className="page-hero">
-          <div className="container">
-            <div className="hero-heading-row">
-              <div>
-                <p className="eyebrow">ADMINISTRATOR DASHBOARD</p>
-                <h1>
-                  Welcome back, <span>Sunita.</span>
-                </h1>
-                <p className="hero-description">
-                  A library-wide view of books, members, staff, and everything moving through
-                  BookVerse today.
-                </p>
-              </div>
-              <div className="hero-side-card">
-                <span>ADMIN ID</span> <strong>BV2026ADM002</strong>
-              </div>
+      <title>Dashboard | BookVerse Admin</title>
+      <meta name="description" content="Library-wide overview for BookVerse administrators." />
+      <main className="ad-main">
+        <PageHeader
+          title="Dashboard"
+          meta={
+            <>
+              {settings.library.name} · <span className="mono">{formatDate(today())}</span>
+            </>
+          }
+        >
+          <Link to="/admin/add-book" className="btn btn-primary">
+            Add book
+          </Link>
+          <Link to="/admin/reports" className="btn">
+            Reports
+          </Link>
+        </PageHeader>
+
+        <section className="figures" aria-label="Library totals">
+          {figures.map((figure) => (
+            <div className={`figure${figure.bad ? ' bad' : ''}`} key={figure.label}>
+              <span>{figure.label}</span>
+              <strong>{figure.value}</strong>
+              {figure.note && <small>{figure.note}</small>}
             </div>
-            {/* QUICK STATS */}
-            <div className="stats-grid">
-              <article className="stat-card">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-layer-group" />
-                </div>
-                <div>
-                  <span>Total books</span> <strong>2,480</strong>
-                </div>
-              </article>
-              <article className="stat-card">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-users" />
-                </div>
-                <div>
-                  <span>Total members</span> <strong>612</strong>
-                </div>
-              </article>
-              <article className="stat-card">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-user-tie" />
-                </div>
-                <div>
-                  <span>Total staff</span> <strong>24</strong>
-                </div>
-              </article>
-              <article className="stat-card">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-right-to-bracket" />
-                </div>
-                <div>
-                  <span>Active loans</span> <strong>318</strong>
-                </div>
-              </article>
-              <article className="stat-card stat-card-warning">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-clock" />
-                </div>
-                <div>
-                  <span>Overdue books</span> <strong>37</strong>
-                </div>
-              </article>
-              <article className="stat-card">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-indian-rupee-sign" />
-                </div>
-                <div>
-                  <span>Fines collected</span> <strong>₹18,420</strong>
-                </div>
-              </article>
-              <article className="stat-card stat-card-warning">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-hourglass-half" />
-                </div>
-                <div>
-                  <span>Fines outstanding</span> <strong>₹4,760</strong>
-                </div>
-              </article>
-              <article className="stat-card">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-chart-line" />
-                </div>
-                <div>
-                  <span>Circulation this month</span> <strong>1,042</strong>
-                </div>
-              </article>
-            </div>
-          </div>
+          ))}
         </section>
-        {/* CONTENT */}
-        <section className="page-section">
-          <div className="container page-grid">
-            {/* LEFT COLUMN */}
-            <div className="page-main">
-              {/* QUICK ACTIONS */}
-              <section className="page-block">
-                <div className="block-heading">
-                  <div>
-                    <p className="eyebrow">QUICK ACTIONS</p>
-                    <h2>What would you like to do?</h2>
-                  </div>
-                </div>
-                <div className="form-grid">
-                  <Link
-                    to="/admin/add-book"
-                    className="select-row"
-                    style={{ border: '1px solid rgba(214,194,170,0.13)', borderRadius: '11px' }}
-                  >
-                    <span
-                      className="stat-icon"
-                      style={{ flex: '0 0 40px', width: '40px', height: '40px' }}
-                    >
-                      <i className="fa-solid fa-book-medical" />
-                    </span>
-                    <div className="select-info">
-                      <h3>Add a book</h3>
-                      <p>Add a new title to the catalog</p>
-                    </div>
-                  </Link>{' '}
-                  <Link
-                    to="/admin/members"
-                    className="select-row"
-                    style={{ border: '1px solid rgba(214,194,170,0.13)', borderRadius: '11px' }}
-                  >
-                    <span
-                      className="stat-icon"
-                      style={{ flex: '0 0 40px', width: '40px', height: '40px' }}
-                    >
-                      <i className="fa-solid fa-user-plus" />
-                    </span>
-                    <div className="select-info">
-                      <h3>Add a member</h3>
-                      <p>Register a new library member</p>
-                    </div>
-                  </Link>{' '}
-                  <Link
-                    to="/admin/staff"
-                    className="select-row"
-                    style={{ border: '1px solid rgba(214,194,170,0.13)', borderRadius: '11px' }}
-                  >
-                    <span
-                      className="stat-icon"
-                      style={{ flex: '0 0 40px', width: '40px', height: '40px' }}
-                    >
-                      <i className="fa-solid fa-user-tie" />
-                    </span>
-                    <div className="select-info">
-                      <h3>Add staff</h3>
-                      <p>Onboard a new staff account</p>
-                    </div>
-                  </Link>{' '}
-                  <Link
-                    to="/admin/reports"
-                    className="select-row"
-                    style={{ border: '1px solid rgba(214,194,170,0.13)', borderRadius: '11px' }}
-                  >
-                    <span
-                      className="stat-icon"
-                      style={{ flex: '0 0 40px', width: '40px', height: '40px' }}
-                    >
-                      <i className="fa-solid fa-chart-pie" />
-                    </span>
-                    <div className="select-info">
-                      <h3>View reports</h3>
-                      <p>Circulation &amp; library statistics</p>
-                    </div>
-                  </Link>
-                </div>
-              </section>
-              {/* RECENT ACTIVITY */}
-              <section className="page-block">
-                <div className="panel-heading">
-                  <div>
-                    <p className="eyebrow">RECENT ACTIVITY</p>
-                    <h2>Library-wide activity</h2>
-                  </div>
-                  <Link to="/admin/transactions" className="text-arrow">
-                    View all <i className="fa-solid fa-arrow-right" />
-                  </Link>
-                </div>
-                <div className="data-table">
-                  <div
-                    className="table-head"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.4fr) 1fr 0.9fr 0.8fr 0.7fr' }}
-                  >
-                    <span>Member / Staff</span> <span>Book</span> <span>Type</span>{' '}
-                    <span>Date</span> <span>Status</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.4fr) 1fr 0.9fr 0.8fr 0.7fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-person">RM</div>
-                      <div>
-                        <strong>Rohan Mehta</strong>
-                        <small>Student</small>
-                      </div>
-                    </div>
-                    <span>Clean Code</span> <span>Issued</span> <span>24 Aug 2026</span>{' '}
-                    <span className="badge badge-good">On time</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.4fr) 1fr 0.9fr 0.8fr 0.7fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-person">PN</div>
-                      <div>
-                        <strong>Priya Nair</strong>
-                        <small>Teacher</small>
-                      </div>
-                    </div>
-                    <span>Design Patterns</span> <span>Issued</span> <span>25 Aug 2026</span>{' '}
-                    <span className="badge badge-good">On time</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.4fr) 1fr 0.9fr 0.8fr 0.7fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-person">AR</div>
-                      <div>
-                        <strong>Aditya Rao</strong>
-                        <small>Student</small>
-                      </div>
-                    </div>
-                    <span>Intro to Algorithms</span> <span>Issued</span> <span>09 Aug 2026</span>{' '}
-                    <span className="badge badge-bad">Overdue</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.4fr) 1fr 0.9fr 0.8fr 0.7fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-person">MI</div>
-                      <div>
-                        <strong>Meera Iyer</strong>
-                        <small>Student</small>
-                      </div>
-                    </div>
-                    <span>Deep Work</span> <span>Returned</span> <span>22 Aug 2026</span>{' '}
-                    <span className="badge badge-good">Completed</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.4fr) 1fr 0.9fr 0.8fr 0.7fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-person">KJ</div>
-                      <div>
-                        <strong>Karan Joshi</strong>
-                        <small>Librarian</small>
-                      </div>
-                    </div>
-                    <span>The Midnight Library</span> <span>Added</span> <span>20 Aug 2026</span>{' '}
-                    <span className="badge badge-neutral">Catalog</span>
-                  </div>
-                </div>
-              </section>
+
+        <div className="ad-cols ad-section">
+          <section aria-labelledby="log-title">
+            <div className="ad-section-head">
+              <h2 id="log-title">Activity log</h2>
+              <span className="muted">{plural(activity.length, 'entry', 'entries')}</span>
             </div>
-            {/* RIGHT COLUMN */}
-            <aside className="dashboard-sidebar">
-              <section className="side-card overdue-card">
-                <div className="side-card-heading">
-                  <div className="notice-icon">
-                    <i className="fa-solid fa-clock" />
-                  </div>
-                  <span className="notice-label">ACTION NEEDED</span>
-                </div>
-                <h2>37 books are overdue.</h2>
-                <p>
-                  Across all classes and members, 37 loans are past their due date. Review
-                  outstanding fines and send reminders where needed.
+            <ul className="log">
+              {entries.map((entry) => {
+                const { month, day } = monthDay(entry.on);
+                return (
+                  <li key={entry.id}>
+                    <time dateTime={entry.on}>
+                      {day} {month.charAt(0) + month.slice(1).toLowerCase()}
+                    </time>
+                    <div>
+                      {entry.text}
+                      <small>{entry.actor}</small>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+            {activity.length > SHOWN && (
+              <p className="log-more">
+                <button type="button" className="ad-link" onClick={() => setShowAll(!showAll)}>
+                  {showAll ? 'Show fewer' : `Show all ${activity.length}`}
+                </button>
+              </p>
+            )}
+          </section>
+
+          <aside>
+            <div className="ad-section-head">
+              <h2>Needs attention</h2>
+            </div>
+
+            <div className="attn-group">
+              <h3>Waiting for approval ({pendingMembers.length})</h3>
+              {pendingMembers.length === 0 ? (
+                <p className="muted attn-empty">No sign-ups are waiting.</p>
+              ) : (
+                <ul className="attn">
+                  {pendingMembers.slice(0, 5).map((member) => (
+                    <li key={member.id}>
+                      <div>
+                        {member.name}
+                        <small>{member.email}</small>
+                      </div>
+                      <button type="button" className="btn btn-sm btn-primary" onClick={() => approveMember(member.id)}>
+                        Approve
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <div className="attn-group">
+              <h3>Overdue loans ({overdue.length})</h3>
+              {overdue.length === 0 ? (
+                <p className="muted attn-empty">Nothing is overdue.</p>
+              ) : (
+                <ul className="attn">
+                  {overdue.slice(0, 5).map((loan) => (
+                    <li key={loan.id}>
+                      <div>
+                        <Link to={`/admin/members/${loan.studentId}`} className="ad-link">
+                          {getStudent(loan.studentId).name}
+                        </Link>
+                        <small>
+                          {getBook(loan.bookId).title} · {loanStatus(loan).label}
+                        </small>
+                      </div>
+                      <button
+                        type="button"
+                        className="btn btn-sm"
+                        disabled={Boolean(loan.remindedOn)}
+                        onClick={() => sendReminder(loan.id)}
+                      >
+                        {loan.remindedOn ? 'Reminded' : 'Remind'}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {overdue.length > 5 && (
+                <p className="log-more">
+                  <Link to="/admin/transactions?status=overdue" className="ad-link">
+                    All {overdue.length} overdue loans
+                  </Link>
                 </p>
-                <Link to="/admin/fines" className="light-button" style={{ width: '100%' }}>
-                  View outstanding fines <i className="fa-solid fa-arrow-right" />
+              )}
+            </div>
+
+            <div className="attn-group">
+              <h3>Holds expiring ({expiring.length})</h3>
+              {expiring.length === 0 ? (
+                <p className="muted attn-empty">No holds are about to lapse.</p>
+              ) : (
+                <ul className="attn">
+                  {expiring.map((r) => (
+                    <li key={r.id}>
+                      <div>
+                        {getStudent(r.studentId).name}
+                        <small>
+                          {getBook(r.bookId).title} · until {formatDate(r.expiresOn)}
+                        </small>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <div className="attn-group">
+              <h3>Unread messages ({unreadMessages})</h3>
+              <p className="attn-empty">
+                {unreadMessages === 0 ? (
+                  <span className="muted">Your inbox is clear.</span>
+                ) : (
+                  <>
+                    {plural(unreadMessages, 'message')} from the contact form.{' '}
+                    <Link to="/admin/messages" className="ad-link">
+                      Open inbox
+                    </Link>
+                  </>
+                )}
+              </p>
+            </div>
+
+            <div className="attn-group">
+              <h3>Unpaid fines</h3>
+              <p className="attn-empty">
+                <span className="mono">{rupees(total('due'))}</span> across {plural(unpaid.length, 'fine')}.{' '}
+                <Link to="/admin/fines?status=due" className="ad-link">
+                  Review
                 </Link>
-              </section>
-              <section className="side-card">
-                <p className="eyebrow">LIBRARY HEALTH</p>
-                <h2>This month</h2>
-                <div className="summary-line" style={{ borderTop: 'none' }}>
-                  <span>New members</span> <strong>18</strong>
-                </div>
-                <div className="summary-line">
-                  <span>Books added</span> <strong>32</strong>
-                </div>
-                <div className="summary-line">
-                  <span>Total returns</span> <strong>724</strong>
-                </div>
-                <div className="summary-line">
-                  <span>Avg. loan length</span> <strong>11 days</strong>
-                </div>
-              </section>
-              <section className="side-card quick-links-card">
-                <h2>Shortcuts</h2>
-                <Link to="/admin/books" className="quick-link">
-                  <span>
-                    <i className="fa-solid fa-layer-group" />
-                  </span>
-                  <div>
-                    <strong>Book Inventory</strong> <small>Manage the catalog</small>
-                  </div>
-                  <i className="fa-solid fa-arrow-right" />
-                </Link>{' '}
-                <Link to="/admin/members" className="quick-link">
-                  <span>
-                    <i className="fa-solid fa-users" />
-                  </span>
-                  <div>
-                    <strong>Members</strong> <small>Manage accounts</small>
-                  </div>
-                  <i className="fa-solid fa-arrow-right" />
-                </Link>{' '}
-                <Link to="/admin/settings" className="quick-link">
-                  <span>
-                    <i className="fa-solid fa-gear" />
-                  </span>
-                  <div>
-                    <strong>Library Settings</strong> <small>Loan rules &amp; fine rates</small>
-                  </div>
-                  <i className="fa-solid fa-arrow-right" />
-                </Link>
-              </section>
-            </aside>
-          </div>
-        </section>
+              </p>
+            </div>
+
+            <div className="ad-section-head shortcuts">
+              <h2>Shortcuts</h2>
+            </div>
+            <ul className="quick">
+              <li>
+                <Link to="/admin/add-book">Add a book</Link>
+              </li>
+              <li>
+                <Link to="/admin/members">Add a member</Link>
+              </li>
+              <li>
+                <Link to="/admin/staff">Add staff</Link>
+              </li>
+              <li>
+                <Link to="/admin/reports">Monthly report</Link>
+              </li>
+            </ul>
+          </aside>
+        </div>
       </main>
     </>
   );

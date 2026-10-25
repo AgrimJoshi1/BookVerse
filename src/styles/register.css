@@ -400,10 +400,10 @@ input {
 .role-grid
 label[for="role-student"],
 
-#role-teacher:checked
+#role-librarian:checked
 ~ .role-section
 .role-grid
-label[for="role-teacher"],
+label[for="role-librarian"],
 
 #role-admin:checked
 ~ .role-section
@@ -443,10 +443,10 @@ label[for="role-admin"] {
 label[for="role-student"]
 .role-icon,
 
-#role-teacher:checked
+#role-librarian:checked
 ~ .role-section
 .role-grid
-label[for="role-teacher"]
+label[for="role-librarian"]
 .role-icon,
 
 #role-admin:checked
@@ -479,9 +479,9 @@ label[for="role-admin"]
 label[for="role-student"]
 .role-description,
 
-#role-teacher:checked
+#role-librarian:checked
 ~ .role-section
-label[for="role-teacher"]
+label[for="role-librarian"]
 .role-description,
 
 #role-admin:checked
@@ -519,8 +519,8 @@ label[for="role-admin"]
 #role-student:checked
 ~ .role-info-student,
 
-#role-teacher:checked
-~ .role-info-teacher,
+#role-librarian:checked
+~ .role-info-librarian,
 
 #role-admin:checked
 ~ .role-info-admin {
@@ -994,4 +994,70 @@ form > label,
         line-height: 1.5;
     }
 
+}
+/* ================= FORM FEEDBACK ================= */
+
+.auth-error {
+    display: block;
+    margin-top: 5px;
+    color: #a63d2a;
+    font-size: 0.45rem;
+}
+
+.auth-success {
+    padding: 14px 0 4px;
+}
+
+.auth-success h2 {
+    margin: 0 0 6px;
+    color: #4b2e1c;
+    font-size: 0.8rem;
+}
+
+.auth-success p {
+    margin: 0 0 14px;
+    color: #6f645d;
+    font-size: 0.52rem;
+    line-height: 1.6;
+}
+
+.register-button {
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+}
+
+.register-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* ================= SELECTS + PASSWORD RULES ================= */
+.input-box select {
+    font-family: inherit;
+    font-size: 0.552rem;
+    flex: 1 1 0;
+    width: 100%;
+    min-width: 0;
+    padding: 10px 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #33271f;
+}
+
+.input-box.stack {
+    flex-wrap: wrap;
+}
+
+.input-box.stack input {
+    flex: 1 1 100%;
+    margin-top: 0 !important;
+    border-top: 1px solid #e4dfd9;
+}
+
+.field-note {
+    display: block;
+    margin-top: 4px;
+    color: #7a6a5e;
 }

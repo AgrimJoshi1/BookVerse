@@ -1,0 +1,21 @@
+/* =========================================================
+   BOOKVERSE - LIBRARIAN / STUDENTS
+   Page-specific styles. Base, navbar, footer, and shared
+   components live in librarian-common.css.
+========================================================= */
+
+.table-row > span:nth-child(6) {
+    justify-self: start;
+}
+
+.back-link {
+    color: inherit;
+}
+
+.back-link:hover {
+    color: #dfc5a5;
+}
+
+.back-link i {
+    margin-right: 6px;
+}

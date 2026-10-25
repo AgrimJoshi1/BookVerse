@@ -1,8 +1,43 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageStyles from '../../components/PageStyles';
+import { ApiError, useLibrary } from '../../context/LibraryContext';
 import css from '../../styles/contact.css?inline';
 
+const BLANK = { name: '', email: '', subject: '', message: '' };
+
 export default function Contact() {
+  const { sendMessage } = useLibrary();
+  const [fields, setFields] = useState(BLANK);
+  const [errors, setErrors] = useState({});
+  const [busy, setBusy] = useState(false);
+  const [sentTo, setSentTo] = useState('');
+
+  const set = (key) => (event) => setFields({ ...fields, [key]: event.target.value });
+
+  async function submit(event) {
+    event.preventDefault();
+    setBusy(true);
+    setErrors({});
+    try {
+      await sendMessage(fields);
+      setSentTo(fields.email.trim());
+      setFields(BLANK);
+    } catch (error) {
+      if (!(error instanceof ApiError)) throw error;
+      setErrors(error.fields);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const error = (key) =>
+    errors[key] && (
+      <p className="form-error" role="alert">
+        {errors[key]}
+      </p>
+    );
+
   return (
     <>
       <title>Contact | BookVerse</title>
@@ -69,44 +104,70 @@ export default function Contact() {
             {/* CONTACT FORM */}
             <div className="contact-form-wrapper">
               <h2>Send us a message</h2>
-              <form className="contact-form" onSubmit={(event) => event.preventDefault()}>
-                <div className="form-group">
-                  <label htmlFor="name">Your name</label>{' '}
-                  <input type="text" id="name" name="name" placeholder="Enter your name" required />
+              {sentTo ? (
+                <div className="form-sent" role="status">
+                  <h3>Message sent</h3>
+                  <p>
+                    Thanks for writing. The library team will reply to <strong>{sentTo}</strong>.
+                  </p>
+                  <button type="button" className="button send-message" onClick={() => setSentTo('')}>
+                    Send another <i className="fa-solid fa-arrow-right" />
+                  </button>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="email">Email address</label>{' '}
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="subject">Subject</label>{' '}
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    placeholder="What is this about?"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="message">Message</label>{' '}
-                  <textarea
-                    id="message"
-                    name="message"
-                    placeholder="Write your message here..."
-                    required
-                  />
-                </div>
-                <button type="submit" className="button send-message">
-                  Send Message <i className="fa-solid fa-arrow-right" />
-                </button>
-              </form>
+              ) : (
+                <form className="contact-form" onSubmit={submit} noValidate>
+                  <div className="form-group">
+                    <label htmlFor="name">Your name</label>{' '}
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Enter your name"
+                      value={fields.name}
+                      onChange={set('name')}
+                    />
+                    {error('name')}
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">Email address</label>{' '}
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Enter your email"
+                      value={fields.email}
+                      onChange={set('email')}
+                    />
+                    {error('email')}
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="subject">Subject</label>{' '}
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      placeholder="What is this about?"
+                      value={fields.subject}
+                      onChange={set('subject')}
+                    />
+                    {error('subject')}
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="message">Message</label>{' '}
+                    <textarea
+                      id="message"
+                      name="message"
+                      placeholder="Write your message here..."
+                      value={fields.message}
+                      onChange={set('message')}
+                    />
+                    {error('message')}
+                  </div>
+                  <button type="submit" className="button send-message" disabled={busy}>
+                    {busy ? 'Sending…' : 'Send Message'} <i className="fa-solid fa-arrow-right" />
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </section>

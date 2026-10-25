@@ -1,149 +1,246 @@
-import PageStyles from '../../components/PageStyles';
-import css from '../../styles/admin-settings.css?inline';
+import { useState } from 'react';
+import Field from '../../components/admin/Field';
+import Notice from '../../components/admin/Notice';
+import PageHeader from '../../components/admin/PageHeader';
+import { ApiError, plural, rupees, useLibrary, validateSettings } from '../../context/LibraryContext';
 
+const toDraft = (settings) => ({
+  loanDays: String(settings.loanDays),
+  maxBooks: String(settings.maxBooks),
+  fineRate: String(settings.fineRate),
+  graceDays: String(settings.graceDays),
+  maxRenewals: String(settings.maxRenewals),
+  holdDays: String(settings.holdDays),
+  library: { ...settings.library },
+  departments: { student: [...settings.departments.student], staff: [...settings.departments.staff] },
+});
+
+// One editable list of department names: chips with a remove button, plus an add box.
+function DepartmentList({ title, hint, names, onChange }) {
+  const [text, setText] = useState('');
+  const name = text.trim();
+  const exists = names.some((n) => n.toLowerCase() === name.toLowerCase());
+
+  function add() {
+    if (!name || exists) return;
+    onChange([...names, name]);
+    setText('');
+  }
+
+  return (
+    <div className="dept-list wide">
+      <h3>{title}</h3>
+      <p className="field-hint">{hint}</p>
+      <ul className="chips">
+        {names.map((n) => (
+          <li key={n}>
+            {n}
+            <button type="button" aria-label={`Remove ${n}`} onClick={() => onChange(names.filter((x) => x !== n))}>
+              ×
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div className="chip-add">
+        <input
+          className="ad-input"
+          placeholder="Add a department"
+          aria-label={`Add a ${title.toLowerCase()}`}
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              add();
+            }
+          }}
+        />
+        <button type="button" className="btn" disabled={!name || exists} onClick={add}>
+          Add
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// Every field here is a live rule: saving changes what the student and
+// librarian areas allow straight away.
 export default function Settings() {
+  const { settings, updateSettings } = useLibrary();
+  const [draft, setDraft] = useState(() => toDraft(settings));
+  const [errors, setErrors] = useState({});
+  const [saved, setSaved] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  const rule = (key, label, effect, extra) => (
+    <Field
+      id={`set-${key}`}
+      label={label}
+      type="number"
+      min="0"
+      value={draft[key]}
+      onChange={(event) => {
+        setDraft({ ...draft, [key]: event.target.value });
+        setSaved(false);
+      }}
+      error={errors[key]}
+      hint={effect}
+      {...extra}
+    />
+  );
+  const identity = (key, label, extra) => (
+    <Field
+      id={`set-${key}`}
+      label={label}
+      value={draft.library[key]}
+      onChange={(event) => {
+        setDraft({ ...draft, library: { ...draft.library, [key]: event.target.value } });
+        setSaved(false);
+      }}
+      error={errors[key]}
+      {...extra}
+    />
+  );
+
+  const num = (key) => Number(draft[key]);
+  const valid = (key) => !errors[key] && draft[key].trim() !== '' && Number.isFinite(num(key));
+
+  async function save(event) {
+    event.preventDefault();
+    setBusy(true);
+    try {
+      await updateSettings(draft);
+      setErrors({});
+      setSaved(true);
+    } catch (error) {
+      if (!(error instanceof ApiError)) throw error;
+      setErrors(error.fields);
+      setSaved(false);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function reset() {
+    setDraft(toDraft(settings));
+    setErrors({});
+    setSaved(false);
+  }
+
+  const preview = validateSettings(draft);
+
   return (
     <>
-      <title>Library Settings | BookVerse Admin</title>
-      <meta name="description" content="BookVerse library settings." />
-      <PageStyles css={css} />
-      <main>
-        {/* HERO */}
-        <section className="page-hero">
-          <div className="container">
-            <p className="eyebrow">LIBRARY SETTINGS</p>
-            <h1>
-              Configure how <span>BookVerse runs.</span>
-            </h1>
-            <p className="hero-description">
-              Loan rules, fine rates, and library contact information used across the whole system.
-            </p>
+      <title>Settings | BookVerse Admin</title>
+      <meta name="description" content="Borrowing rules and library details." />
+      <main className="ad-main">
+        <PageHeader title="Settings" meta="Rules apply to every student and librarian as soon as you save." />
+
+        {saved && (
+          <Notice tone="good" onClose={() => setSaved(false)}>
+            Saved. The new rules are in effect now.
+          </Notice>
+        )}
+
+        <form className="ad-form" onSubmit={save} noValidate>
+          <h2 className="form-group-title">Borrowing rules</h2>
+          <div className="form-grid">
+            {rule(
+              'loanDays',
+              'Loan period (days)',
+              !preview.loanDays && valid('loanDays')
+                ? `New loans are due ${plural(num('loanDays'), 'day')} after issue. Renewals add the same.`
+                : 'Applies to new loans and renewals.',
+              { min: '1' },
+            )}
+            {rule(
+              'maxBooks',
+              'Books per member',
+              !preview.maxBooks && valid('maxBooks')
+                ? `A member can hold ${plural(num('maxBooks'), 'book')} at a time.`
+                : undefined,
+              { min: '1' },
+            )}
+            {rule(
+              'fineRate',
+              'Fine per day (₹)',
+              !preview.fineRate && valid('fineRate')
+                ? `${rupees(num('fineRate'))} for each chargeable day late, charged on return.`
+                : undefined,
+            )}
+            {rule(
+              'graceDays',
+              'Grace period (days)',
+              !preview.graceDays && valid('graceDays')
+                ? num('graceDays') === 0
+                  ? 'Fines start the day after the due date.'
+                  : `No fine until a book is ${plural(num('graceDays') + 1, 'day')} late.`
+                : undefined,
+            )}
+            {rule(
+              'maxRenewals',
+              'Renewals per loan',
+              !preview.maxRenewals && valid('maxRenewals')
+                ? num('maxRenewals') === 0
+                  ? 'Renewing is switched off.'
+                  : `Each loan can be renewed ${plural(num('maxRenewals'), 'time')}.`
+                : undefined,
+            )}
+            {rule(
+              'holdDays',
+              'Reserved copy held for (days)',
+              !preview.holdDays && valid('holdDays')
+                ? `A reserved book waits ${plural(num('holdDays'), 'day')} at the desk.`
+                : 'Applies to new holds.',
+              { min: '1' },
+            )}
           </div>
-        </section>
-        {/* CONTENT */}
-        <section className="page-section">
-          <div className="container page-grid">
-            <div className="page-main">
-              <section className="page-block">
-                <div className="block-heading">
-                  <div>
-                    <p className="eyebrow">LOAN POLICY</p>
-                    <h2>Borrowing rules</h2>
-                  </div>
-                </div>
-                <div className="form-grid">
-                  <div className="form-group">
-                    <label htmlFor="loan-duration">Standard loan duration (days)</label>{' '}
-                    <input type="number" id="loan-duration" defaultValue="14" min="1" />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="max-books">Max books per member</label>{' '}
-                    <input type="number" id="max-books" defaultValue="3" min="1" />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="fine-rate">Fine rate (₹ per day overdue)</label>{' '}
-                    <input type="number" id="fine-rate" defaultValue="10" min="0" />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="grace-period">Grace period (days)</label>{' '}
-                    <input type="number" id="grace-period" defaultValue="0" min="0" />{' '}
-                    <span className="field-hint">
-                      Days after the due date before fines start accruing.
-                    </span>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="max-renewals">Max renewals per loan</label>{' '}
-                    <input type="number" id="max-renewals" defaultValue="1" min="0" />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="reservation-hold">Reservation hold period (days)</label>{' '}
-                    <input type="number" id="reservation-hold" defaultValue="3" min="1" />
-                  </div>
-                </div>
-              </section>
-              <section className="page-block">
-                <div className="block-heading">
-                  <div>
-                    <p className="eyebrow">LIBRARY INFORMATION</p>
-                    <h2>Contact &amp; identity</h2>
-                  </div>
-                </div>
-                <div className="form-grid">
-                  <div className="form-group full">
-                    <label htmlFor="library-name">Library name</label>{' '}
-                    <input type="text" id="library-name" defaultValue="BookVerse Central Library" />
-                  </div>
-                  <div className="form-group full">
-                    <label htmlFor="library-address">Address</label>{' '}
-                    <input
-                      type="text"
-                      id="library-address"
-                      defaultValue="Block C, BookVerse Academy Campus, Mohali, Punjab"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="library-email">Contact email</label>{' '}
-                    <input type="email" id="library-email" defaultValue="library@bookverse.edu" />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="library-phone">Contact phone</label>{' '}
-                    <input type="text" id="library-phone" defaultValue="+91 172 456 7890" />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="library-hours">Operating hours</label>{' '}
-                    <input
-                      type="text"
-                      id="library-hours"
-                      defaultValue="Mon–Sat, 8:00 AM – 6:00 PM"
-                    />
-                  </div>
-                </div>
-                <div className="notice notice-success">
-                  <i className="fa-regular fa-circle-check" />
-                  <p>All settings are valid. Save to apply these changes library-wide.</p>
-                </div>
-                <div className="form-actions">
-                  <button className="outline-button" type="button">
-                    Cancel
-                  </button>{' '}
-                  <button className="light-button" type="button">
-                    Save settings <i className="fa-solid fa-check" />
-                  </button>
-                </div>
-              </section>
-            </div>
-            {/* SIDEBAR */}
-            <aside className="page-sidebar">
-              <section className="side-card summary-card">
-                <p className="eyebrow">CURRENT POLICY</p>
-                <h2 style={{ fontSize: '1.05rem' }}>At a glance</h2>
-                <div className="summary-line" style={{ borderTop: 'none' }}>
-                  <span>Loan duration</span> <strong>14 days</strong>
-                </div>
-                <div className="summary-line">
-                  <span>Fine rate</span> <strong>₹10 / day</strong>
-                </div>
-                <div className="summary-line">
-                  <span>Grace period</span> <strong>0 days</strong>
-                </div>
-                <div className="summary-line">
-                  <span>Max books/member</span> <strong>3</strong>
-                </div>
-              </section>
-              <section className="side-card">
-                <p className="eyebrow">HEADS UP</p>
-                <h2 style={{ fontSize: '1.05rem' }}>Changing loan rules</h2>
-                <div className="notice notice-warning" style={{ marginTop: '0' }}>
-                  <i className="fa-solid fa-triangle-exclamation" />
-                  <p>
-                    Updating the fine rate or loan duration only applies to new loans issued after
-                    saving — active loans keep their original terms.
-                  </p>
-                </div>
-              </section>
-            </aside>
+
+          <h2 className="form-group-title">Library details</h2>
+          <div className="form-grid">
+            {identity('name', 'Library name', { className: 'wide' })}
+            {identity('address', 'Address', { className: 'wide' })}
+            {identity('email', 'Email', { type: 'email' })}
+            {identity('phone', 'Phone')}
+            {identity('hours', 'Opening hours', { className: 'wide' })}
           </div>
-        </section>
+
+          <h2 className="form-group-title">Departments</h2>
+          <div className="form-grid">
+            <DepartmentList
+              title="Student departments"
+              hint="Shown in the Department dropdown on Register and Add member. Students can also write in their own."
+              names={draft.departments.student}
+              onChange={(student) => {
+                setDraft({ ...draft, departments: { ...draft.departments, student } });
+                setSaved(false);
+              }}
+            />
+            <DepartmentList
+              title="Staff departments"
+              hint="Shown when an admin adds a librarian or admin."
+              names={draft.departments.staff}
+              onChange={(staff) => {
+                setDraft({ ...draft, departments: { ...draft.departments, staff } });
+                setSaved(false);
+              }}
+            />
+            {errors.departments && (
+              <p className="field-error wide" role="alert">
+                {errors.departments}
+              </p>
+            )}
+          </div>
+
+          <div className="form-actions">
+            <button type="submit" className="btn btn-primary" disabled={busy}>
+              {busy ? 'Saving…' : 'Save settings'}
+            </button>
+            <button type="button" className="btn" onClick={reset}>
+              Discard changes
+            </button>
+          </div>
+        </form>
       </main>
     </>
   );

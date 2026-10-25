@@ -1,341 +1,242 @@
-import PageStyles from '../../components/PageStyles';
-import css from '../../styles/admin-reports.css?inline';
+import { Link } from 'react-router-dom';
+import LedgerTable from '../../components/admin/LedgerTable';
+import PageHeader from '../../components/admin/PageHeader';
+import { today } from '../../api/engine';
+import { loanStatus, plural, rupees, useLibrary } from '../../context/LibraryContext';
+import { downloadCsv } from '../../utils/csv';
+
+const MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+// [[key, count], ...] biggest first, ties broken by key so the order is stable.
+function tally(keys) {
+  const counts = new Map();
+  for (const key of keys) counts.set(key, (counts.get(key) ?? 0) + 1);
+  return [...counts].sort((a, b) => b[1] - a[1] || String(a[0]).localeCompare(String(b[0])));
+}
 
 export default function Reports() {
+  const { state, getBook, getStudent } = useLibrary();
+
+  const monthKey = today().slice(0, 7);
+  const [year, monthNo] = monthKey.split('-').map(Number);
+  const monthName = `${MONTH_NAMES[monthNo - 1]} ${year}`;
+  const inMonth = (date) => Boolean(date) && date.startsWith(monthKey);
+
+  // Every loan ever made: the ones still out plus the ones that came back.
+  const issues = [...state.loans, ...state.history];
+  const thisMonth = issues.filter((loan) => inMonth(loan.issuedOn));
+
+  const topTitles = tally(thisMonth.map((loan) => loan.bookId))
+    .slice(0, 5)
+    .map(([bookId, count]) => ({ book: getBook(bookId), count }));
+  const topMembers = tally(thisMonth.map((loan) => loan.studentId))
+    .slice(0, 5)
+    .map(([studentId, count]) => ({ member: getStudent(studentId), count }));
+  const pastDue = state.loans
+    .filter((loan) => loanStatus(loan).overdue)
+    .sort((a, b) => a.dueOn.localeCompare(b.dueOn));
+
+  const perMonth = Array.from({ length: monthNo }, (_, i) => {
+    const key = `${year}-${String(i + 1).padStart(2, '0')}`;
+    return { label: MONTH_NAMES[i].slice(0, 3), key, count: issues.filter((l) => l.issuedOn.startsWith(key)).length };
+  });
+  const tallest = Math.max(1, ...perMonth.map((m) => m.count));
+
+  const byCategory = tally(thisMonth.map((loan) => getBook(loan.bookId).category));
+
+  const figures = [
+    ['Books issued', thisMonth.length],
+    ['Books returned', state.history.filter((h) => inMonth(h.returnedOn)).length],
+    [
+      'Fines collected',
+      rupees(state.fines.filter((f) => f.status === 'paid' && inMonth(f.paidOn)).reduce((s, f) => s + f.amount, 0)),
+    ],
+    ['New members', state.students.filter((s) => inMonth(s.joinedOn)).length],
+  ];
+
+  const exportTitles = () =>
+    downloadCsv(
+      `top-titles-${monthKey}.csv`,
+      [
+        { label: 'Title', value: (r) => r.book.title },
+        { label: 'Author', value: (r) => r.book.author },
+        { label: 'Issues', value: (r) => r.count },
+      ],
+      topTitles,
+    );
+  const exportMembers = () =>
+    downloadCsv(
+      `most-active-${monthKey}.csv`,
+      [
+        { label: 'Member ID', value: (r) => r.member.id },
+        { label: 'Member', value: (r) => r.member.name },
+        { label: 'Books issued', value: (r) => r.count },
+      ],
+      topMembers,
+    );
+  const exportMonths = () =>
+    downloadCsv(
+      `loans-per-month-${year}.csv`,
+      [
+        { label: 'Month', value: (r) => r.key },
+        { label: 'Books issued', value: (r) => r.count },
+      ],
+      perMonth,
+    );
+  const exportPastDue = () =>
+    downloadCsv(
+      'past-due.csv',
+      [
+        { label: 'Member ID', value: (l) => l.studentId },
+        { label: 'Member', value: (l) => getStudent(l.studentId).name },
+        { label: 'Book', value: (l) => getBook(l.bookId).title },
+        { label: 'Due', value: (l) => l.dueOn },
+        { label: 'Status', value: (l) => loanStatus(l).label },
+      ],
+      pastDue,
+    );
+
+  const csvButton = (onClick, label) => (
+    <button type="button" className="ad-link" onClick={onClick} aria-label={`Export ${label} as CSV`}>
+      Export CSV
+    </button>
+  );
+
   return (
     <>
       <title>Reports | BookVerse Admin</title>
-      <meta name="description" content="BookVerse library reports and statistics." />
-      <PageStyles css={css} />
-      <main>
-        {/* HERO */}
-        <section className="page-hero">
-          <div className="container">
-            <p className="eyebrow">REPORTS</p>
-            <h1>
-              See how the <span>library is used.</span>
-            </h1>
-            <p className="hero-description">
-              Circulation trends, popular titles, and overdue and membership statistics for the
-              current period.
-            </p>
+      <meta name="description" content="Monthly lending reports for BookVerse." />
+      <main className="ad-main">
+        <PageHeader title="Reports" meta={<>For {monthName}, up to today</>} />
+
+        <section className="figures" aria-label={`${monthName} totals`}>
+          {figures.map(([label, value]) => (
+            <div className="figure" key={label}>
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </section>
+
+        <section className="ad-section">
+          <div className="ad-section-head">
+            <h2>Books issued per month</h2>
+            {csvButton(exportMonths, 'loans per month')}
+          </div>
+          <div className="bars" role="img" aria-label={`Books issued per month in ${year}`}>
+            {perMonth.map((m, i) => (
+              <div className={`bars-col${i === perMonth.length - 1 ? ' now' : ''}`} key={m.key}>
+                <span className="val">{m.count}</span>
+                <div className="bar" style={{ height: `${(m.count / tallest) * 100}%` }} />
+                <span className="lbl">{m.label}</span>
+              </div>
+            ))}
           </div>
         </section>
-        {/* CONTENT */}
-        <section className="page-section">
-          <div className="container">
-            <div className="reports-grid">
-              {/* MOST BORROWED */}
-              <section className="page-block">
-                <div className="panel-heading">
-                  <div>
-                    <p className="eyebrow">MOST BORROWED</p>
-                    <h2>Top titles this month</h2>
-                  </div>
-                  <span className="panel-count">Top 5</span>
-                </div>
-                <div className="data-table">
-                  <div
-                    className="table-head"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.6fr) 0.8fr 0.8fr' }}
-                  >
-                    <span>Title</span> <span>Category</span> <span>Times borrowed</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.6fr) 0.8fr 0.8fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-book">
-                        <i className="fa-solid fa-book" />
-                      </div>
-                      <div>
-                        <strong>Atomic Habits</strong>
-                      </div>
-                    </div>
-                    <span>Self Development</span> <strong>68</strong>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.6fr) 0.8fr 0.8fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-book">
-                        <i className="fa-solid fa-book" />
-                      </div>
-                      <div>
-                        <strong>Clean Code</strong>
-                      </div>
-                    </div>
-                    <span>Programming</span> <strong>54</strong>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.6fr) 0.8fr 0.8fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-book">
-                        <i className="fa-solid fa-book" />
-                      </div>
-                      <div>
-                        <strong>The Midnight Library</strong>
-                      </div>
-                    </div>
-                    <span>Fiction</span> <strong>49</strong>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.6fr) 0.8fr 0.8fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-book">
-                        <i className="fa-solid fa-book" />
-                      </div>
-                      <div>
-                        <strong>Hands-On Machine Learning</strong>
-                      </div>
-                    </div>
-                    <span>AI &amp; ML</span> <strong>41</strong>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.6fr) 0.8fr 0.8fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-book">
-                        <i className="fa-solid fa-book" />
-                      </div>
-                      <div>
-                        <strong>Deep Work</strong>
-                      </div>
-                    </div>
-                    <span>Self Development</span> <strong>37</strong>
-                  </div>
-                </div>
-              </section>
-              {/* OVERDUE BOOKS */}
-              <section className="page-block">
-                <div className="panel-heading">
-                  <div>
-                    <p className="eyebrow">OVERDUE BOOKS</p>
-                    <h2>Currently past due</h2>
-                  </div>
-                  <span className="panel-count">37 total</span>
-                </div>
-                <div className="data-table">
-                  <div
-                    className="table-head"
-                    style={{ gridTemplateColumns: 'minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr' }}
-                  >
-                    <span>Book</span> <span>Borrower</span> <span>Days overdue</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr' }}
-                  >
-                    <span>Introduction to Algorithms</span> <span>Alex Sharma</span>{' '}
-                    <span className="badge badge-bad">2 days</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr' }}
-                  >
-                    <span>Introduction to Algorithms</span> <span>Aditya Rao</span>{' '}
-                    <span className="badge badge-bad">3 days</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr' }}
-                  >
-                    <span>The Pragmatic Programmer</span> <span>Ananya Das</span>{' '}
-                    <span className="badge badge-bad">11 days</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr' }}
-                  >
-                    <span>Design Patterns</span> <span>Kabir Singh</span>{' '}
-                    <span className="badge badge-bad">6 days</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(140px,1.3fr) minmax(120px,1.3fr) 0.7fr' }}
-                  >
-                    <span>Database System Concepts</span> <span>Varun Gupta</span>{' '}
-                    <span className="badge badge-bad">14 days</span>
-                  </div>
-                </div>
-              </section>
-              {/* ACTIVE MEMBERS */}
-              <section className="page-block">
-                <div className="panel-heading">
-                  <div>
-                    <p className="eyebrow">ACTIVE MEMBERS</p>
-                    <h2>Most active this month</h2>
-                  </div>
-                  <span className="panel-count">Top 5</span>
-                </div>
-                <div className="data-table">
-                  <div
-                    className="table-head"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.5fr) 0.9fr 0.7fr' }}
-                  >
-                    <span>Member</span> <span>Type</span> <span>Books borrowed</span>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.5fr) 0.9fr 0.7fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-person">PN</div>
-                      <div>
-                        <strong>Priya Nair</strong>
-                      </div>
-                    </div>
-                    <span>Teacher</span> <strong>14</strong>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.5fr) 0.9fr 0.7fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-person">KS</div>
-                      <div>
-                        <strong>Kabir Singh</strong>
-                      </div>
-                    </div>
-                    <span>Student</span> <strong>9</strong>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.5fr) 0.9fr 0.7fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-person">AS</div>
-                      <div>
-                        <strong>Alex Sharma</strong>
-                      </div>
-                    </div>
-                    <span>Student</span> <strong>8</strong>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.5fr) 0.9fr 0.7fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-person">RD</div>
-                      <div>
-                        <strong>Rakesh Dutta</strong>
-                      </div>
-                    </div>
-                    <span>Teacher</span> <strong>7</strong>
-                  </div>
-                  <div
-                    className="table-row"
-                    style={{ gridTemplateColumns: 'minmax(150px,1.5fr) 0.9fr 0.7fr' }}
-                  >
-                    <div className="table-entity">
-                      <div className="mini-person">MI</div>
-                      <div>
-                        <strong>Meera Iyer</strong>
-                      </div>
-                    </div>
-                    <span>Student</span> <strong>6</strong>
-                  </div>
-                </div>
-              </section>
-              {/* CIRCULATION STATS */}
-              <section className="page-block">
-                <div className="panel-heading">
-                  <div>
-                    <p className="eyebrow">CIRCULATION</p>
-                    <h2>Loans per month</h2>
-                  </div>
-                  <span className="panel-count">Last 6 months</span>
-                </div>
-                <div className="bar-chart">
-                  <div className="bar-row">
-                    <span className="bar-label">Mar</span>
-                    <div className="bar-track">
-                      <div className="bar-fill" style={{ width: '62%' }} />
-                    </div>
-                    <strong className="bar-value">642</strong>
-                  </div>
-                  <div className="bar-row">
-                    <span className="bar-label">Apr</span>
-                    <div className="bar-track">
-                      <div className="bar-fill" style={{ width: '71%' }} />
-                    </div>
-                    <strong className="bar-value">734</strong>
-                  </div>
-                  <div className="bar-row">
-                    <span className="bar-label">May</span>
-                    <div className="bar-track">
-                      <div className="bar-fill" style={{ width: '58%' }} />
-                    </div>
-                    <strong className="bar-value">598</strong>
-                  </div>
-                  <div className="bar-row">
-                    <span className="bar-label">Jun</span>
-                    <div className="bar-track">
-                      <div className="bar-fill" style={{ width: '44%' }} />
-                    </div>
-                    <strong className="bar-value">451</strong>
-                  </div>
-                  <div className="bar-row">
-                    <span className="bar-label">Jul</span>
-                    <div className="bar-track">
-                      <div className="bar-fill" style={{ width: '69%' }} />
-                    </div>
-                    <strong className="bar-value">712</strong>
-                  </div>
-                  <div className="bar-row">
-                    <span className="bar-label">Aug</span>
-                    <div className="bar-track">
-                      <div className="bar-fill" style={{ width: '100%' }} />
-                    </div>
-                    <strong className="bar-value">1,042</strong>
-                  </div>
-                </div>
-                <div className="panel-heading" style={{ marginTop: '26px', marginBottom: '14px' }}>
-                  <div>
-                    <p className="eyebrow">BY CATEGORY</p>
-                    <h2 style={{ fontSize: '1.1rem' }}>Loans by category</h2>
-                  </div>
-                </div>
-                <div className="bar-chart">
-                  <div className="bar-row">
-                    <span className="bar-label">Fiction</span>
-                    <div className="bar-track">
-                      <div className="bar-fill" style={{ width: '100%' }} />
-                    </div>
-                    <strong className="bar-value">312</strong>
-                  </div>
-                  <div className="bar-row">
-                    <span className="bar-label">Programming</span>
-                    <div className="bar-track">
-                      <div className="bar-fill" style={{ width: '84%' }} />
-                    </div>
-                    <strong className="bar-value">261</strong>
-                  </div>
-                  <div className="bar-row">
-                    <span className="bar-label">Self Dev.</span>
-                    <div className="bar-track">
-                      <div className="bar-fill" style={{ width: '76%' }} />
-                    </div>
-                    <strong className="bar-value">238</strong>
-                  </div>
-                  <div className="bar-row">
-                    <span className="bar-label">AI &amp; ML</span>
-                    <div className="bar-track">
-                      <div className="bar-fill" style={{ width: '52%' }} />
-                    </div>
-                    <strong className="bar-value">163</strong>
-                  </div>
-                </div>
-              </section>
+
+        <div className="ad-cols ad-section">
+          <section>
+            <div className="ad-section-head">
+              <h2>Most borrowed titles</h2>
+              {csvButton(exportTitles, 'top titles')}
             </div>
+            <LedgerTable
+              columns={[
+                { key: 'rank', label: '#', mono: true, render: (r) => topTitles.indexOf(r) + 1 },
+                {
+                  key: 'title',
+                  label: 'Title',
+                  title: true,
+                  render: (r) => (
+                    <>
+                      <strong>{r.book.title}</strong>
+                      <small>{r.book.author}</small>
+                    </>
+                  ),
+                },
+                { key: 'count', label: 'Issues', num: true },
+              ]}
+              rows={topTitles}
+              rowKey={(r) => r.book.id}
+              empty={<strong>No books were issued this month.</strong>}
+            />
+          </section>
+
+          <section>
+            <div className="ad-section-head">
+              <h2>Most active members</h2>
+              {csvButton(exportMembers, 'most active members')}
+            </div>
+            <LedgerTable
+              columns={[
+                {
+                  key: 'member',
+                  label: 'Member',
+                  title: true,
+                  render: (r) => (
+                    <Link to={`/admin/members/${r.member.id}`} className="ad-link">
+                      {r.member.name}
+                    </Link>
+                  ),
+                },
+                { key: 'count', label: 'Issued', num: true },
+              ]}
+              rows={topMembers}
+              rowKey={(r) => r.member.id}
+              empty={<strong>No activity this month.</strong>}
+            />
+          </section>
+        </div>
+
+        <section className="ad-section">
+          <div className="ad-section-head">
+            <h2>Share of issues by category</h2>
+            <span className="muted">{plural(thisMonth.length, 'issue')} in {monthName}</span>
           </div>
+          <div className="hbars">
+            {byCategory.length === 0 && <p className="muted">No books were issued this month.</p>}
+            {byCategory.map(([category, count]) => (
+              <div className="hbar" key={category}>
+                <span>{category}</span>
+                <div className="track">
+                  <div className="fill" style={{ width: `${(count / byCategory[0][1]) * 100}%` }} />
+                </div>
+                <span className="num">
+                  {Math.round((count / thisMonth.length) * 100)}% · {count}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="ad-section">
+          <div className="ad-section-head">
+            <h2>Past due today</h2>
+            {csvButton(exportPastDue, 'past due loans')}
+          </div>
+          <LedgerTable
+            columns={[
+              {
+                key: 'member',
+                label: 'Member',
+                title: true,
+                render: (l) => (
+                  <Link to={`/admin/members/${l.studentId}`} className="ad-link">
+                    {getStudent(l.studentId).name}
+                  </Link>
+                ),
+              },
+              { key: 'book', label: 'Book', render: (l) => getBook(l.bookId).title },
+              { key: 'due', label: 'Was due', mono: true, render: (l) => l.dueOn },
+              { key: 'late', label: 'Overdue', render: (l) => loanStatus(l).label },
+            ]}
+            rows={pastDue}
+            rowKey={(l) => l.id}
+            empty={<strong>Nothing is overdue.</strong>}
+          />
         </section>
       </main>
     </>

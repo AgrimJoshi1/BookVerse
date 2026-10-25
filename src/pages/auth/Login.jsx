@@ -1,32 +1,54 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import PageStyles from '../../components/PageStyles';
+import { ApiError, useLibrary } from '../../context/LibraryContext';
 import css from '../../styles/login.css?inline';
 
-// Demo credentials for each role
-const DEMO_CREDENTIALS = {
-  student: { email: 'student@demo', password: 'student123', redirect: '/student/dashboard' },
-  teacher: { email: 'teacher@demo', password: 'teacher123', redirect: '/teacher/dashboard' },
-  admin: { email: 'admin@demo', password: 'admin123', redirect: '/admin/dashboard' },
+const HOME = {
+  student: '/student/dashboard',
+  librarian: '/librarian/dashboard',
+  admin: '/admin/dashboard',
 };
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login, endSession } = useLibrary();
   const [role, setRole] = useState('student');
-  const [email, setEmail] = useState(DEMO_CREDENTIALS.student.email);
-  const [password, setPassword] = useState(DEMO_CREDENTIALS.student.password);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [remember, setRemember] = useState(false);
 
-  // Selecting a role prefills that role's demo credentials.
+  // Arriving here means signing in again, so any old session ends.
+  useEffect(() => {
+    endSession();
+  }, []);
+
   const selectRole = (nextRole) => {
     setRole(nextRole);
-    setEmail(DEMO_CREDENTIALS[nextRole].email);
-    setPassword(DEMO_CREDENTIALS[nextRole].password);
+    setError('');
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate(DEMO_CREDENTIALS[role].redirect);
+    setBusy(true);
+    setError('');
+    try {
+      const result = await login(email, password, role, remember);
+      if (result.mustChange) {
+        navigate('/set-password', { replace: true });
+        return;
+      }
+      const back = location.state?.from;
+      navigate(back && back.startsWith('/' + role) ? back : HOME[role], { replace: true });
+    } catch (err) {
+      if (!(err instanceof ApiError)) throw err;
+      setError(err.message);
+      setBusy(false);
+    }
   };
 
   return (
@@ -54,10 +76,10 @@ export default function Login() {
           <input
             type="radio"
             name="role"
-            id="role-teacher"
+            id="role-librarian"
             className="role-radio"
-            checked={role === 'teacher'}
-            onChange={() => selectRole('teacher')}
+            checked={role === 'librarian'}
+            onChange={() => selectRole('librarian')}
           />{' '}
           <input
             type="radio"
@@ -99,13 +121,13 @@ export default function Login() {
                 <span className="role-name">Student</span>{' '}
                 <span className="role-description">Borrow &amp; read</span>
               </label>
-              {/* TEACHER */}
-              <label htmlFor="role-teacher" className="role-card">
+              {/* LIBRARIAN */}
+              <label htmlFor="role-librarian" className="role-card">
                 <span className="role-icon">
                   <i className="fa-solid fa-chalkboard-user" />
                 </span>{' '}
-                <span className="role-name">Teacher</span>{' '}
-                <span className="role-description">Faculty access</span>
+                <span className="role-name">Librarian</span>{' '}
+                <span className="role-description">Run the desk</span>
               </label>
               {/* ADMIN */}
               <label htmlFor="role-admin" className="role-card">
@@ -129,13 +151,13 @@ export default function Login() {
             </div>
             <span className="platform-name">BookVerse Library</span>
           </div>
-          <div className="role-info role-info-teacher">
+          <div className="role-info role-info-librarian">
             <div className="role-info-icon">
               <i className="fa-solid fa-chalkboard-user" />
             </div>
             <div className="role-info-copy">
-              <span>Teacher Portal</span>
-              <p>Manage your classes, assign reading lists, and track student borrowing.</p>
+              <span>Librarian Portal</span>
+              <p>Issue and return books, follow up on overdue loans, and keep the desk running.</p>
             </div>
             <span className="platform-name">BookVerse Library</span>
           </div>
@@ -168,9 +190,9 @@ export default function Login() {
             <label>
               <span className="field-label-row">
                 <span className="field-label">PASSWORD</span>{' '}
-                <a href="#" className="forgot-link">
+                <Link to={`/forgot-password?role=${role}`} className="forgot-link">
                   Forgot password?
-                </a>
+                </Link>
               </span>
               <div className="input-box">
                 <i className="fa-solid fa-lock" />{' '}
@@ -194,13 +216,28 @@ export default function Login() {
             </label>
             <div className="form-options">
               <label className="remember">
-                <input type="checkbox" /> <span>Remember me</span>
+                <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />{' '}
+                <span>Remember me</span>
               </label>{' '}
               <span className="login-note">Use your registered account</span>
             </div>
-            <button type="submit" className="login-button">
-              <span>Login &amp; Access Portsl</span> <i className="fa-solid fa-arrow-right" />
+            {error && (
+              <p className="auth-error" role="alert">
+                {error}
+              </p>
+            )}
+            <button type="submit" className="login-button" disabled={busy}>
+              <span>{busy ? 'Signing in…' : 'Login & Access Portal'}</span>{' '}
+              <i className="fa-solid fa-arrow-right" />
             </button>
+            {role === 'admin' && (
+              <p className="auth-hint">First time? Try admin@bookverse.edu / Admin@123.</p>
+            )}
+            {role === 'student' && (
+              <p className="auth-hint">
+                New here? <Link to="/register">Create a student account</Link>.
+              </p>
+            )}
           </form>
           {/* FOOTER INFO */}
           <div className="security-note">

@@ -907,3 +907,25 @@ p {
         padding: 25px 20px;
     }
 }
+.form-error {
+    margin: 6px 0 0;
+    color: #a63d2a;
+    font-size: 0.9rem;
+}
+
+.form-sent {
+    padding: 8px 0;
+}
+
+.form-sent h3 {
+    margin: 0 0 8px;
+}
+
+.form-sent p {
+    margin: 0 0 18px;
+}
+
+.send-message:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}

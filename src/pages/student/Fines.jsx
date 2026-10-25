@@ -1,7 +1,26 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PageStyles from '../../components/PageStyles';
+import { formatDate, pad, plural, rupees, useStudent, studentSummary } from '../../context/LibraryContext';
 import css from '../../styles/fines.css?inline';
 
+const sum = (fines) => fines.reduce((total, fine) => total + fine.amount, 0);
+
 export default function Fines() {
+  const { fines, getBook, payAllFines, settings, state, student } = useStudent();
+  const [justPaid, setJustPaid] = useState(false);
+
+  const unpaid = fines.filter((fine) => fine.status === 'due');
+  const balance = sum(unpaid);
+  const accruing = studentSummary(state, student.id).accruing;
+  const paidTotal = sum(fines.filter((fine) => fine.status === 'paid'));
+  const unpaidLabel = plural(unpaid.length, 'unpaid fine');
+
+  async function pay() {
+    await payAllFines();
+    setJustPaid(true);
+  }
+
   return (
     <>
       <title>Fines | BookVerse</title>
@@ -22,7 +41,13 @@ export default function Fines() {
                 </p>
               </div>
               <div className="balance-card">
-                <span>CURRENT BALANCE</span> <strong>₹20</strong> <small>1 unpaid fine</small>
+                <span>CURRENT BALANCE</span> <strong>{rupees(balance)}</strong>{' '}
+                {accruing > 0 && (
+                  <small className="accruing-note">
+                    + {rupees(accruing)} still adding up on overdue books. It is charged when you return them.
+                  </small>
+                )}
+                <small>{unpaidLabel}</small>
               </div>
             </div>
           </div>
@@ -37,7 +62,7 @@ export default function Fines() {
                   <i className="fa-solid fa-indian-rupee-sign" />
                 </div>
                 <div>
-                  <span>Total fines</span> <strong>₹20</strong>
+                  <span>Total fines</span> <strong>{rupees(sum(fines))}</strong>
                 </div>
               </article>
               <article className="summary-card">
@@ -45,15 +70,15 @@ export default function Fines() {
                   <i className="fa-regular fa-circle-check" />
                 </div>
                 <div>
-                  <span>Paid</span> <strong>₹0</strong>
+                  <span>Paid</span> <strong>{rupees(paidTotal)}</strong>
                 </div>
               </article>
-              <article className="summary-card warning-card">
+              <article className={`summary-card${balance ? ' warning-card' : ''}`}>
                 <div className="summary-icon">
                   <i className="fa-solid fa-clock" />
                 </div>
                 <div>
-                  <span>Unpaid</span> <strong>₹20</strong>
+                  <span>Unpaid</span> <strong>{rupees(balance)}</strong>
                 </div>
               </article>
               <article className="summary-card">
@@ -61,7 +86,7 @@ export default function Fines() {
                   <i className="fa-solid fa-receipt" />
                 </div>
                 <div>
-                  <span>Fine records</span> <strong>01</strong>
+                  <span>Fine records</span> <strong>{pad(fines.length)}</strong>
                 </div>
               </article>
             </div>
@@ -74,41 +99,54 @@ export default function Fines() {
                       <p className="eyebrow">CURRENT FINES</p>
                       <h2>Outstanding charges</h2>
                     </div>
-                    <span className="panel-count">1 unpaid fine</span>
+                    <span className="panel-count">{unpaidLabel}</span>
                   </div>
-                  <article className="fine-card">
-                    <div className="fine-book">
-                      <div className="book-cover">
-                        <i className="fa-solid fa-book-open" /> <span>01</span>
-                      </div>
-                    </div>
-                    <div className="fine-info">
-                      <span className="category">COMPUTER SCIENCE</span>
-                      <h3>Introduction to Algorithms</h3>
-                      <p className="author">Thomas H. Cormen</p>
-                      <div className="fine-details">
-                        <div>
-                          <span>Due date</span> <strong>23 Aug 2026</strong>
+                  {unpaid.map((fine, index) => {
+                    const book = getBook(fine.bookId);
+                    return (
+                      <article className="fine-card" key={fine.id}>
+                        <div className="fine-book">
+                          <div className="book-cover">
+                            <i className="fa-solid fa-book-open" /> <span>{pad(index + 1)}</span>
+                          </div>
                         </div>
-                        <div>
-                          <span>Days overdue</span> <strong>2 days</strong>
+                        <div className="fine-info">
+                          <span className="category">{book.category.toUpperCase()}</span>
+                          <h3>{book.title}</h3>
+                          <p className="author">{book.author}</p>
+                          <div className="fine-details">
+                            <div>
+                              <span>Due date</span> <strong>{formatDate(fine.dueOn)}</strong>
+                            </div>
+                            <div>
+                              <span>Days overdue</span> <strong>{plural(fine.days, 'day')}</strong>
+                            </div>
+                            <div>
+                              <span>Fine rate</span> <strong>{rupees(settings.fineRate)} / day</strong>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <span>Fine rate</span> <strong>₹10 / day</strong>
+                        <div className="fine-amount">
+                          <span>AMOUNT DUE</span> <strong>{rupees(fine.amount)}</strong>{' '}
+                          <small>Unpaid</small>
                         </div>
-                      </div>
+                      </article>
+                    );
+                  })}
+                  {unpaid.length > 0 ? (
+                    <div className="fine-notice">
+                      <i className="fa-solid fa-circle-info" />
+                      <p>
+                        Return the overdue book as soon as possible. Additional charges may apply for
+                        each extra overdue day. <Link to="/student/my-books">See your loans</Link>
+                      </p>
                     </div>
-                    <div className="fine-amount">
-                      <span>AMOUNT DUE</span> <strong>₹20</strong> <small>Unpaid</small>
-                    </div>
-                  </article>
-                  <div className="fine-notice">
-                    <i className="fa-solid fa-circle-info" />
-                    <p>
-                      Return the overdue book as soon as possible. Additional charges may apply for
-                      each extra overdue day.
+                  ) : (
+                    <p className="empty-state">
+                      <i className="fa-regular fa-circle-check" /> No outstanding fines. Your account
+                      is clear.
                     </p>
-                  </div>
+                  )}
                 </section>
                 {/* HISTORY */}
                 <section className="history-panel">
@@ -124,22 +162,32 @@ export default function Fines() {
                       <span>Book</span> <span>Reason</span> <span>Date</span> <span>Amount</span>{' '}
                       <span>Status</span>
                     </div>
-                    <div className="history-row">
-                      <div className="history-book">
-                        <div className="mini-book">
-                          <i className="fa-solid fa-book" />
+                    {fines.map((fine) => {
+                      const book = getBook(fine.bookId);
+                      const paid = fine.status === 'paid';
+                      const waived = fine.status === 'waived';
+                      return (
+                        <div className="history-row" key={fine.id}>
+                          <div className="history-book">
+                            <div className="mini-book">
+                              <i className="fa-solid fa-book" />
+                            </div>
+                            <div>
+                              <strong>{book.title}</strong> <small>{book.author}</small>
+                            </div>
+                          </div>
+                          <span>{fine.reason}</span>{' '}
+                          <span>{formatDate(paid ? fine.paidOn : waived ? fine.waivedOn : fine.dueOn)}</span>{' '}
+                          <strong>{rupees(fine.amount)}</strong>{' '}
+                          <span className={`history-status ${paid || waived ? 'paid' : 'unpaid'}`}>
+                            {paid ? 'Paid' : waived ? 'Waived' : 'Unpaid'}
+                          </span>
                         </div>
-                        <div>
-                          <strong>Introduction to Algorithms</strong>{' '}
-                          <small>Thomas H. Cormen</small>
-                        </div>
-                      </div>
-                      <span>Overdue</span> <span>23 Aug 2026</span> <strong>₹20</strong>{' '}
-                      <span className="history-status unpaid">Unpaid</span>
-                    </div>
+                      );
+                    })}
                     <div className="history-empty">
                       <i className="fa-regular fa-circle-check" />{' '}
-                      <span>No other fine records.</span>
+                      <span>{fines.length ? 'No other fine records.' : 'No fine records yet.'}</span>
                     </div>
                   </div>
                 </section>
@@ -151,16 +199,35 @@ export default function Fines() {
                     <i className="fa-solid fa-receipt" />
                   </div>
                   <p className="eyebrow">CURRENT BALANCE</p>
-                  <h2>₹20</h2>
-                  <p>You currently have one unpaid fine on your account.</p>
+                  <h2>{rupees(balance)}</h2>
+                  <p>
+                    {balance
+                      ? `You currently have ${unpaidLabel} on your account.`
+                      : 'You have no unpaid fines. Thanks for keeping your account clear.'}
+                  </p>
                   <div className="payment-line">
-                    <span>Outstanding</span> <strong>₹20</strong>
+                    <span>Outstanding</span> <strong>{rupees(balance)}</strong>
                   </div>
-                  <button className="payment-button" type="button">
-                    Pay fine <i className="fa-solid fa-arrow-right" />
+                  <button
+                    className="payment-button"
+                    type="button"
+                    disabled={!balance}
+                    onClick={pay}
+                  >
+                    {balance ? (
+                      <>
+                        Pay {rupees(balance)} <i className="fa-solid fa-arrow-right" />
+                      </>
+                    ) : (
+                      <>
+                        Nothing to pay <i className="fa-solid fa-check" />
+                      </>
+                    )}
                   </button>{' '}
                   <small className="payment-note">
-                    Payment UI only. No transaction is processed.
+                    {justPaid && !balance
+                      ? 'Payment recorded. This is a demo, no money was charged.'
+                      : 'Payment UI only. No transaction is processed.'}
                   </small>
                 </section>
                 <section className="side-card policy-card">
@@ -168,7 +235,10 @@ export default function Fines() {
                   <h2>How fines work</h2>
                   <div className="policy-item">
                     <span>01</span>
-                    <p>₹10 is charged for each overdue day.</p>
+                    <p>
+                      {rupees(settings.fineRate)} is charged for each overdue day
+                      {settings.graceDays > 0 && ` after a ${plural(settings.graceDays, 'day')} grace period`}.
+                    </p>
                   </div>
                   <div className="policy-item">
                     <span>02</span>

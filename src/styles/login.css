@@ -1,6 +1,6 @@
 /* =========================================================
    BOOKVERSE - LOGIN
-   Shared login UI for Student / Teacher / Admin
+   Shared login UI for Student / Librarian / Admin
    HTML + CSS ONLY  (card sized to 80% / role switch via radios)
 ========================================================= */
 
@@ -325,7 +325,7 @@ input {
 
 /* Active role card: brown when its radio is checked, others stay white */
 #role-student:checked ~ .role-section .role-grid label[for="role-student"],
-#role-teacher:checked ~ .role-section .role-grid label[for="role-teacher"],
+#role-librarian:checked ~ .role-section .role-grid label[for="role-librarian"],
 #role-admin:checked  ~ .role-section .role-grid label[for="role-admin"] {
     border-color: #735039;
 
@@ -351,7 +351,7 @@ input {
 }
 
 #role-student:checked ~ .role-section .role-grid label[for="role-student"] .role-icon,
-#role-teacher:checked ~ .role-section .role-grid label[for="role-teacher"] .role-icon,
+#role-librarian:checked ~ .role-section .role-grid label[for="role-librarian"] .role-icon,
 #role-admin:checked  ~ .role-section .role-grid label[for="role-admin"] .role-icon {
     color: #f5dfc3;
 }
@@ -370,7 +370,7 @@ input {
 }
 
 #role-student:checked ~ .role-section .role-grid label[for="role-student"] .role-description,
-#role-teacher:checked ~ .role-section .role-grid label[for="role-teacher"] .role-description,
+#role-librarian:checked ~ .role-section .role-grid label[for="role-librarian"] .role-description,
 #role-admin:checked  ~ .role-section .role-grid label[for="role-admin"] .role-description {
     color: #d9c7b4;
 }
@@ -395,7 +395,7 @@ input {
 
 /* Show only the info block matching the checked role */
 #role-student:checked ~ .role-info-student,
-#role-teacher:checked ~ .role-info-teacher,
+#role-librarian:checked ~ .role-info-librarian,
 #role-admin:checked  ~ .role-info-admin {
     display: flex;
 }
@@ -793,4 +793,49 @@ form > label {
     .security-note {
         line-height: 1.5;
     }
+}
+/* ================= FORM FEEDBACK ================= */
+
+.auth-error {
+    margin: 0 0 10px;
+    padding: 9px 12px;
+    border-left: 3px solid #a63d2a;
+    border-radius: 6px;
+    background: rgba(166, 61, 42, 0.1);
+    color: #7d2c1d;
+    font-size: 0.5rem;
+}
+
+.auth-hint {
+    margin: 10px 0 0;
+    color: #8a7b70;
+    font-size: 0.45rem;
+    text-align: center;
+}
+
+.login-button {
+    cursor: pointer;
+}
+
+.login-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.input-box select {
+    flex: 1 1 0;
+    width: 100%;
+    min-width: 0;
+    padding: 10px 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #33271f;
+    font-family: inherit;
+    font-size: 0.552rem;
+}
+
+.pw-note {
+    margin: 6px 0 10px;
+    color: #6b5a4c;
 }

@@ -1,213 +1,235 @@
-import PageStyles from '../../components/PageStyles';
-import css from '../../styles/admin-fines.css?inline';
+import { useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import ConfirmDialog from '../../components/admin/ConfirmDialog';
+import LedgerTable from '../../components/admin/LedgerTable';
+import Notice from '../../components/admin/Notice';
+import PageHeader from '../../components/admin/PageHeader';
+import Pager from '../../components/admin/Pager';
+import StatusDot from '../../components/admin/StatusDot';
+import WaiveDialog from '../../components/admin/WaiveDialog';
+import usePaging from '../../components/admin/usePaging';
+import { accruingTotal, formatDate, plural, rupees, useLibrary } from '../../context/LibraryContext';
+import { downloadCsv } from '../../utils/csv';
+
+const PAGE_SIZE = 10;
+const FILTERS = [
+  ['all', 'All'],
+  ['due', 'Unpaid'],
+  ['paid', 'Paid'],
+  ['waived', 'Waived'],
+];
+const STATUS = {
+  due: { tone: 'bad', label: 'Unpaid' },
+  paid: { tone: 'good', label: 'Paid' },
+  waived: { tone: 'neutral', label: 'Waived' },
+};
 
 export default function Fines() {
+  const { state, getBook, getStudent, markFinePaid } = useLibrary();
+  const [params, setParams] = useSearchParams();
+
+  const [query, setQuery] = useState('');
+  const [dialog, setDialog] = useState(null); // { kind: 'paid' | 'waive', fine }
+  const [notice, setNotice] = useState('');
+
+  const fines = state.fines;
+  const filter = FILTERS.some(([value]) => value === params.get('status')) ? params.get('status') : 'all';
+  const count = (value) => (value === 'all' ? fines.length : fines.filter((f) => f.status === value).length);
+  const sum = (value) => fines.filter((f) => f.status === value).reduce((total, f) => total + f.amount, 0);
+
+  const needle = query.trim().toLowerCase();
+  const filtered = fines.filter(
+    (f) =>
+      (filter === 'all' || f.status === filter) &&
+      (!needle ||
+        [getStudent(f.studentId).name, f.studentId, getBook(f.bookId).title].some((t) =>
+          t.toLowerCase().includes(needle),
+        )),
+  );
+  const paging = usePaging(filtered, PAGE_SIZE, `${needle}|${filter}`);
+
+  const columns = [
+    {
+      key: 'member',
+      label: 'Member',
+      title: true,
+      render: (f) => (
+        <>
+          <Link to={`/admin/members/${f.studentId}`} className="ad-link">
+            {getStudent(f.studentId).name}
+          </Link>
+          <small className="mono">{f.studentId}</small>
+        </>
+      ),
+    },
+    { key: 'book', label: 'Book', render: (f) => getBook(f.bookId).title },
+    {
+      key: 'reason',
+      label: 'Reason',
+      render: (f) => (
+        <>
+          {f.reason}
+          <small>{plural(f.days, 'day')} late</small>
+        </>
+      ),
+    },
+    { key: 'amount', label: 'Amount', num: true, render: (f) => rupees(f.amount) },
+    {
+      key: 'status',
+      label: 'Status',
+      render: (f) => (
+        <>
+          <StatusDot tone={STATUS[f.status].tone}>{STATUS[f.status].label}</StatusDot>
+          {f.status === 'waived' && <small>{f.waivedReason}</small>}
+          {f.status === 'paid' && <small>{formatDate(f.paidOn)}</small>}
+        </>
+      ),
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      actions: true,
+      render: (f) =>
+        f.status === 'due' && (
+          <>
+            <button
+              type="button"
+              className="btn btn-sm"
+              aria-label={`Mark ${getStudent(f.studentId).name}'s fine paid`}
+              onClick={() => setDialog({ kind: 'paid', fine: f })}
+            >
+              Mark paid
+            </button>
+            <button
+              type="button"
+              className="btn btn-sm"
+              aria-label={`Waive ${getStudent(f.studentId).name}'s fine`}
+              onClick={() => setDialog({ kind: 'waive', fine: f })}
+            >
+              Waive
+            </button>
+          </>
+        ),
+    },
+  ];
+
+  function exportCsv() {
+    downloadCsv(
+      `fines-${filter}.csv`,
+      [
+        { label: 'Member ID', value: (f) => f.studentId },
+        { label: 'Member', value: (f) => getStudent(f.studentId).name },
+        { label: 'Book', value: (f) => getBook(f.bookId).title },
+        { label: 'Days late', value: (f) => f.days },
+        { label: 'Amount', value: (f) => f.amount },
+        { label: 'Status', value: (f) => STATUS[f.status].label },
+        { label: 'Waived reason', value: (f) => f.waivedReason ?? '' },
+      ],
+      filtered,
+    );
+  }
+
+  const figures = [
+    ['Fines issued', rupees(sum('due') + sum('paid') + sum('waived'))],
+    ['Collected', rupees(sum('paid'))],
+    ['Outstanding', rupees(sum('due')), sum('due') > 0],
+    ['Waived', rupees(sum('waived'))],
+  ];
+
   return (
     <>
       <title>Fines | BookVerse Admin</title>
-      <meta name="description" content="Manage fines across BookVerse." />
-      <PageStyles css={css} />
-      <main>
-        {/* HERO */}
-        <section className="page-hero">
-          <div className="container">
-            <p className="eyebrow">FINES</p>
-            <h1>
-              Fines, <span>across every account.</span>
-            </h1>
-            <p className="hero-description">
-              Track outstanding and paid fines for every member and staff account in the library.
-            </p>
-            <div className="search-box" style={{ maxWidth: '560px', marginTop: '24px' }}>
-              <i className="fa-solid fa-magnifying-glass" />{' '}
-              <input type="text" placeholder="Search by member or book" />{' '}
-              <button type="button">Search</button>
+      <meta name="description" content="Track, collect and waive library fines." />
+      <main className="ad-main">
+        <PageHeader
+          title="Fines"
+          meta={
+            <>
+              <span className="mono">{count('due')}</span> unpaid · <span className="mono">{count('all')}</span> on record ·{' '}
+              <span className="mono">{rupees(accruingTotal(state))}</span> still accruing on overdue loans
+            </>
+          }
+        >
+          <button type="button" className="btn" onClick={exportCsv}>
+            Export CSV
+          </button>
+        </PageHeader>
+
+        {notice && <Notice onClose={() => setNotice('')}>{notice}</Notice>}
+
+        <section className="figures" aria-label="Fine totals">
+          {figures.map(([label, value, bad]) => (
+            <div className={`figure${bad ? ' bad' : ''}`} key={label}>
+              <span>{label}</span>
+              <strong>{value}</strong>
             </div>
-          </div>
+          ))}
         </section>
-        {/* CONTENT */}
-        <section className="page-section">
-          <div className="container">
-            <div
-              className="stats-grid"
-              style={{ marginTop: '0', marginBottom: '26px', gridTemplateColumns: 'repeat(4,1fr)' }}
-            >
-              <article className="stat-card">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-indian-rupee-sign" />
-                </div>
-                <div>
-                  <span>Total fines issued</span> <strong>₹23,180</strong>
-                </div>
-              </article>
-              <article className="stat-card stat-card-good">
-                <div className="stat-icon">
-                  <i className="fa-regular fa-circle-check" />
-                </div>
-                <div>
-                  <span>Total collected</span> <strong>₹18,420</strong>
-                </div>
-              </article>
-              <article className="stat-card stat-card-warning">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-clock" />
-                </div>
-                <div>
-                  <span>Total outstanding</span> <strong>₹4,760</strong>
-                </div>
-              </article>
-              <article className="stat-card">
-                <div className="stat-icon">
-                  <i className="fa-solid fa-receipt" />
-                </div>
-                <div>
-                  <span>Fine records</span> <strong>486</strong>
-                </div>
-              </article>
-            </div>
-            <div className="filter-row" style={{ marginTop: '0' }}>
-              <span>Status</span> <button className="filter-button active-filter">All fines</button>{' '}
-              <button className="filter-button">Unpaid</button>{' '}
-              <button className="filter-button">Paid</button>
-            </div>
-            <section className="page-block">
-              <div className="panel-heading">
-                <div>
-                  <p className="eyebrow">FINE RECORDS</p>
-                  <h2>All fines</h2>
-                </div>
-                <span className="panel-count">486 records</span>
-              </div>
-              <div className="data-table">
-                <div
-                  className="table-head"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto',
-                  }}
-                >
-                  <span>Member</span> <span>Book</span> <span>Amount</span> <span>Reason</span>{' '}
-                  <span>Date</span> <span>Status</span> <span />
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">AS</div>
-                    <div>
-                      <strong>Alex Sharma</strong>
-                    </div>
-                  </div>
-                  <span>Introduction to Algorithms</span> <strong>₹20</strong> <span>Overdue</span>{' '}
-                  <span>23 Aug 2026</span> <span className="badge badge-bad">Unpaid</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">AR</div>
-                    <div>
-                      <strong>Aditya Rao</strong>
-                    </div>
-                  </div>
-                  <span>Introduction to Algorithms</span> <strong>₹30</strong> <span>Overdue</span>{' '}
-                  <span>23 Aug 2026</span> <span className="badge badge-bad">Unpaid</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">AD</div>
-                    <div>
-                      <strong>Ananya Das</strong>
-                    </div>
-                  </div>
-                  <span>The Pragmatic Programmer</span> <strong>₹110</strong> <span>Overdue</span>{' '}
-                  <span>15 Aug 2026</span> <span className="badge badge-bad">Unpaid</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">MI</div>
-                    <div>
-                      <strong>Meera Iyer</strong>
-                    </div>
-                  </div>
-                  <span>Deep Work</span> <strong>₹30</strong> <span>Overdue</span>{' '}
-                  <span>19 Aug 2026</span> <span className="badge badge-good">Paid</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">KS</div>
-                    <div>
-                      <strong>Kabir Singh</strong>
-                    </div>
-                  </div>
-                  <span>Design Patterns</span> <strong>₹15</strong> <span>Damaged copy</span>{' '}
-                  <span>10 Aug 2026</span> <span className="badge badge-good">Paid</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-                <div
-                  className="table-row"
-                  style={{
-                    gridTemplateColumns:
-                      'minmax(150px,1.3fr) minmax(150px,1.3fr) 0.6fr 0.9fr 0.7fr 0.7fr auto',
-                  }}
-                >
-                  <div className="table-entity">
-                    <div className="mini-person">RS</div>
-                    <div>
-                      <strong>Riya Sinha</strong>
-                    </div>
-                  </div>
-                  <span>Python Crash Course</span> <strong>₹0</strong> <span>—</span>{' '}
-                  <span>15 Aug 2026</span> <span className="badge badge-neutral">Waived</span>{' '}
-                  <a href="#" className="row-action">
-                    Details <i className="fa-solid fa-arrow-right" />
-                  </a>
-                </div>
-              </div>
-            </section>
+
+        <div className="ad-toolbar ad-section">
+          <input
+            type="search"
+            className="ad-input"
+            placeholder="Search member, ID or book"
+            aria-label="Search fines"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+          <div className="ad-tabs">
+            {FILTERS.map(([value, label]) => (
+              <button
+                type="button"
+                key={value}
+                className={`ad-tab${filter === value ? ' on' : ''}`}
+                onClick={() => setParams(value === 'all' ? {} : { status: value })}
+              >
+                {label}
+                <span className="mono">{count(value)}</span>
+              </button>
+            ))}
           </div>
-        </section>
+        </div>
+
+        <LedgerTable
+          columns={columns}
+          rows={paging.rows}
+          rowKey={(f) => f.id}
+          empty={
+            <>
+              <strong>No fines here.</strong>
+              Nothing matches this filter.
+            </>
+          }
+        />
+        <Pager {...paging} onPage={paging.setPage} />
       </main>
+
+      {dialog?.kind === 'paid' && (
+        <ConfirmDialog
+          title={`Mark ${rupees(dialog.fine.amount)} as paid?`}
+          confirmLabel="Mark paid"
+          onCancel={() => setDialog(null)}
+          onConfirm={() => {
+            markFinePaid(dialog.fine.id);
+            setNotice(`Recorded ${rupees(dialog.fine.amount)} paid by ${getStudent(dialog.fine.studentId).name}.`);
+            setDialog(null);
+          }}
+        >
+          <p>This records that {getStudent(dialog.fine.studentId).name} has paid the fine in full.</p>
+        </ConfirmDialog>
+      )}
+
+      {dialog?.kind === 'waive' && (
+        <WaiveDialog
+          fine={dialog.fine}
+          onClose={(waived) => {
+            if (waived) {
+              setNotice(`Waived ${rupees(dialog.fine.amount)} for ${getStudent(dialog.fine.studentId).name}.`);
+            }
+            setDialog(null);
+          }}
+        />
+      )}
     </>
   );
 }

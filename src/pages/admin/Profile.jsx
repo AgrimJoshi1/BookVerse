@@ -1,201 +1,190 @@
-import { Link } from 'react-router-dom';
-import PageStyles from '../../components/PageStyles';
-import css from '../../styles/admin-profile.css?inline';
+import { useState } from 'react';
+import Field from '../../components/admin/Field';
+import Notice from '../../components/admin/Notice';
+import PageHeader from '../../components/admin/PageHeader';
+import PasswordChecklist from '../../components/PasswordChecklist';
+import { ApiError, formatDate, initials, useLibrary } from '../../context/LibraryContext';
+
+const EMPTY_PASSWORDS = { current: '', next: '' };
 
 export default function Profile() {
+  const { admin, activity, updateAdmin, changePassword } = useLibrary();
+  const [draft, setDraft] = useState(null);
+  const [passwords, setPasswords] = useState(EMPTY_PASSWORDS);
+  const [passwordMessage, setPasswordMessage] = useState(null);
+  const [saved, setSaved] = useState(false);
+
+  const editing = draft !== null;
+  const mine = activity.filter((entry) => entry.actor === admin.name).slice(0, 6);
+
+  function save(event) {
+    event.preventDefault();
+    const fields = { name: draft.name.trim(), email: draft.email.trim(), phone: draft.phone.trim() };
+    if (!fields.name || !fields.email.includes('@') || !fields.phone) return;
+    updateAdmin(fields);
+    setDraft(null);
+    setSaved(true);
+  }
+
+  async function updatePassword(event) {
+    event.preventDefault();
+    try {
+      await changePassword(passwords.current, passwords.next);
+      setPasswordMessage({ type: 'good', text: 'Password updated.' });
+      setPasswords(EMPTY_PASSWORDS);
+    } catch (error) {
+      if (!(error instanceof ApiError)) throw error;
+      setPasswordMessage({ type: 'bad', text: Object.values(error.fields)[0] ?? error.message });
+    }
+  }
+
+  const edit = (key, label, type = 'text') => (
+    <Field
+      id={`admin-${key}`}
+      label={label}
+      type={type}
+      value={draft[key]}
+      onChange={(event) => setDraft({ ...draft, [key]: event.target.value })}
+      error={!draft[key].trim() ? 'Required.' : undefined}
+    />
+  );
+
   return (
     <>
-      <title>Admin Profile | BookVerse</title>
-      <meta name="description" content="Administrator profile and account settings in BookVerse." />
-      <PageStyles css={css} />
-      <main>
-        <section className="page-hero" style={{ paddingBottom: '62px' }}>
-          <div className="container">
-            <p className="eyebrow">ADMINISTRATOR PROFILE</p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
-              <div className="large-avatar">SV</div>
-              <div>
-                <h1 style={{ marginBottom: '5px', fontSize: 'clamp(2rem,4vw,3.1rem)' }}>
-                  Sunita Verma
-                </h1>
-                <p style={{ color: '#95887e', fontSize: '0.72rem' }}>
-                  Administrator · Library Administration
-                </p>
+      <title>Profile | BookVerse Admin</title>
+      <meta name="description" content="Your administrator account." />
+      <main className="ad-main">
+        <PageHeader
+          title={admin.name}
+          meta={
+            <>
+              Administrator · <span className="mono">{admin.id}</span>
+            </>
+          }
+        >
+          <span className="ad-initials" aria-hidden="true">
+            {initials(admin.name)}
+          </span>
+        </PageHeader>
+
+        {saved && (
+          <Notice tone="good" onClose={() => setSaved(false)}>
+            Profile saved.
+          </Notice>
+        )}
+
+        <div className="ad-cols">
+          <div>
+            <section>
+              <div className="ad-section-head">
+                <h2>Your details</h2>
+                {!editing && (
+                  <button
+                    type="button"
+                    className="btn btn-sm"
+                    onClick={() => setDraft({ name: admin.name, email: admin.email, phone: admin.phone })}
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
-            </div>
-          </div>
-        </section>
-        <section className="page-section" style={{ paddingTop: '28px' }}>
-          <div className="container page-grid">
-            <div className="page-main">
-              <section className="page-block">
-                <div className="block-heading">
-                  <div>
-                    <p className="eyebrow">PERSONAL INFORMATION</p>
-                    <h2>Your details</h2>
+
+              {editing ? (
+                <form className="ad-form" onSubmit={save} noValidate>
+                  <div className="form-grid">
+                    {edit('name', 'Full name')}
+                    {edit('email', 'Email', 'email')}
+                    {edit('phone', 'Phone', 'tel')}
                   </div>
-                  <button className="edit-button" type="button">
-                    <i className="fa-regular fa-pen-to-square" /> Edit profile
-                  </button>
+                  <div className="form-actions">
+                    <button type="submit" className="btn btn-primary">
+                      Save
+                    </button>
+                    <button type="button" className="btn" onClick={() => setDraft(null)}>
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <dl className="dl">
+                  <dt>Full name</dt>
+                  <dd>{admin.name}</dd>
+                  <dt>Admin ID</dt>
+                  <dd className="mono">{admin.id}</dd>
+                  <dt>Email</dt>
+                  <dd>{admin.email}</dd>
+                  <dt>Phone</dt>
+                  <dd className="mono">{admin.phone}</dd>
+                  <dt>Department</dt>
+                  <dd>{admin.department}</dd>
+                  <dt>Joined</dt>
+                  <dd>{admin.joined}</dd>
+                </dl>
+              )}
+            </section>
+
+            <form className="ad-form ad-section" onSubmit={updatePassword} noValidate>
+              <div className="ad-section-head">
+                <h2>Password</h2>
+              </div>
+              <div className="form-grid">
+                <Field
+                  id="current-password"
+                  label="Current password"
+                  type="password"
+                  value={passwords.current}
+                  onChange={(event) => setPasswords({ ...passwords, current: event.target.value })}
+                />
+                <Field
+                  id="new-password"
+                  label="New password"
+                  type="password"
+                  value={passwords.next}
+                  onChange={(event) => setPasswords({ ...passwords, next: event.target.value })}
+                />
+              </div>
+              <PasswordChecklist value={passwords.next} />
+              {passwordMessage && (
+                <div className="pw-message">
+                  <Notice tone={passwordMessage.type === 'bad' ? 'bad' : 'good'}>{passwordMessage.text}</Notice>
                 </div>
-                <div className="details-grid">
-                  <div className="detail-item">
-                    <span>Full name</span> <strong>Sunita Verma</strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Admin ID</span> <strong>BV2026ADM002</strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Email address</span> <strong>sunita.v@bookverse.edu</strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Department</span> <strong>Library Administration</strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Phone</span> <strong>+91 98110 22345</strong>
-                  </div>
-                  <div className="detail-item">
-                    <span>Joined</span> <strong>April 2019</strong>
-                  </div>
-                </div>
-              </section>
-              <section className="page-block">
-                <div className="block-heading">
-                  <div>
-                    <p className="eyebrow">LIBRARY ACTIVITY</p>
-                    <h2>Your admin snapshot</h2>
-                  </div>
-                </div>
-                <div className="stats-grid" style={{ marginTop: '0' }}>
-                  <div className="stat-card">
-                    <div className="stat-icon">
-                      <i className="fa-solid fa-book-medical" />
-                    </div>
-                    <div>
-                      <span>Books added</span> <strong>186</strong>
-                    </div>
-                  </div>
-                  <div className="stat-card">
-                    <div className="stat-icon">
-                      <i className="fa-solid fa-user-plus" />
-                    </div>
-                    <div>
-                      <span>Members added</span> <strong>94</strong>
-                    </div>
-                  </div>
-                  <div className="stat-card">
-                    <div className="stat-icon">
-                      <i className="fa-solid fa-user-tie" />
-                    </div>
-                    <div>
-                      <span>Staff onboarded</span> <strong>11</strong>
-                    </div>
-                  </div>
-                  <div className="stat-card">
-                    <div className="stat-icon">
-                      <i className="fa-solid fa-gear" />
-                    </div>
-                    <div>
-                      <span>Settings updates</span> <strong>7</strong>
-                    </div>
-                  </div>
-                </div>
-              </section>
-              <section className="page-block">
-                <div className="block-heading">
-                  <div>
-                    <p className="eyebrow">SECURITY</p>
-                    <h2>Password &amp; login</h2>
-                  </div>
-                </div>
-                <div className="form-grid">
-                  <div className="form-group">
-                    <label htmlFor="current-password">Current password</label>{' '}
-                    <input
-                      type="password"
-                      id="current-password"
-                      placeholder="Enter current password"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="new-password">New password</label>{' '}
-                    <input type="password" id="new-password" placeholder="Enter new password" />
-                  </div>
-                </div>
-                <div className="form-actions">
-                  <button className="outline-button" type="button">
-                    Cancel
-                  </button>{' '}
-                  <button className="light-button" type="button">
-                    Update password <i className="fa-solid fa-check" />
-                  </button>
-                </div>
-              </section>
-            </div>
-            <aside className="page-sidebar">
-              <section className="side-card summary-card">
-                <div className="stat-icon" style={{ marginBottom: '17px' }}>
-                  <i className="fa-solid fa-shield-halved" />
-                </div>
-                <p className="eyebrow">ROLE &amp; PERMISSIONS</p>
-                <h2>Full administrator</h2>
-                <p
-                  style={{
-                    margin: '9px 0 18px',
-                    color: '#81756d',
-                    fontSize: '0.65rem',
-                    lineHeight: '1.65',
+              )}
+              <div className="form-actions">
+                <button type="submit" className="btn btn-primary">
+                  Update password
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => {
+                    setPasswords(EMPTY_PASSWORDS);
+                    setPasswordMessage(null);
                   }}
                 >
-                  Your account has full read &amp; write access across books, members, staff,
-                  transactions, fines, and library settings.
-                </p>
-                <div className="summary-line" style={{ borderTop: 'none' }}>
-                  <span>Admin ID</span> <strong>BV2026ADM002</strong>
-                </div>
-                <div className="summary-line">
-                  <span>Role</span> <strong>Administrator</strong>
-                </div>
-                <div className="summary-line">
-                  <span>Access level</span> <strong>Full access</strong>
-                </div>
-                <div className="summary-line">
-                  <span>Status</span> <span className="badge badge-good">Active</span>
-                </div>
-              </section>
-              <section className="side-card quick-links-card">
-                <p className="eyebrow">ACCOUNT</p>
-                <Link to="/admin/settings" className="quick-link">
-                  <span>
-                    <i className="fa-solid fa-gear" />
-                  </span>
-                  <div>
-                    <strong>Library settings</strong> <small>Loan rules &amp; fine rates</small>
-                  </div>
-                  <i className="fa-solid fa-arrow-right" />
-                </Link>{' '}
-                <Link to="/admin/transactions" className="quick-link">
-                  <span>
-                    <i className="fa-solid fa-clock-rotate-left" />
-                  </span>
-                  <div>
-                    <strong>Transaction history</strong> <small>Full issue &amp; return log</small>
-                  </div>
-                  <i className="fa-solid fa-arrow-right" />
-                </Link>{' '}
-                <Link to="/login" className="quick-link">
-                  <span>
-                    <i className="fa-solid fa-right-from-bracket" />
-                  </span>
-                  <div>
-                    <strong>Sign out</strong> <small>End your session</small>
-                  </div>
-                  <i className="fa-solid fa-arrow-right" />
-                </Link>
-              </section>
-            </aside>
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
-        </section>
+
+          <aside>
+            <div className="ad-section-head">
+              <h2>Your recent activity</h2>
+            </div>
+            {mine.length === 0 ? (
+              <p className="muted">Nothing yet. Changes you make will be listed here.</p>
+            ) : (
+              <ul className="log">
+                {mine.map((entry) => (
+                  <li key={entry.id}>
+                    <time dateTime={entry.on}>{formatDate(entry.on).slice(0, 6)}</time>
+                    <div>{entry.text}</div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </aside>
+        </div>
       </main>
     </>
   );
