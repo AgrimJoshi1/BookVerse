@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Captcha from '../../components/Captcha';
 import PageStyles from '../../components/PageStyles';
 import { ApiError, useLibrary } from '../../context/LibraryContext';
 import css from '../../styles/login.css?inline';
@@ -21,6 +22,18 @@ export default function Login() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [remember, setRemember] = useState(false);
+  const [captchaError, setCaptchaError] = useState('');
+  const captchaId = useRef('');
+  const [captchaText, setCaptchaText] = useState('');
+  const [captchaTry, setCaptchaTry] = useState(0);
+  const rememberCaptcha = useCallback((id) => {
+    captchaId.current = id;
+  }, []);
+  const captcha = () => ({ id: captchaId.current, answer: captchaText });
+  const freshCaptcha = () => {
+    setCaptchaText('');
+    setCaptchaTry((n) => n + 1);
+  };
 
   // Arriving here means signing in again, so any old session ends.
   useEffect(() => {
@@ -36,8 +49,9 @@ export default function Login() {
     event.preventDefault();
     setBusy(true);
     setError('');
+    setCaptchaError('');
     try {
-      const result = await login(email, password, role, remember);
+      const result = await login(email, password, role, remember, captcha());
       if (result.mustChange) {
         navigate('/set-password', { replace: true });
         return;
@@ -46,7 +60,9 @@ export default function Login() {
       navigate(back && back.startsWith('/' + role) ? back : HOME[role], { replace: true });
     } catch (err) {
       if (!(err instanceof ApiError)) throw err;
-      setError(err.message);
+      if (err.fields.captcha) setCaptchaError(err.fields.captcha);
+      else setError(err.message);
+      freshCaptcha();
       setBusy(false);
     }
   };
@@ -214,6 +230,13 @@ export default function Login() {
                 </button>
               </div>
             </label>
+            <Captcha
+                value={captchaText}
+                onChange={setCaptchaText}
+                onChallenge={rememberCaptcha}
+                refreshKey={captchaTry}
+                error={captchaError}
+              />
             <div className="form-options">
               <label className="remember">
                 <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />{' '}

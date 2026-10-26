@@ -60,8 +60,9 @@ export function LibraryProvider({ children }) {
     const actions = {
       // auth
       register: (fields) => run(api.register(fields)),
-      login: (email, password, role, remember) =>
-        run(api.login(email, password, role, remember)).then((result) => {
+      newCaptcha: () => api.newCaptcha(),
+      login: (email, password, role, remember, captcha) =>
+        run(api.login(email, password, role, remember, captcha)).then((result) => {
           setSession(api.currentSession());
           return result;
         }),

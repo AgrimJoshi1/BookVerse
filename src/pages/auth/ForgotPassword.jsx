@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import Captcha from '../../components/Captcha';
 import PageStyles from '../../components/PageStyles';
 import { ApiError, useLibrary } from '../../context/LibraryContext';
 import css from '../../styles/login.css?inline';
@@ -20,19 +21,34 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
   const [error, setError] = useState('');
+  const [captchaError, setCaptchaError] = useState('');
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
+  const captchaId = useRef('');
+  const [captchaText, setCaptchaText] = useState('');
+  const [captchaTry, setCaptchaTry] = useState(0);
+  const rememberCaptcha = useCallback((id) => {
+    captchaId.current = id;
+  }, []);
+  const captcha = () => ({ id: captchaId.current, answer: captchaText });
+  const freshCaptcha = () => {
+    setCaptchaText('');
+    setCaptchaTry((n) => n + 1);
+  };
 
   async function submit(event) {
     event.preventDefault();
     setBusy(true);
     setError('');
+    setCaptchaError('');
     try {
-      await requestPasswordReset({ role, email, note });
+      await requestPasswordReset({ role, email, note, captcha: captcha() });
       setSent(true);
     } catch (err) {
       if (!(err instanceof ApiError)) throw err;
-      setError(err.fields.email ?? err.fields.role ?? err.message);
+      setError(err.fields.email ?? err.fields.role ?? (err.fields.captcha ? '' : err.message));
+      setCaptchaError(err.fields.captcha ?? '');
+      freshCaptcha();
     }
     setBusy(false);
   }
@@ -134,6 +150,13 @@ export default function ForgotPassword() {
                     />
                   </div>
                 </label>
+                <Captcha
+                value={captchaText}
+                onChange={setCaptchaText}
+                onChallenge={rememberCaptcha}
+                refreshKey={captchaTry}
+                error={captchaError}
+              />
                 {error && (
                   <p className="auth-error" role="alert">
                     {error}

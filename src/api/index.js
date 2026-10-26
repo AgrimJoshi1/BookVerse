@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import * as db from './db';
+import { captchaProblem, createCaptcha } from './captcha';
 import {
   ROLE_CODE,
   archiveBlocker,
@@ -73,6 +74,14 @@ function requireRole(state, ...roles) {
   return user;
 }
 
+// Public forms need a solved captcha before anything else is looked at.
+function requireCaptcha(captcha) {
+  const why = captchaProblem(captcha);
+  if (why) throw new ApiError('Please solve the captcha.', { captcha: why });
+}
+
+export const newCaptcha = () => createCaptcha();
+
 const problems = (errors, message = 'Please check the highlighted fields.') => {
   if (Object.keys(errors).length) throw new ApiError(message, errors);
 };
@@ -85,8 +94,9 @@ function apply(state, action, actor) {
 }
 
 // ----------------------------------------------------------------- auth
-export function register(fields) {
+export function register({ captcha, ...fields }) {
   return request(async () => {
+    requireCaptcha(captcha);
     const state = db.load();
     problems(validateMember(state, fields));
     const id = nextMemberId(state);
@@ -98,8 +108,9 @@ export function register(fields) {
   });
 }
 
-export function login(email, password, role, remember = false) {
+export function login(email, password, role, remember = false, captcha = null) {
   return request(async () => {
+    requireCaptcha(captcha);
     const state = db.load();
     const user = [...state.students, ...state.staff].find(
       (u) => u.email.toLowerCase() === email.trim().toLowerCase(),
@@ -175,8 +186,9 @@ export const resetPassword = (id, temp) =>
 
 // ------------------------------------------------------------- contact
 // Anyone (no login) can send a message; only admins can read it.
-export function sendMessage(fields) {
+export function sendMessage({ captcha, ...fields }) {
   return request(async () => {
+    requireCaptcha(captcha);
     const state = db.load();
     problems(validateMessage(fields));
     const message = {
@@ -194,8 +206,9 @@ export function sendMessage(fields) {
 
 // Anyone can ask for a password reset. It lands in the admin Inbox; the reply is
 // the same whether or not the email matches, so nobody can probe for accounts.
-export function requestPasswordReset({ role, email, note = '' }) {
+export function requestPasswordReset({ role, email, note = '', captcha }) {
   return request(async () => {
+    requireCaptcha(captcha);
     const state = db.load();
     problems(validateResetRequest({ role, email }));
     const wanted = email.trim().toLowerCase();

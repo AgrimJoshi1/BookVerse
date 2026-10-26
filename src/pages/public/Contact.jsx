@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Captcha from '../../components/Captcha';
 import PageStyles from '../../components/PageStyles';
 import { ApiError, useLibrary } from '../../context/LibraryContext';
 import css from '../../styles/contact.css?inline';
@@ -12,6 +13,17 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [busy, setBusy] = useState(false);
   const [sentTo, setSentTo] = useState('');
+  const captchaId = useRef('');
+  const [captchaText, setCaptchaText] = useState('');
+  const [captchaTry, setCaptchaTry] = useState(0);
+  const rememberCaptcha = useCallback((id) => {
+    captchaId.current = id;
+  }, []);
+  const captcha = () => ({ id: captchaId.current, answer: captchaText });
+  const freshCaptcha = () => {
+    setCaptchaText('');
+    setCaptchaTry((n) => n + 1);
+  };
 
   const set = (key) => (event) => setFields({ ...fields, [key]: event.target.value });
 
@@ -20,12 +32,14 @@ export default function Contact() {
     setBusy(true);
     setErrors({});
     try {
-      await sendMessage(fields);
+      await sendMessage({ ...fields, captcha: captcha() });
       setSentTo(fields.email.trim());
       setFields(BLANK);
+      freshCaptcha();
     } catch (error) {
       if (!(error instanceof ApiError)) throw error;
       setErrors(error.fields);
+      freshCaptcha();
     } finally {
       setBusy(false);
     }
@@ -163,6 +177,13 @@ export default function Contact() {
                     />
                     {error('message')}
                   </div>
+                  <Captcha
+                value={captchaText}
+                onChange={setCaptchaText}
+                onChallenge={rememberCaptcha}
+                refreshKey={captchaTry}
+                error={errors.captcha}
+              />
                   <button type="submit" className="button send-message" disabled={busy}>
                     {busy ? 'Sending…' : 'Send Message'} <i className="fa-solid fa-arrow-right" />
                   </button>

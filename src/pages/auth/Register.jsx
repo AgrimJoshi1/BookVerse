@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Captcha from '../../components/Captcha';
 import PageStyles from '../../components/PageStyles';
 import DepartmentSelect from '../../components/DepartmentSelect';
 import PasswordChecklist from '../../components/PasswordChecklist';
@@ -18,6 +19,17 @@ export default function Register() {
   const [errors, setErrors] = useState({});
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
+  const captchaId = useRef('');
+  const [captchaText, setCaptchaText] = useState('');
+  const [captchaTry, setCaptchaTry] = useState(0);
+  const rememberCaptcha = useCallback((id) => {
+    captchaId.current = id;
+  }, []);
+  const captcha = () => ({ id: captchaId.current, answer: captchaText });
+  const freshCaptcha = () => {
+    setCaptchaText('');
+    setCaptchaTry((n) => n + 1);
+  };
 
   const set = (key) => (event) => setFields({ ...fields, [key]: event.target.value });
 
@@ -31,11 +43,12 @@ export default function Register() {
     setErrors({});
     try {
       const { confirm: _confirm, ...account } = fields;
-      await register(account);
+      await register({ ...account, captcha: captcha() });
       setDone(true);
     } catch (error) {
       if (!(error instanceof ApiError)) throw error;
       setErrors(error.fields);
+      freshCaptcha();
     } finally {
       setBusy(false);
     }
@@ -167,6 +180,13 @@ export default function Register() {
                 </label>{' '}
                 <span className="login-note">Secure account registration</span>
               </div>
+              <Captcha
+                value={captchaText}
+                onChange={setCaptchaText}
+                onChallenge={rememberCaptcha}
+                refreshKey={captchaTry}
+                error={errors.captcha}
+              />
               <button type="submit" className="register-button" disabled={busy}>
                 <span>{busy ? 'Creating account…' : 'Create My Account'}</span>{' '}
                 <i className="fa-solid fa-arrow-right" />

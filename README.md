@@ -21,6 +21,8 @@ npm run preview  # serve the production build
 
 **Book details:** Browse Books cards (students) and the Books list (librarians) open a details page with the cover (Open Library by ISBN, coloured placeholder when offline), availability and similar books. Librarians also see who has each copy and the hold queue. Unknown URLs show a 404 page.
 
+**Captcha:** Login, Register, Forgot password and the Contact form ask for a picture captcha (`src/api/captcha.js` draws it and keeps the answer in memory, single use, expires after 5 minutes). Pages behind a login don't need one.
+
 **Contact form:** messages sent from the public Contact page land in Admin → Inbox (unread badge in the top bar).
 
 ## Layout
