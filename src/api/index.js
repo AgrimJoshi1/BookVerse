@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import * as db from './db';
 import { captchaProblem, createCaptcha } from './captcha';
+import { STARTER_BOOKS } from './starterBooks';
 import {
   ROLE_CODE,
   archiveBlocker,
@@ -336,6 +337,29 @@ export const addBook = (fields) =>
     problems(validateBook(state, fields));
     const id = `b${pad(Math.max(0, ...state.books.map((b) => trailing(b.id))) + 1)}`;
     apply(state, { type: 'addBook', fields, id }, actor);
+  });
+
+// Adds the ready-made catalog (starterBooks.js). Books whose ISBN is already in
+// the library, or whose category was removed, are skipped.
+export const addStarterBooks = () =>
+  request(async () => {
+    const state = db.load();
+    const actor = requireRole(state, 'admin');
+    const first = Math.max(0, ...state.books.map((b) => trailing(b.id))) + 1;
+    const books = STARTER_BOOKS.map(([title, author, category, isbn, copies, shelf, description], i) => ({
+      id: `b${pad(first + i)}`,
+      title,
+      author,
+      category,
+      isbn,
+      copies,
+      shelf,
+      addedOn: today(),
+      description,
+    }));
+    const next = apply(state, { type: 'addStarterBooks', books }, actor);
+    const added = next.books.length - state.books.length;
+    return { added, skipped: STARTER_BOOKS.length - added };
   });
 
 export const updateBook = (id, fields) =>

@@ -17,7 +17,7 @@ const AVAILABILITY = [
 ];
 
 export default function Books() {
-  const { state, books, categories, archiveBook } = useLibrary();
+  const { state, books, categories, archiveBook, addStarterBooks } = useLibrary();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -26,6 +26,18 @@ export default function Books() {
   const [availability, setAvailability] = useState('all');
   const [removing, setRemoving] = useState(null);
   const [notice, setNotice] = useState(location.state?.notice ?? '');
+  const [seeding, setSeeding] = useState(false);
+
+  async function seed() {
+    setSeeding(true);
+    const { added, skipped } = await addStarterBooks();
+    setSeeding(false);
+    setNotice(
+      added
+        ? `Added ${added} starter book${added === 1 ? '' : 's'}${skipped ? ` (${skipped} already in the catalog)` : ''}.`
+        : 'All the starter books are already in the catalog.',
+    );
+  }
 
   const needle = query.trim().toLowerCase();
   const filtered = books.filter(
@@ -111,6 +123,9 @@ export default function Books() {
             </>
           }
         >
+          <button type="button" className="btn" onClick={seed} disabled={seeding} title="Add 33 real books with covers">
+            {seeding ? 'Adding…' : 'Add starter books'}
+          </button>
           <Link to="/admin/add-book" className="btn btn-primary">
             Add book
           </Link>

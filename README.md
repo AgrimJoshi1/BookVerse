@@ -11,7 +11,7 @@ npm run build    # production build in dist/
 npm run preview  # serve the production build
 ```
 
-**First login:** pick **Admin** on the login page and use `admin@bookverse.edu` / `Admin@123` (change it from Profile). The admin then adds books, members and librarians. Students register themselves on the Register page and an admin approves them under Members.
+**First login:** pick **Admin** on the login page and use `admin@bookverse.edu` / `Admin@123` (change it from Profile). The admin then adds books (or clicks **Add starter books** on Admin → Books for 33 real titles with covers), members and librarians. Students register themselves on the Register page and an admin approves them under Members.
 
 **Passwords** must have 8+ characters with an uppercase letter, a lowercase letter, a number and a symbol; a live checklist shows under every password field. When an admin adds an account or resets a password, they set a temporary one and the person must choose their own (`/set-password`) the first time they log in.
 

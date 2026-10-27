@@ -353,19 +353,19 @@
 
 .available {
     border: 1px solid rgba(194, 169, 140, 0.22);
-    background: rgba(30, 20, 14, 0.58);
+    background: rgba(30, 20, 14, 0.88);
     color: #d0b69a;
 }
 
 .limited {
     border: 1px solid rgba(205, 166, 118, 0.24);
-    background: rgba(42, 27, 17, 0.6);
+    background: rgba(42, 27, 17, 0.9);
     color: #d6aa79;
 }
 
 .unavailable {
     border: 1px solid rgba(150, 128, 111, 0.2);
-    background: rgba(30, 20, 15, 0.62);
+    background: rgba(30, 20, 15, 0.9);
     color: #99877a;
 }
 

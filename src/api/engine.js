@@ -547,6 +547,16 @@ export function reducer(state, action) {
       };
 
     // ------------------------------------------------------------ admin
+    case 'addStarterBooks': {
+      let next = state;
+      for (const book of action.books) {
+        if (Object.keys(validateBook(next, book)).length) continue;
+        next = { ...next, books: [book, ...next.books] };
+      }
+      const added = next.books.length - state.books.length;
+      return added ? logged(next, action, `Added ${plural(added, 'starter book')} to the catalog`, 'book') : state;
+    }
+
     case 'addBook': {
       if (Object.keys(validateBook(state, action.fields)).length) return state;
       const f = action.fields;

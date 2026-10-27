@@ -96,6 +96,7 @@ export function LibraryProvider({ children }) {
 
       // admin
       addBook: (fields) => run(api.addBook(fields)),
+      addStarterBooks: () => run(api.addStarterBooks()),
       updateBook: (id, fields) => run(api.updateBook(id, fields)),
       archiveBook: (id) => run(api.archiveBook(id)),
       addMember: (fields) => run(api.addMember(fields)),

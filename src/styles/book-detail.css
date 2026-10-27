@@ -100,18 +100,20 @@
 
 .bd-facts {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 1px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     margin: 0 0 26px;
     overflow: hidden;
     border: 1px solid rgba(214, 194, 170, 0.14);
     border-radius: 12px;
-    background: rgba(214, 194, 170, 0.14);
+    background: #1d1510;
 }
 
+/* hairlines between cells; a short last row just leaves plain space */
 .bd-facts div {
     padding: 13px 16px;
-    background: #1d1510;
+    box-shadow:
+        1px 0 0 rgba(214, 194, 170, 0.14),
+        0 1px 0 rgba(214, 194, 170, 0.14);
 }
 
 .bd-facts dt {
